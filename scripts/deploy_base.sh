@@ -1,30 +1,4 @@
-#!/bin/bash
-
-AZ_SUBSCRIPTION=b57a203e-adf0-4ceb-96a6-bfb05928bb20
-
-
-az cloud set --name AzureCloud 
-
-az login
-az group create --name pcf-jumpnet --location westeurope
-
-
-VM=$(az vm create   \
---resource-group pcf-jumpnet   \
---name jumpbox   \
---image UbuntuLTS   \
---admin-username ubuntu   \
---data-disk-sizes-gb 200   \
---generate-ssh-keys   \
---vnet-address-prefix 10.30.0/16 \
---subnet-address-prefix 10.30.0.0/16 \
---private-ip-address 10.30.0.10 )
-
-
-ssh ubuntu@'az vm list-ip-addresses \
-               -n jumpbox \
-               --query [0].virtualMachine.network.publicIpAddresses[0].ipAddress \
-               -o tsv'
+#!/bin/bas
 sudo apt-get install apt-transport-https lsb-release software-properties-common -y
 AZ_REPO=$(lsb_release -cs)
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
