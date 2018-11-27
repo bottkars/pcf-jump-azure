@@ -13,5 +13,7 @@ az group deployment create --resource-group test \
     sshKeyData="$(cat ~/opsman.pub)"
 ```
 
-
+```bash
+ssh-keygen -R pasjumpbox
+```
 
