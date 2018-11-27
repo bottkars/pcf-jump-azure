@@ -1,4 +1,6 @@
 *.tfvars
 om_init.1.sh
+.env
+
 
 
