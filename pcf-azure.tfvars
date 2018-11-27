@@ -1,0 +1,11 @@
+client_id="8bb1e15e-8280-45d3-a768-574aa24f73db"
+client_secret="+czIUWX51a5apm3Y32LtI55Gb/wGOSxXbHA8waFuBb4="
+subscription_id="b57a203e-adf0-4ceb-96a6-bfb05928bb20"
+tenant_id="29248f74-371f-4db2-9a50-c62a6877a0c1"
+
+env_name              = "pcf"
+env_short_name        = "kbpcf"
+ops_manager_image_uri = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.3-build.194.vhd"
+location              = "westeurope"
+dns_suffix            = "labbuildr.com"
+dns_subdomain         = "pcfazure"
