@@ -76,10 +76,10 @@
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "baseUri": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
         "filesToDownload": [
-            "[uri(variables('baseUri'), '/scripts/create_certs.sh')]",
-            "[uri(variables('baseUri'), '/scripts/deploy_base.sh')]",
-            "[uri(variables('baseUri'), '/scripts/deploy_pas.sh')]",
-            "[uri(variables('baseUri'), '/scripts/om_init.sh')]"
+            "[concat(variables('baseUri') , '/scripts/create_certs.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/deploy_base.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/deploy_pas.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/om_init.sh')]"
         ]
     },
     "resources": [
