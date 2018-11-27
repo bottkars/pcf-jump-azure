@@ -1,2 +1,5 @@
 *.tfvars
+om_init.1.sh
+om_init.sh
+
 
