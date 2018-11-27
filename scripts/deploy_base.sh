@@ -8,12 +8,11 @@ function get_setting() {
 
 custom_data_file="/var/lib/cloud/instance/user-data.txt"
 settings=$(cat ${custom_data_file})
-tenant_id=$1
-client_id=$2
-client_secret=$3
-username=$(get_setting ADMIN_USER_NAME)
-subscription=$(get_setting AZURE_SUBSCRIPTION)
-tenant=$(get_setting AZURE_TENANT)
+client_id=$(get_setting AZURE_CLIENT_ID)
+client_secret=$(get_setting AZURE_CLIENT_SECRET)
+username=$(get_setting ADMIN_USERNAME)
+subscription=$(get_setting AZURE_SUBSCRIPTION_ID)
+tenant=$(get_setting AZURE_TENANT_ID)
 home_dir="/home/$username"
 
 cat << EOF > /home/${username}/.env.sh
@@ -21,8 +20,8 @@ cat << EOF > /home/${username}/.env.sh
 ADMIN_USERNAME = ${username}
 AZURE_CLIENT_SECRET = ${client_secret}
 AZURE_CLIENT_ID = ${client_id}
-AZURE_TENANT=${tenant}
-AZURE_SUBSCRIPTION=${subscription}
+AZURE_TENANT_ID=${tenant}
+AZURE_SUBSCRIPTION_ID=${subscription}
 EOF
 chmod 600 ${home_dir}/.env.sh
 chown ${username}.${username} ${home_dir}/.env.sh

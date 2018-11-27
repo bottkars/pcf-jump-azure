@@ -243,11 +243,11 @@
                 "parameters": {
                     "customData": {
                         "value": {
-                            "AZ_CLIENT_ID": "[parameters('clientID')]",
-                            "AZ_CLIENT_SECRET": "[parameters('clientSecret')]",
+                            "AZURE_CLIENT_ID": "[parameters('clientID')]",
+                            "AZURE_CLIENT_SECRET": "[parameters('clientSecret')]",
                             "ADMIN_USERNAME": "[parameters('adminUsername')]",
-                            "AZ_SUBSCRIPTION": "[parameters('subscriptionID')]",
-                            "AZ_TENANT": "[parameters('tenantID')]"
+                            "AZURE_SUBSCRIPTION_ID": "[parameters('subscriptionID')]",
+                            "AZURE_TENANT_ID": "[parameters('tenantID')]"
                         }
                     }
                 }
