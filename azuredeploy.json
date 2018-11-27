@@ -64,10 +64,10 @@
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "baseUri": "[parameters('_artifactsLocation')]",
         "filesToDownload": [
-            "[uri(variables('baseUri'), 'create_certs.sh')]",
-            "[uri(variables('baseUri'), 'deploy_base.sh')]",
-            "[uri(variables('baseUri'), 'deploy_pas.sh')]",
-            "[uri(variables('baseUri'), 'om_init.sh')]"
+            "[uri(variables('baseUri'), '/scripts/create_certs.sh')]",
+            "[uri(variables('baseUri'), '/scripts/deploy_base.sh')]",
+            "[uri(variables('baseUri'), '/scripts/deploy_pas.sh')]",
+            "[uri(variables('baseUri'), '/scripts/om_init.sh')]"
         ]     
     },
     "resources": [
