@@ -20,6 +20,18 @@
                 "description": "AzureService Principal"
             }
         },
+        "tenantID": {
+            "type": "string",
+            "metadata": {
+                "description": "AzureService Tenant ID"
+            }
+        }, 
+        "subscriptionID": {
+            "type": "string",
+            "metadata": {
+                "description": "AzureService Tenant ID"
+            }
+        },               
         "clientSecret": {
             "type": "string",
             "metadata": {
@@ -233,7 +245,9 @@
                         "value": {
                             "AZ_CLIENT_ID": "[parameters('clientID')]",
                             "AZ_CLIENT_SECRET": "[parameters('clientSecret')]",
-                            "ADMIN_USERNAME": "[parameters('adminUsername')]"
+                            "ADMIN_USERNAME": "[parameters('adminUsername')]",
+                            "AZ_SUBSCRIPTION": "[parameters('subscriptionID')]",
+                            "AZ_TENANT": "[parameters('tenantID')]"
                         }
                     }
                 }
@@ -257,7 +271,7 @@
                     "timestamp": 1
                 },
                 "protectedSettings": {
-                    "commandToExecute": "bash -l -c \"./deploy_base.sh\""
+                    "commandToExecute": "[concat('bash -l -c \"./deploy_base.sh', ' ', parameters('tenantID'), ' ', parameters('clientID'), ' ', parameters('clientSecret'), ' 2>&1 | tee /home/', parameters('adminUsername'), '/install.log\"')]"
                 }
             }
         }

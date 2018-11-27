@@ -1,12 +1,31 @@
 #!/bin/bash
-cat << EOF > /home/${ADMIN_USERNAME}/.env.sh
+
+function get_setting() {
+  key=$1
+  local value=$(echo $settings | jq ".$key" -r)
+  echo $value
+}
+
+custom_data_file="/var/lib/cloud/instance/user-data.txt"
+settings=$(cat ${custom_data_file})
+tenant_id=$1
+client_id=$2
+client_secret=$3
+username=$(get_setting ADMIN_USER_NAME)
+subscription=$(get_setting AZURE_SUBSCRIPTION)
+tenant=$(get_setting AZURE_TENANT)
+home_dir="/home/$username"
+
+cat << EOF > /home/${username}/.env.sh
 #!/bin/bash
-ADMIN_USERNAME = ${ADMIN_USERNAME}
-AZ_CLIENT_SECRET = ${AZ_CLIENT_SECRET}
-AZ_CLIENT_ID = ${AZ_CLIENT_ID}
+ADMIN_USERNAME = ${username}
+AZURE_CLIENT_SECRET = ${client_secret}
+AZURE_CLIENT_ID = ${client_id}
+AZURE_TENANT=${tenant}
+AZURE_SUBSCRIPTION=${subscription}
 EOF
-chmod 600 /home/${ADMIN_USERNAME}/.env.sh
-chown ubuntu.ubuntu /home/${ADMIN_USERNAME}/.env.sh
+chmod 600 ${home_dir}/.env.sh
+chown ${username}.${username} ${home_dir}/.env.sh
 
 sudo apt-get install apt-transport-https lsb-release software-properties-common -y
 AZ_REPO=$(lsb_release -cs)

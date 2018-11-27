@@ -17,7 +17,9 @@ az group deployment create --resource-group test \
     --parameters @azuredeploy.parameters.json \
     sshKeyData="$(cat ~/opsman.pub)" \
     clientSecret=${AZURE_CLIENT_SECRET} \
-    clientID=${AZURE_CLIENT_ID}
+    clientID=${AZURE_CLIENT_ID} \
+    tenantID=${AZURE_TENANT} \
+    subscriptionID=${AZURE_SUBSCRIPTION_ID}
 ```
 
 ```bash
