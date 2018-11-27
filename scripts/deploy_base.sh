@@ -1,4 +1,13 @@
 #!/bin/bash
+cat << EOF > /home/${ADMIN_USERNAME}/.env.sh
+#!/bin/bash
+ADMIN_USERNAME = ${ADMIN_USERNAME}
+AZ_CLIENT_SECRET = ${AZ_CLIENT_SECRET}
+AZ_CLIENT_ID = ${AZ_CLIENT_ID}
+EOF
+chmod 600 /home/${ADMIN_USERNAME}/.env.sh
+chown ubuntu.ubuntu /home/${ADMIN_USERNAME}/.env.sh
+
 sudo apt-get install apt-transport-https lsb-release software-properties-common -y
 AZ_REPO=$(lsb_release -cs)
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
@@ -28,16 +37,3 @@ wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-r
   tar xvC /tmp/ -f /tmp/bbr.tar && \
   sudo mv /tmp/releases/bbr /usr/local/bin/
   
-
-
-
-az account set --subscription "${AZ_SUBSCRIPTION}"
-
-
-
-  
-az-automation \
-  --account pcf-azure \
-  --identifier-uri http://pcf.pcfazure.labbuildr.com \
-  --display-name pcf-azure \
-  --credential-output-file pcf-azure.tfvars

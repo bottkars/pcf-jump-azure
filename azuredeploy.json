@@ -14,6 +14,18 @@
                 "description": "Password for the Virtual Machine."
             }
         },
+        "clientID": {
+            "type": "string",
+            "metadata": {
+                "description": "AzureService Principal"
+            }
+        },
+        "clientSecret": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure Service Principal Secret"
+            }
+        },
         "dnsLabelPrefix": {
             "type": "string",
             "metadata": {
@@ -42,8 +54,8 @@
             "type": "string",
             "defaultValue": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
             "metadata": {
-              "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
-            }  
+                "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
+            }
         }
     },
     "variables": {
@@ -62,13 +74,13 @@
         "vmSize": "Standard_D2",
         "virtualNetworkName": "jumpVNET",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
-        "baseUri": "[parameters('_artifactsLocation')]",
+        "baseUri": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
         "filesToDownload": [
             "[uri(variables('baseUri'), '/scripts/create_certs.sh')]",
             "[uri(variables('baseUri'), '/scripts/deploy_base.sh')]",
             "[uri(variables('baseUri'), '/scripts/deploy_pas.sh')]",
             "[uri(variables('baseUri'), '/scripts/om_init.sh')]"
-        ]     
+        ]
     },
     "resources": [
         {
@@ -203,6 +215,31 @@
             }
         },
         {
+            "name": "generate-customdata",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUri'), 'generate-customdata.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "customData": {
+                        "value": {
+                            "AZ_CLIENT_ID": "[parameters('clientID')]",
+                            "AZ_CLIENT_SECRET": "[parameters('clientSecret')]",
+                            "ADMIN_USERNAME": "[parameters('adminUsername')]"
+                        }
+                    }
+                }
+            }
+        },
+        {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat(variables('vmName'),'/initvm')]",
             "apiVersion": "2017-03-30",
@@ -220,7 +257,7 @@
                     "timestamp": 1
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('bash -l -c \"cp * /home/',parameters('adminUsername'),'\"')]"
+                    "commandToExecute": "bash -l -c \"./deploy_base.sh\""
                 }
             }
         }
