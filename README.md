@@ -23,6 +23,10 @@ az group deployment create --resource-group test \
 ```
 
 ```bash
-ssh-keygen -R pasjumpbox
+ ssh -i ~/opsman ubuntu@pasjumpbox.westeurope.cloudapp.azure.com
+```
+
+```bash
+ssh-keygen -R "pasjumpbox.westeurope.cloudapp.azure.com"
 ```
 
