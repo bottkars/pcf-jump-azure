@@ -5,6 +5,32 @@ function get_setting() {
   local value=$(echo $settings | jq ".$key" -r)
   echo $value
 }
+function retryop()
+{
+  retry=0
+  max_retries=10
+  interval=30
+  while [ ${retry} -lt ${max_retries} ]; do
+    echo "Operation: $1, Retry #${retry}"
+    eval $1
+    if [ $? -eq 0 ]; then
+      echo "Successful"
+      break
+    else
+      let retry=retry+1
+      echo "Sleep $interval seconds, then retry..."
+      sleep $interval
+    fi
+  done
+  if [ ${retry} -eq ${max_retries} ]; then
+    echo "Operation failed: $1"
+    exit 1
+  fi
+}
+
+echo "Installing jq"
+retryop "apt-get update && apt-get install -y jq"
+
 
 custom_data_file="/var/lib/cloud/instance/user-data.txt"
 settings=$(cat ${custom_data_file})
@@ -13,7 +39,7 @@ client_secret=$(get_setting AZURE_CLIENT_SECRET)
 username=$(get_setting ADMIN_USERNAME)
 subscription=$(get_setting AZURE_SUBSCRIPTION_ID)
 tenant=$(get_setting AZURE_TENANT_ID)
-home_dir="/home/$username"
+home_dir="/home/${username}"
 
 cat << EOF > /home/${username}/.env.sh
 #!/bin/bash
