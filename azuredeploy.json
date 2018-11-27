@@ -225,7 +225,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('baseUri'), 'generate-customdata.json')]",
+                    "uri": "[concat(variables('baseUri'), '/generate-customdata.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
