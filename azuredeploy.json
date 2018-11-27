@@ -268,7 +268,7 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": "[variables('filesToDownload')]",
-                    "timestamp": 1
+                    "timestamp": 2
                 },
                 "protectedSettings": {
                     "commandToExecute": "[concat('bash -l -c \"./deploy_base.sh', ' ', parameters('tenantID'), ' ', parameters('clientID'), ' ', parameters('clientSecret'), ' 2>&1 | tee /home/', parameters('adminUsername'), '/install.log\"')]"

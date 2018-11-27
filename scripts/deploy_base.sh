@@ -1,10 +1,5 @@
 #!/bin/bash
 
-function get_setting() {
-  key=$1
-  local value=$(echo $settings | jq ".$key" -r)
-  echo $value
-}
 function retryop()
 {
   retry=0
@@ -31,6 +26,11 @@ function retryop()
 echo "Installing jq"
 retryop "apt-get update && apt-get install -y jq"
 
+function get_setting() {
+  key=$1
+  local value=$(echo $settings | jq ".$key" -r)
+  echo $value
+}
 
 custom_data_file="/var/lib/cloud/instance/user-data.txt"
 settings=$(cat ${custom_data_file})
