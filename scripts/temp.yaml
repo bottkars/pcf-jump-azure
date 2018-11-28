@@ -1,0 +1,14 @@
+
+
+".properties.credhub_key_encryption_passwords": {
+      "value": [
+        {
+          "name": "default",
+          "provider": "internal",
+          "key": {
+            "secret": "${CREDHUB_KEY}"
+          },
+          "primary": true
+        }
+      ] 
+    }
