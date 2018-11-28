@@ -157,7 +157,7 @@ curl \
   --output ${FILENAME} \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   ${URL}
-unzip ./${FILENAME}
+sudo -S -u ubuntu unzip ${FILENAME}
 cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
 
@@ -177,4 +177,8 @@ EOF
 
 chmod 755 terraform.tfvars
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
-  
+sudo -S -u ubuntu terraform init
+sudo -S -u ubuntu terraform plan -out=plan
+sudo -S -u ubuntu terraform apply
+
+
