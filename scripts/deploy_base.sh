@@ -42,7 +42,7 @@ AZURE_TENANT_ID=$(get_setting AZURE_TENANT_ID)
 PRODUCT_SLUG=$(get_setting PRODUCT_SLUG)
 RELEASE_ID=$(get_setting RELEASE_ID)
 ENV_NAME=$(get_setting ENV_NAME)
-ENV_SHORT_NAME$(get_setting ENV_SHORT_NAME)
+ENV_SHORT_NAME=$(get_setting ENV_SHORT_NAME)
 OPS_MANAGER_IMAGE_URI=$(get_setting OPS_MANAGER_IMAGE_URI)
 LOCATION=$(get_setting LOCATION)
 DNS_SUFFIX=$(get_setting DNS_SUFFIX)
@@ -75,7 +75,7 @@ sudo apt-get install apt-transport-https lsb-release software-properties-common 
 AZ_REPO=$(lsb_release -cs)
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
     sudo tee /etc/apt/sources.list.d/azure-cli.list
-    
+
 sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
      --keyserver packages.microsoft.com \
      --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
