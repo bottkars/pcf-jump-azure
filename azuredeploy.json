@@ -38,6 +38,60 @@
                 "description": "Azure Service Principal Secret"
             }
         },
+        "pivnetToken": {
+            "type": "string",
+            "metadata": {
+                "description": "pivnet refresh token"
+            }
+        },
+        "product_slug": {
+            "type": "string",
+            "metadata": {
+                "description": "product slug from pivnet, eg elastic-runtime"
+            }
+        },
+        "release_id": {
+            "type": "string",
+            "metadata": {
+                "description": "pivnet release"
+            }
+        },
+        "omHostname": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure Service Principal Secret"
+            }
+        },
+        "env_name": {
+            "type": "string",
+            "metadata": {
+                "description": "environment name for azure ( will be ops host name )"
+            }
+        },
+        "env_short_name": {
+            "type": "string",
+            "metadata": {
+                "description": "will be prefix for pcf terraform resources"
+            }
+        },
+        "ops_manager_image_uri": {
+            "type": "string",
+            "metadata": {
+                "description": "url for latest osmanager image"
+            }
+        },
+        "dns_suffix": {
+            "type": "string",
+            "metadata": {
+                "description": "dns suffix for pcf"
+            }
+        },
+        "dns_subdomain": {
+            "type": "string",
+            "metadata": {
+                "description": "subdomain for pcf"
+            }
+        },
         "dnsLabelPrefix": {
             "type": "string",
             "metadata": {
@@ -248,7 +302,17 @@
                             "AZURE_CLIENT_SECRET": "[parameters('clientSecret')]",
                             "ADMIN_USERNAME": "[parameters('adminUsername')]",
                             "AZURE_SUBSCRIPTION_ID": "[parameters('subscriptionID')]",
-                            "AZURE_TENANT_ID": "[parameters('tenantID')]"
+                            "AZURE_TENANT_ID": "[parameters('tenantID')]",
+                            "PCF_PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
+                            "OM_HOSTNAME": "[parameters('omHostname')]",
+                            "ENV_NAME": "[parameters('env_name')]",
+                            "ENV_SHORT_NAME": "[parameters('env_short_name')]",
+                            "OPS_MANAGER_IMAGE_URI": "[parameters('ops_manager_image_uri')]",
+                            "LOCATION": "[parameters('location')]",
+                            "DNS_SUFFIX": "[parameters('dns_suffix')]",
+                            "DNS_SUBDOMAIN": "[parameters('dns_subdomain')]",
+                            "PRODUCT_SLUG": "[parameters('product_slug')]",
+                            "RELEASE_ID": "[parameters('release_id')]"
                         }
                     }
                 }

@@ -1,6 +1,5 @@
-#!/bin/bash
-OM_HOSTNAME=pcf.pcfazure.labbuildr.com
-PCF_PIVNET_UAA_TOKEN="fake" 
+#!/usr/bin/env bash
+ 
 
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 configure-authentication --username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
@@ -31,7 +30,7 @@ IAAS_CONFIGURATION_JSON=$(cat <<-EOF
 "bosh_storage_account_name": "kbpcfdirector",
 "default_security_group": "pcf-bosh-deployed-vms-security-group",
 "ssh_public_key": "fake ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDS+LVNZPkfYqOPLyRvPNYpprBuWBQFWuMeEFK3JFuDyp0mwySBdMhRO4ufD8XZ84Ule+VCLipAHwXsQizJrL+1FOISPtmLY3PkaVz5TV4A/4o+hkPlM2N3XkxKo/qs+3rlDdjrnt7+/m9mP2brZ6BWrbYdpPCubH/gtkUER4g2vdxIanB0NCJ1oEihQIUja8CRd+TcXEudHJyF6Gui+R6KbYsfd2LU0ixy1czQTsQGexEccyI0fd2XOG9pVi1d7An9lyU9cOb9IGDwsenq8ulgjvB/JQthYjAtukTa3uW2aG1BCM7KBfHj17nEZ+15cuMi3epBFpUk1ykbvD0S6fOiLR798XfYvgLEnJuwAQqVi596myL/qkaDSrlCUry5vHFh77z+kn087SDzWo7Ta0AeuGOaaPCsbu471ZvGbV6x7RqU5IpQ+qanr0t4hUO1RcAm8LZNOCQ1Uc37P5CCbrMnqjlG5ILiQu0iI2bZqXLEIJUykAySpG635xuHHHf1utkiXX8j1hcCNPyqwnBhJ6nT3lB3aR1QP1icW//++8QyWp3KMWvDFicirq68hoyAfkPsDY5iiCZz1rVNTzMK1iYCgfrNTY75+lCg2rtyCenzM3evCieHjCEHdydZz97zqOoX/kTQ6xc11ztgTKrD4COwKuMX10aIzp/UbyKcpT3v6Q==",
-"ssh_private_key": "fake"
+"ssh_private_key": "${}"
 }
 EOF
 )
