@@ -11,9 +11,16 @@
         "sshKeyData": {
             "type": "string",
             "metadata": {
-                "description": "Password for the Virtual Machine."
+                "description": "ssh Public Key"
             }
         },
+        "sshKey": {
+            "type": "string",
+            "metadata": {
+                "description": "ssh Private Key"
+            }
+        },
+
         "clientID": {
             "type": "string",
             "metadata": {
@@ -312,7 +319,10 @@
                             "DNS_SUFFIX": "[parameters('dns_suffix')]",
                             "DNS_SUBDOMAIN": "[parameters('dns_subdomain')]",
                             "PRODUCT_SLUG": "[parameters('product_slug')]",
-                            "RELEASE_ID": "[parameters('release_id')]"
+                            "RELEASE_ID": "[parameters('release_id')]",
+                            "SSH_PRIVATE_KEY": "[parameters('sshkey')]",
+                            "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]"
+
                         }
                     }
                 }

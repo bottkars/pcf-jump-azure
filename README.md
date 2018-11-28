@@ -43,8 +43,9 @@ az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 ```bash
 az group deployment create --resource-group ${JUMPBOX_RG} \
     --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
-    --parameters @azuredeploy.parameters.json \
+    --parameters \
     sshKeyData="$(cat ~/opsman.pub)" \
+    sshKey="$(cat ~/opsman)"
     dnsLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
@@ -70,6 +71,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
 
 ```bash
 az group delete --name ${JUMPBOX_RG} --yes
+az group delete --name ${ENV_NAME} --yes
 ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
 
