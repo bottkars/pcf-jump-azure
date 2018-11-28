@@ -34,42 +34,54 @@ function get_setting() {
 
 custom_data_file="/var/lib/cloud/instance/user-data.txt"
 settings=$(cat ${custom_data_file})
+ADMIN_USERNAME=$(get_setting ADMIN_USERNAME)
 AZURE_CLIENT_ID=$(get_setting AZURE_CLIENT_ID)
 AZURE_CLIENT_SECRET=$(get_setting AZURE_CLIENT_SECRET)
-username=$(get_setting ADMIN_USERNAME)
 AZURE_SUBSCRIPTION_ID=$(get_setting AZURE_SUBSCRIPTION_ID)
 AZURE_TENANT_ID=$(get_setting AZURE_TENANT_ID)
-PRODUCT_SLUG=$(get_setting PRODUCT_SLUG)
-RELEASE_ID=$(get_setting RELEASE_ID)
+PCF_PIVNET_UAA_TOKEN=$(get_setting PCF_PIVNET_UAA_TOKEN)
+OM_HOSTNAME=$(get_setting OM_HOSTNAME)
 ENV_NAME=$(get_setting ENV_NAME)
 ENV_SHORT_NAME=$(get_setting ENV_SHORT_NAME)
 OPS_MANAGER_IMAGE_URI=$(get_setting OPS_MANAGER_IMAGE_URI)
 LOCATION=$(get_setting LOCATION)
 DNS_SUFFIX=$(get_setting DNS_SUFFIX)
 DNS_SUBDOMAIN=$(get_setting DNS_SUBDOMAIN)
+PRODUCT_SLUG=$(get_setting PRODUCT_SLUG)
+RELEASE_ID=$(get_setting RELEASE_ID)
 
 
-home_dir="/home/${username}"
 
-cp *.sh ${home_dir}
-chown ${username}.${username} ${home_dir}/*.sh
-chmod 755 ${home_dir}/*.sh
-chmod +X ${home_dir}/*.sh
+HOME_DIR="/home/${ADMIN_USERNAME}"
 
-cat << EOF > ${home_dir}/.env.sh
-#!/bin/bash
-ADMIN_USERNAME=${username}
+cp *.sh ${HOME_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.sh
+chmod 755 ${HOME_DIR}/*.sh
+chmod +X ${HOME_DIR}/*.sh
+
+cat << EOF > ${HOME_DIR}/.env.sh
+#!/usr/bin/env bash
+ADMIN_USERNAME=${ADMIN_USERNAME}
 AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
 AZURE_CLIENT_ID=$AZURE_CLIENT_ID}
 AZURE_TENANT_ID=${AZURE_TENANT_ID}
 AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}
-OM_HOSTNAME=${omHostname}
-PCF_PIVNET_UAA_TOKEN=${pivnetToken}
+PCF_PIVNET_UAA_TOKEN=${PCF_PIVNET_UAA_TOKEN}
+OM_HOSTNAME=${OM_HOSTNAME}
+ENV_NAME=${ENV_NAME}
+ENV_SHORT_NAME=${ENV_SHORT_NAME}
+OPS_MANAGER_IMAGE_URI=${OPS_MANAGER_IMAGE_URI}
+LOCATION=${LOCATION}
+DNS_SUFFIX=${DNS_SUFFIX}
+DNS_SUBDOMAIN=${DNS_SUBDOMAIN}
+PRODUCT_SLUG=${PRODUCT_SLUG}
+RELEASE_ID=${RELEASE_ID}
 EOF
-chmod 600 ${home_dir}/.env.sh
-chown ${username}.${username} ${home_dir}/.env.sh
 
-cp * ${home_dir}
+chmod 600 ${HOME_DIR}/.env.sh
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/.env.sh
+
+cp * ${HOME_DIR}
 
 sudo apt-get install apt-transport-https lsb-release software-properties-common -y
 AZ_REPO=$(lsb_release -cs)
@@ -82,7 +94,7 @@ sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
 
 sudo apt-get update
 
-sudo apt-get install azure-cli && sudo apt --yes install unzip && sudo apt --yes install jq
+sudo apt-get install azure-cli && sudo apt --yes install unzip 
 
 wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip && \
   unzip terraform.zip && \
@@ -101,7 +113,7 @@ wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-r
   sudo mv /tmp/releases/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
 
-cd ${home_dir}
+cd ${HOME_DIR}
 
 AUTHENTICATION_RESPONSE=$(curl \
   --fail \
@@ -164,5 +176,5 @@ dns_subdomain         = "${DNS_SUBDOMAIN}"
 EOF
 
 chmod 755 terraform.tfvars
-chown ${username}.${username} terraform.tfvars
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
   
