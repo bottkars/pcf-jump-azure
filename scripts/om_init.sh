@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
- 
+source ~/.env.sh 
 
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 configure-authentication --username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
