@@ -44,8 +44,9 @@ az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment create --resource-group ${JUMPBOX_RG} \
     --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
     --parameters \
+    adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/opsman.pub)" \
-    sshKey="$(cat ~/opsman)"
+    sshKey="$(cat ~/opsman)" \
     dnsLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
