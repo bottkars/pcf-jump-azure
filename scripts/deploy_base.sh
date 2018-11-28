@@ -43,10 +43,10 @@ PRODUCT_SLUG=$(get_setting PRODUCT_SLUG)
 RELEASE_ID=$(get_setting RELEASE_ID)
 ENV_NAME=$(get_setting ENV_NAME)
 ENV_SHORT_NAME$(get_setting ENV_SHORT_NAME)
-OPS_MANAGER_URI=$(get_setting OPS_MANAGER_URI)
+OPS_MANAGER_IMAGE_URI=$(get_setting OPS_MANAGER_IMAGE_URI)
 LOCATION=$(get_setting LOCATION)
-DNS_SUFFIX=$(DNS_SUFFIX)
-DNS_SUBDOMAIN=$(DNS_SUBDOMAIN)
+DNS_SUFFIX=$(get_setting DNS_SUFFIX)
+DNS_SUBDOMAIN=$(get_setting DNS_SUBDOMAIN)
 
 
 home_dir="/home/${username}"
@@ -62,7 +62,7 @@ ADMIN_USERNAME=${username}
 AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
 AZURE_CLIENT_ID=$AZURE_CLIENT_ID}
 AZURE_TENANT_ID=${AZURE_TENANT_ID}
-AZURE_SUBSCRIPTION_ID=${subscription}
+AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}
 OM_HOSTNAME=${omHostname}
 PCF_PIVNET_UAA_TOKEN=${pivnetToken}
 EOF
@@ -75,7 +75,7 @@ sudo apt-get install apt-transport-https lsb-release software-properties-common 
 AZ_REPO=$(lsb_release -cs)
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
     sudo tee /etc/apt/sources.list.d/azure-cli.list
-
+    
 sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
      --keyserver packages.microsoft.com \
      --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
@@ -137,7 +137,7 @@ FILENAME=$(echo ${DOWNLOAD_ELEMENT} |\
 URL=$(echo ${DOWNLOAD_ELEMENT} |\
   jq -r '._links.download.href')
 
-Download and unzip:
+# download terraform
 
 curl \
   --fail \
@@ -157,10 +157,12 @@ subscription_id       = "${AZURE_SUBSCRIPTION_ID}"
 tenant_id             = "${AZURE_TENANT_ID}"
 env_name              = "${ENV_NAME}"
 env_short_name        = "${ENV_SHORT_NAME}"
-ops_manager_image_uri = "${OPS_MANAGER_URI}"
+ops_manager_image_uri = "${OPS_MANAGER_IMAGE_URI}"
 location              = "${LOCATION}"
 dns_suffix            = "${DNS_SUFFIX}"
 dns_subdomain         = "${DNS_SUBDOMAIN}"
 EOF
 
+chmod 755 terraform.tfvars
+chown ${username}.${username} terraform.tfvars
   
