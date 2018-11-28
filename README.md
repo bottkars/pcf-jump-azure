@@ -1,6 +1,6 @@
 # pcf-jump-azure
 
-## usage tbd
+## usage 
 create an .env file using the .env.example  
 the .env vile requires the following variables to be set:
 
@@ -25,8 +25,20 @@ the .env vile requires the following variables to be set:
 
 ```bash
 source .env
+```
+## create a aah keypair for the admin user
+
+```bash
+ssh-keygen -t rsa -f opsman -C ${ADMIN_USERNAME}
+```
+
+## create the target resource group for the jumpbox
+
+```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 ```
+
+## start the deployment
 
 ```bash
 az group deployment create --resource-group ${JUMPBOX_RG} \
