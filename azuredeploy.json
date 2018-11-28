@@ -25,13 +25,13 @@
             "metadata": {
                 "description": "AzureService Tenant ID"
             }
-        }, 
+        },
         "subscriptionID": {
             "type": "string",
             "metadata": {
                 "description": "AzureService Tenant ID"
             }
-        },               
+        },
         "clientSecret": {
             "type": "string",
             "metadata": {
@@ -166,9 +166,9 @@
             }
         },
         {
+            "name": "[variables('vmName')]",
             "apiVersion": "2017-03-30",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('vmName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/', variables('DiagnosticsStorageAccountName'))]",
@@ -181,6 +181,7 @@
                 "osProfile": {
                     "computerName": "[variables('vmName')]",
                     "adminUsername": "[parameters('adminUsername')]",
+                    "customData": "[reference('Microsoft.Resources/deployments/generate-customdata', '2015-01-01').outputs.customData.value]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
