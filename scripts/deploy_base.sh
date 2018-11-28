@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function retryop()
 {
@@ -41,16 +41,18 @@ subscription=$(get_setting AZURE_SUBSCRIPTION_ID)
 tenant=$(get_setting AZURE_TENANT_ID)
 home_dir="/home/${username}"
 
-cat << EOF > /home/${username}/.env.sh
+cat << EOF > ${home_dir}/.env.sh
 #!/bin/bash
-ADMIN_USERNAME = ${username}
-AZURE_CLIENT_SECRET = ${client_secret}
-AZURE_CLIENT_ID = ${client_id}
+ADMIN_USERNAME=${username}
+AZURE_CLIENT_SECRET=${client_secret}
+AZURE_CLIENT_ID=${client_id}
 AZURE_TENANT_ID=${tenant}
 AZURE_SUBSCRIPTION_ID=${subscription}
 EOF
 chmod 600 ${home_dir}/.env.sh
 chown ${username}.${username} ${home_dir}/.env.sh
+
+cp * ${home_dir}
 
 sudo apt-get install apt-transport-https lsb-release software-properties-common -y
 AZ_REPO=$(lsb_release -cs)
