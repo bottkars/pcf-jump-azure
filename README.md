@@ -29,7 +29,7 @@ source .env
 ## create a aah keypair for the admin user
 
 ```bash
-ssh-keygen -t rsa -f opsman -C ${ADMIN_USERNAME}
+ssh-keygen -t rsa -f ~/opsman -C ${ADMIN_USERNAME}
 ```
 
 ## create the target resource group for the jumpbox
