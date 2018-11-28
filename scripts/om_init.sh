@@ -22,10 +22,10 @@ configure-director --director-configuration "${DIRECTOR_CONFIGURATION_JSON}"
 
 IAAS_CONFIGURATION_JSON=$(cat <<-EOF
 {
-"subscription_id": "b57a203e-adf0-4ceb-96a6-bfb05928bb20",
-"tenant_id": "29248f74-371f-4db2-9a50-c62a6877a0c1",
-"client_id": "8bb1e15e-8280-45d3-a768-574aa24f73db",
-"client_secret": "+czIUWX51a5apm3Y32LtI55Gb/wGOSxXbHA8waFuBb4=",
+"subscription_id": "",
+"tenant_id": "",
+"client_id": "",
+"client_secret": "",
 "resource_group_name": "pcf",
 "bosh_storage_account_name": "kbpcfdirector",
 "default_security_group": "pcf-bosh-deployed-vms-security-group",
