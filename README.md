@@ -23,7 +23,6 @@ the .env vile requires the following variables to be set:
 **PRODUCT_SLUG**=*elastic-runtime*  
 **RELEASE_ID**=*220833*  
 
-
 ```bash
 source .env
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
@@ -58,7 +57,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
 ## cleanup
 
 ```bash
-az group delete --name ${JUMPBOX_RG}
+az group delete --name ${JUMPBOX_RG} --yes
 ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
 

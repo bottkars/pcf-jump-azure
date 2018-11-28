@@ -179,6 +179,6 @@ chmod 755 terraform.tfvars
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
 sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
-sudo -S -u ubuntu terraform apply
+sudo -S -u ubuntu terraform apply -auto-approve
 
 
