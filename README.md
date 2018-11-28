@@ -7,7 +7,7 @@ source .env
 ```
 
 ```bash
-az group create --name test --location ${AZURE_REGION} 
+az group create --name test --location ${AZURE_REGION}
 ```
 
 ```bash
@@ -19,7 +19,6 @@ az group deployment create --resource-group test \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    uaaToken=${PCF_PIVNET_UAA_TOKEN} \
     omHostname=${OM_HOSTNAME} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     env_name=${ENV_NAME} \
@@ -27,7 +26,10 @@ az group deployment create --resource-group test \
     ops_manager_image_uri=${OPS_MANAGER_URI} \
     dns_suffix=${DNS_SUFFIX} \
     dns_subdomain=${DNS_SUBDOMAIN} \
-    adminUsername=${ADMIN_USERNAME}
+    adminUsername=${ADMIN_USERNAME} \
+    product_slug=${PRODUCT_SLUG} \
+    release_id=${RELEASE_ID}
+    
 ```
 
 ```bash
