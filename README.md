@@ -40,10 +40,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
 
 ## cleanup
 
-
-
 ```bash
-az group delete --name test
+az group delete --name ${JUMPBOX_RG}
 ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
 
