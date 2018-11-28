@@ -4,9 +4,6 @@
     "parameters": {
       "adminUsername": {
         "value": "ubuntu"
-      },
-      "dnsLabelPrefix": {
-        "value": "pasjumpbox"
       }
     }
   }

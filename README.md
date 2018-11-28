@@ -15,6 +15,7 @@ az group deployment create --resource-group test \
     --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
     --parameters @azuredeploy.parameters.json \
     sshKeyData="$(cat ~/opsman.pub)" \
+    dnsLabelPrefix=${JUMPBOX_NAME}
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
@@ -32,11 +33,16 @@ az group deployment create --resource-group test \
 ```
 
 ```bash
- ssh -i ~/opsman ubuntu@pasjumpbox.westeurope.cloudapp.azure.com
+ ssh -i ~/opsman ubuntu@${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com
 ```
 
+## cleanup
+
+
+
 ```bash
-ssh-keygen -R "pasjumpbox.westeurope.cloudapp.azure.com"
+az group delete --name test
+ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
 
 
