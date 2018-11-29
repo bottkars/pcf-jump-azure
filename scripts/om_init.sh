@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 source ~/.env.sh 
-
+pushd ./pivotal-cf-terraforming-azure-*/
+cd terraforming-pas
+echo "checking opsman api ready"
 until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${OM_HOSTNAME}/api/v0/info"); do
     printf '.'
     sleep 5
 done
+echo "done"
+
 
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 configure-authentication --username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
@@ -24,7 +28,8 @@ om --target ${OM_HOSTNAME} --skip-ssl-validation \
 --username opsman --password ${PCF_PIVNET_UAA_TOKEN}  \
 configure-director --director-configuration "${DIRECTOR_CONFIGURATION_JSON}"
 
-
+SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"
+SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
 IAAS_CONFIGURATION_JSON=$(cat <<-EOF
 {
 "subscription_id": "${AZURE_SUBSCRIPTION_ID}",
@@ -35,12 +40,12 @@ IAAS_CONFIGURATION_JSON=$(cat <<-EOF
 "bosh_storage_account_name": "${ENV_SHORT_NAME}director",
 "default_security_group": "${ENV_NAME}-bosh-deployed-vms-security-group",
 "ssh_public_key": "${SSH_PUBLIC_KEY}",
-"ssh_private_key": "${SSH_PRIVATE_KEY}"
+"ssh_private_key": ${SSH_PRIVATE_KEY}
 }
 EOF
 )
 
-
+echo "${IAAS_CONFIGURATION_JSON}"
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 --username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
 configure-director --iaas-configuration "${IAAS_CONFIGURATION_JSON}"
@@ -128,3 +133,6 @@ om --target ${OM_HOSTNAME} --skip-ssl-validation \
 
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 --username opsman --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
+
+
+popd
