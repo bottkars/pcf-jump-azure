@@ -63,12 +63,6 @@
                 "description": "pivnet release"
             }
         },
-        "omHostname": {
-            "type": "string",
-            "metadata": {
-                "description": "Azure Service Principal Secret"
-            }
-        },
         "env_name": {
             "type": "string",
             "metadata": {
@@ -311,7 +305,6 @@
                             "AZURE_SUBSCRIPTION_ID": "[parameters('subscriptionID')]",
                             "AZURE_TENANT_ID": "[parameters('tenantID')]",
                             "PCF_PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
-                            "OM_HOSTNAME": "[parameters('omHostname')]",
                             "ENV_NAME": "[parameters('env_name')]",
                             "ENV_SHORT_NAME": "[parameters('env_short_name')]",
                             "OPS_MANAGER_IMAGE_URI": "[parameters('ops_manager_image_uri')]",

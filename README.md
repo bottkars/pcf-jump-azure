@@ -14,9 +14,8 @@ the .env vile requires the following variables to be set:
 **AZURE_SUBSCRIPTION_ID**=*fake your azure subscription id*  
 **AZURE_TENANT_ID**=*fake your azure tenant*  
 **PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
-**OM_HOSTNAME**=*opsman.yourdomain.com*  
-**ENV_NAME**=*yourenv*  
-**ENV_SHORT_NAME**=*yourenvshort*  
+**ENV_NAME**=*this name will be prefix for azure resources and you opsman hostname*  
+**ENV_SHORT_NAME**=*will be used as prefix for storage accounts and other azure resources*  
 **OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.3-build.194.vhd"*  
 **DNS_SUFFIX**=*yourdomain.com*  
 **DNS_SUBDOMAIN**=*yourpcf*  
@@ -52,7 +51,6 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    omHostname=${OM_HOSTNAME} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     env_name=${ENV_NAME} \
     env_short_name=${ENV_SHORT_NAME} \
