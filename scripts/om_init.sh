@@ -128,8 +128,14 @@ om --target ${OM_HOSTNAME} --skip-ssl-validation \
 --username opsman --password ${PCF_PIVNET_UAA_TOKEN} configure-director \
 --resource-configuration "${RESOURCE_CONFIGURATION_JSON}"
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} apply-changes 
+until om --target ${OM_HOSTNAME} --skip-ssl-validation \
+--username opsman --password ${PCF_PIVNET_UAA_TOKEN} apply-changes;
+do
+  echo retrying
+  sleep 1
+done
+
+
 
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 --username opsman --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
