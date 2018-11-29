@@ -31,15 +31,10 @@ source .env
 ssh-keygen -t rsa -f ~/opsman -C ${ADMIN_USERNAME}
 ```
 
-## create the target resource group for the jumpbox
+## cstart the deployment
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
-```
-
-## start the deployment
-
-```bash
 az group deployment create --resource-group ${JUMPBOX_RG} \
     --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
     --parameters \
