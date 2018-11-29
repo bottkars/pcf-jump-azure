@@ -1,8 +1,4 @@
-#!/bin/bash
-# used env 
-# PCF_PIVNET_UAA_TOKEN
-# 
-#Authenticate pivnet 
+#!/usr/bin/env bash
 
 source ~/.env
 PRODUCT_SLUG="elastic-runtime"
