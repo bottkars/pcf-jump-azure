@@ -29,8 +29,8 @@ IAAS_CONFIGURATION_JSON=$(cat <<-EOF
 "resource_group_name": "${ENV_NAME}",
 "bosh_storage_account_name": "${ENV_SHORT_NAME}director",
 "default_security_group": "${ENV_NAME}-bosh-deployed-vms-security-group",
-"ssh_public_key": '"'${SSH_PUBLIC_KEY}'"',
-"ssh_private_key": '"'${SSH_PRIVATE_KEY}'"'
+"ssh_public_key": "${SSH_PUBLIC_KEY}",
+"ssh_private_key": "${SSH_PRIVATE_KEY}"
 }
 EOF
 )
