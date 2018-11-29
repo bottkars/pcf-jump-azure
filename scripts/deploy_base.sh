@@ -74,6 +74,7 @@ DNS_SUFFIX="${DNS_SUFFIX}"
 DNS_SUBDOMAIN="${DNS_SUBDOMAIN}"
 PRODUCT_SLUG="${PRODUCT_SLUG}"
 RELEASE_ID="${RELEASE_ID}"
+HOME_DIR="${HOME_DIR}"
 EOF
 )
 
@@ -112,7 +113,7 @@ wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-r
   sudo mv /tmp/releases/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
 
-pushd ${HOME_DIR}
+cd ${HOME_DIR}
 
 AUTHENTICATION_RESPONSE=$(curl \
   --fail \
@@ -180,6 +181,3 @@ sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
 sudo -S -u ubuntu terraform apply -auto-approve
 sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
-popd
-
-
