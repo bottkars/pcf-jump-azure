@@ -23,8 +23,8 @@ configure-director --director-configuration "${DIRECTOR_CONFIGURATION_JSON}"
 IAAS_CONFIGURATION_JSON=$(cat <<-EOF
 {
 "subscription_id": "${AZURE_SUBSCRIPTION_ID}" ,
-"tenant_id": ""${AZURE_TENANT_ID}"",
-"client_id": "${AZURE_CLIENT_ID}"",
+"tenant_id": "${AZURE_TENANT_ID}",
+"client_id": "${AZURE_CLIENT_ID}",
 "client_secret": "${AZURE_CLIENT_SECRET}",
 "resource_group_name": "${ENV_NAME}",
 "bosh_storage_account_name": "${ENV_SHORT_NAME}director",
@@ -38,7 +38,7 @@ EOF
 
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 --username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
-configure-director --iaas-configuration ${IAAS_CONFIGURATION_JSON}
+configure-director --iaas-configuration "${IAAS_CONFIGURATION_JSON}"
 
 NETWORKS_CONFIGURATION_JSON=$(cat <<-EOF
 {
