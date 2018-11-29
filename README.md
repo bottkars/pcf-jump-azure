@@ -68,4 +68,3 @@ az group delete --name ${JUMPBOX_RG} --yes
 az group delete --name ${ENV_NAME} --yes
 ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
-
