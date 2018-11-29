@@ -40,7 +40,6 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/opsman.pub)" \
-    sshKey="$(cat ~/opsman)" \
     dnsLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 function retryop()
 {
   retry=0
@@ -48,8 +47,6 @@ DNS_SUFFIX=$(get_setting DNS_SUFFIX)
 DNS_SUBDOMAIN=$(get_setting DNS_SUBDOMAIN)
 PRODUCT_SLUG=$(get_setting PRODUCT_SLUG)
 RELEASE_ID=$(get_setting RELEASE_ID)
-SSH_PRIVATE_KEY="$(get_setting SSH_PRIVATE_KEY)"
-SSH_PUBLIC_KEY=$(get_setting SSH_PUBLIC_KEY)
 OM_HOSTNAME="${ENV_NAME}.${DNS_SUBDOMAIN}.${DNS_SUFFIX}"
 
 
@@ -77,8 +74,6 @@ DNS_SUFFIX="${DNS_SUFFIX}"
 DNS_SUBDOMAIN="${DNS_SUBDOMAIN}"
 PRODUCT_SLUG="${PRODUCT_SLUG}"
 RELEASE_ID="${RELEASE_ID}"
-SSH_PRIVATE_KEY="${SSH_PRIVATE_KEY}"
-SSH_PUBLIC_KEY="${SSH_PUBLIC_KEY}"
 EOF
 )
 
@@ -117,7 +112,7 @@ wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-r
   sudo mv /tmp/releases/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
 
-cd ${HOME_DIR}
+pushd ${HOME_DIR}
 
 AUTHENTICATION_RESPONSE=$(curl \
   --fail \
@@ -185,5 +180,6 @@ sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
 sudo -S -u ubuntu terraform apply -auto-approve
 sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
+popd
 
 
