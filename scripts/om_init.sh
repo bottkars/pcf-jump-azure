@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 source ~/.env.sh 
-pushd ./pivotal-cf-terraforming-azure-*/
+pushd ${HOME_DIR}
+
+cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
 echo "checking opsman api ready"
 until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${OM_HOSTNAME}/api/v0/info"); do
@@ -139,6 +141,5 @@ done
 
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 --username opsman --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
-
 
 popd
