@@ -60,7 +60,7 @@ chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.sh
 chmod 755 ${HOME_DIR}/*.sh
 chmod +X ${HOME_DIR}/*.sh
 
-cat <<-EOF > ${HOME_DIR}/.env.sh
+$(cat <<-EOF > ${HOME_DIR}/.env.sh
 #!/usr/bin/env bash
 ADMIN_USERNAME=${ADMIN_USERNAME}
 AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
@@ -80,6 +80,7 @@ RELEASE_ID=${RELEASE_ID}
 SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY}
 SSH_PUBLIC_KEY=${SSH_PUBLIC_KEY}
 EOF
+)
 
 chmod 600 ${HOME_DIR}/.env.sh
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/.env.sh
