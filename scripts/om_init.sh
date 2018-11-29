@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 source ~/.env.sh 
 
+until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${OM_HOSTNAME}/api/v0/info"); do
+    printf '.'
+    sleep 5
+done
+
 om --target ${OM_HOSTNAME} --skip-ssl-validation \
 configure-authentication --username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
 --decryption-passphrase ${PCF_PIVNET_UAA_TOKEN}
