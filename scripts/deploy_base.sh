@@ -184,7 +184,6 @@ chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
 sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
 sudo -S -u ubuntu terraform apply -auto-approve
-cd $
-sudo -S -u ubuntu 
+sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
 
 
