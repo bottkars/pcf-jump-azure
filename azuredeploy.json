@@ -138,7 +138,7 @@
         "publicIPAddressName": "myPublicIP",
         "publicIPAddressType": "Dynamic",
         "vmName": "pcfjumphost",
-        "vmSize": "Standard_D2",
+        "vmSize": "Standard_A1",
         "virtualNetworkName": "jumpVNET",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "baseUri": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
