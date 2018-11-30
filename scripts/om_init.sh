@@ -5,19 +5,19 @@ pushd ${HOME_DIR}
 cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
 echo "checking opsman api ready"
-until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${OM_HOSTNAME}/api/v0/info"); do
+until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_OPSMAN_FQDN}/api/v0/info"); do
     printf '.'
     sleep 5
 done
 echo "done"
 
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
-configure-authentication --username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+configure-authentication --username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} \
 --decryption-passphrase ${PCF_PIVNET_UAA_TOKEN}
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
 
 DIRECTOR_CONFIGURATION_JSON=$(cat <<-EOF
 {
@@ -26,8 +26,8 @@ DIRECTOR_CONFIGURATION_JSON=$(cat <<-EOF
 EOF
 )
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN}  \
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN}  \
 configure-director --director-configuration "${DIRECTOR_CONFIGURATION_JSON}"
 
 SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"
@@ -48,8 +48,8 @@ EOF
 )
 
 echo "${IAAS_CONFIGURATION_JSON}"
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} \
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} \
 configure-director --iaas-configuration "${IAAS_CONFIGURATION_JSON}"
 
 NETWORKS_CONFIGURATION_JSON=$(cat <<-EOF
@@ -98,8 +98,8 @@ NETWORKS_CONFIGURATION_JSON=$(cat <<-EOF
 EOF
 )
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} configure-director \
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} configure-director \
 --networks-configuration "${NETWORKS_CONFIGURATION_JSON}"
 
 # Bosh Director Instance Placement
@@ -113,8 +113,8 @@ NETWORK_ASSIGNMENT_JSON=$(cat <<-EOF
 EOF
 )
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} configure-director \
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} configure-director \
 --network-assignment "${NETWORK_ASSIGNMENT_JSON}"
 
 RESOURCE_CONFIGURATION_JSON=$(cat <<-EOF
@@ -126,12 +126,12 @@ RESOURCE_CONFIGURATION_JSON=$(cat <<-EOF
 EOF
 )
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} configure-director \
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} configure-director \
 --resource-configuration "${RESOURCE_CONFIGURATION_JSON}"
 
-until om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} apply-changes;
+until om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} apply-changes;
 do
   echo retrying
   sleep 1
@@ -139,7 +139,7 @@ done
 
 
 
-om --target ${OM_HOSTNAME} --skip-ssl-validation \
---username opsman --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
+om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
+--username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
 
 popd

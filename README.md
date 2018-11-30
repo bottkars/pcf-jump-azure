@@ -17,10 +17,13 @@ the .env vile requires the following variables to be set:
 **ENV_NAME**=*this name will be prefix for azure resources and you opsman hostname*  
 **ENV_SHORT_NAME**=*will be used as prefix for storage accounts and other azure resources*  
 **OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.3-build.194.vhd"*  
-**DNS_SUFFIX**=*yourdomain.com*  
-**DNS_SUBDOMAIN**=*yourpcf*  
+**PCF_DOMAIN_NAME**=*yourdomain.com*  
+**PCF_SUBDOMAIN_NAME**=*yourpcf*  
 **PRODUCT_SLUG**=*elastic-runtime*  
-**RELEASE_ID**=*220833*  
+**RELEASE_ID**=*220833* 
+**PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
+**PCF_OPSMAN_USERNAME**=*opsman*  
+**PAS_AUTOPILOT**=*TRUE or FALSE* Autoinstall PAS
 
 ```bash
 source .env
@@ -49,11 +52,13 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     env_name=${ENV_NAME} \
     env_short_name=${ENV_SHORT_NAME} \
     ops_manager_image_uri=${OPS_MANAGER_IMAGE_URI} \
-    dns_suffix=${DNS_SUFFIX} \
-    dns_subdomain=${DNS_SUBDOMAIN} \
-    adminUsername=${ADMIN_USERNAME} \
+    pcf_domain_name=${PCF_DOMAIN_NAME} \
+    pcf_subdomain_name=${PCF_SUBDOMAIN_NAME} \
+    opsmanUsername=${PCF_OPSMAN_USERNAME} \
     product_slug=${PRODUCT_SLUG} \
-    release_id=${RELEASE_ID}
+    release_id=${RELEASE_ID} \
+    notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
+    pasAutopilot=${PAS_AUTOPILOT}
 ```
 
 ```bash

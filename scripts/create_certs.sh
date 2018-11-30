@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.env
+source ~/.env.sh
 
 
 cat > ./${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.cnf <<-EOF

@@ -55,4 +55,3 @@ resource-config:
   router:
     elb_names:
     - pcf-web-lb
-    

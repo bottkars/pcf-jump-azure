@@ -74,16 +74,39 @@
                 "description": "url for latest osmanager image"
             }
         },
-        "dns_suffix": {
+        "pcf_domain_name": {
             "type": "string",
             "metadata": {
                 "description": "dns suffix for pcf"
             }
         },
-        "dns_subdomain": {
+        "pcf_subdomain_name": {
             "type": "string",
             "metadata": {
                 "description": "subdomain for pcf"
+            }
+        },
+        "notificationsEmail": {
+            "type": "string",
+            "metadata": {
+                "description": "subdomain for pcf"
+            }
+        },
+        "opsmanUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "subdomain for pcf"
+            }
+        },
+        "pasAutopilot": {
+            "type": "string",
+            "defaultValue": "FALSE",
+            "allowedValues": [
+                "FALSE",
+                "TRUE"
+            ],
+            "metadata": {
+                "description": "autodeploy pcf pas"
             }
         },
         "dnsLabelPrefix": {
@@ -139,7 +162,8 @@
             "[concat(variables('baseUri') , '/scripts/create_certs.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_base.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_pas.sh')]",
-            "[concat(variables('baseUri'),  '/scripts/om_init.sh')]"
+            "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/pas.yaml')]"
         ]
     },
     "resources": [
@@ -302,12 +326,14 @@
                             "ENV_SHORT_NAME": "[parameters('env_short_name')]",
                             "OPS_MANAGER_IMAGE_URI": "[parameters('ops_manager_image_uri')]",
                             "LOCATION": "[parameters('location')]",
-                            "DNS_SUFFIX": "[parameters('dns_suffix')]",
-                            "DNS_SUBDOMAIN": "[parameters('dns_subdomain')]",
+                            "PCF_DOMAIN_NAME": "[parameters('pcf_domain_name')]",
+                            "PCF_SUBDOMAIN_NAME": "[parameters('pcf_subdomain_name')]",
                             "PRODUCT_SLUG": "[parameters('product_slug')]",
                             "RELEASE_ID": "[parameters('release_id')]",
-                            "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]"
-
+                            "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
+                            "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",
+                            "SSH_PUBLIC_KEY": "[parameters('notificationsEmail')]",
+                            "PAS_AUTOPILOT": "[parameters('pasAutopilot')]"
                         }
                     }
                 }
