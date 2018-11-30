@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/.env.sh
-
+cd ${HOME_DIR}
 
 cat > ./${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.cnf <<-EOF
 [req]
