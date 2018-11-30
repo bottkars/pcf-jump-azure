@@ -9,38 +9,45 @@
             }
         },
         "sshKeyData": {
+            "minLength": 20,
             "type": "string",
             "metadata": {
                 "description": "ssh Public Key"
             }
         },
         "clientID": {
-            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,            "type": "string",
             "metadata": {
                 "description": "AzureService Principal"
             }
         },
         "tenantID": {
             "type": "string",
-            "metadata": {
+            "minLength": 36,
+            "maxLength": 36,            "metadata": {
                 "description": "AzureService Tenant ID"
             }
         },
         "subscriptionID": {
             "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
             "metadata": {
                 "description": "AzureService Tenant ID"
             }
         },
         "clientSecret": {
             "type": "string",
-            "metadata": {
+            "minLength": 36,
+            "maxLength": 36,            "metadata": {
                 "description": "Azure Service Principal Secret"
             }
         },
         "pivnetToken": {
             "type": "string",
-            "metadata": {
+            "minLength": 34,
+            "maxLength": 34,            "metadata": {
                 "description": "pivnet refresh token"
             }
         },
@@ -64,36 +71,42 @@
         },
         "env_short_name": {
             "type": "string",
+            "minLength": 3,
             "metadata": {
                 "description": "will be prefix for pcf terraform resources"
             }
         },
         "ops_manager_image_uri": {
             "type": "string",
+            "minLength": 3,
             "metadata": {
                 "description": "url for latest osmanager image"
             }
         },
         "pcf_domain_name": {
             "type": "string",
+            "minLength": 7,
             "metadata": {
                 "description": "dns suffix for pcf"
             }
         },
         "pcf_subdomain_name": {
             "type": "string",
+            "minLength": 3,
             "metadata": {
                 "description": "subdomain for pcf"
             }
         },
         "notificationsEmail": {
             "type": "string",
+            "minLength": 5,
             "metadata": {
                 "description": "subdomain for pcf"
             }
         },
         "opsmanUsername": {
             "type": "string",
+            "minLength": 5,
             "metadata": {
                 "description": "subdomain for pcf"
             }
@@ -110,6 +123,7 @@
             }
         },
         "dnsLabelPrefix": {
+            "minLength": 3,
             "type": "string",
             "metadata": {
                 "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
