@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
-source ~/.env
-PRODUCT_SLUG="elastic-runtime"
-RELEASE_ID="latest"
-
+source ~/.env.sh
+PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
 PCF_KEY_PEM=$(cat ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.cert | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
-PCF_OPSMAN_USER=opsman
 PRODUCT_NAME=cf
+PCF_PAS_NETWORK="pas.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
+PCF_APPS_DOMAIN="apps.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
+PCF_SYSTEM_DOMAIN="sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
+PCF_WEB_LB="${ENV_NAME}-web-lb"
+PCF_DIEGO_SSH_LB="${ENV_NAME}-diego-ssh-lb"
+PCF_MYSQL_LB="${ENV_NAME}-mysql-lb"
 
-
+cd ${HOME_DIR}
 #Authenticate pivnet 
 
 PIVNET_ACCESS_TOKEN=$(curl \
@@ -65,7 +68,7 @@ curl \
 
 om \
   --username ${PCF_OPSMAN_USER} \
-  --password ${PCF_OPSMAN_ADMIN_PASSWD} \
+  --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   upload-product \
@@ -74,7 +77,7 @@ om \
     # 1. Find the version of the product that was imported.
 PRODUCTS=$(om \
   --username ${PCF_OPSMAN_USER} \
-  --password ${PCF_OPSMAN_ADMIN_PASSWD} \
+  --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   available-products \
@@ -87,7 +90,7 @@ VERSION=$(echo ${PRODUCTS} |\
 
 om \
   --username ${PCF_OPSMAN_USER} \
-  --password ${PCF_OPSMAN_ADMIN_PASSWD} \
+  --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   stage-product \
@@ -95,18 +98,21 @@ om \
     --product-version ${VERSION}
 
 cat << EOF > vars.yaml
-pcf_pas_network: ${PCF_PAS_NETWORK} 
+pcf_pas_network: ${PCF_PAS_NETWORK}
 pcf_system_domain: ${PCF_SYSTEM_DOMAIN}
 pcf_apps_domain: ${PCF_APPS_DOMAIN}
 pcf_notifications_email: ${PCF_NOTIFICATIONS_EMAIL}
 pcf_cert_pem: "${PCF_CERT_PEM}"
 pcf_key_pem: "${PCF_KEY_PEM}"
 pcf_credhub_key: "${PCF_CREDHUB_KEY}"
+pcf_diego_ssh_lb: {$PCF_DIEGO_SSH_LB}
+pcf_mysql_lb: {$PCF_MYSQL_LB}
+pcf_web_lb: {$PCF_WEB_LB}
 EOF
 
 om \
   --username ${PCF_OPSMAN_USER} \
-  --password ${PCF_OPSMAN_ADMIN_PASSWD} \
+  --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   configure-product \
@@ -115,26 +121,8 @@ om \
 ###
 om \
   --username ${PCF_OPSMAN_USER} \
-  --password ${PCF_OPSMAN_ADMIN_PASSWD} \
+  --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   apply-changes \
     --product-name ${PRODUCT_NAME}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-

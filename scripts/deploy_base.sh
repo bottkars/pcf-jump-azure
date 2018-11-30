@@ -43,11 +43,14 @@ ENV_NAME=$(get_setting ENV_NAME)
 ENV_SHORT_NAME=$(get_setting ENV_SHORT_NAME)
 OPS_MANAGER_IMAGE_URI=$(get_setting OPS_MANAGER_IMAGE_URI)
 LOCATION=$(get_setting LOCATION)
-DNS_SUFFIX=$(get_setting DNS_SUFFIX)
-DNS_SUBDOMAIN=$(get_setting DNS_SUBDOMAIN)
+PCF_DOMAIN_NAME=$(get_setting pcf_domain_name)
+PCF_SUBDOMAIN_NAME=$(get_setting pcf_subdomain_name)
 PRODUCT_SLUG=$(get_setting PRODUCT_SLUG)
 RELEASE_ID=$(get_setting RELEASE_ID)
-OM_HOSTNAME="${ENV_NAME}.${DNS_SUBDOMAIN}.${DNS_SUFFIX}"
+PCF_OPSMAN_USERNAME=$(get_setting PCF_OPSMAN_USERNAME)
+PCF_NOTIFICATIONS_EMAIL=$(get_setting PCF_NOTIFICATIONS_EMAIL)
+PCF_OPSMAN_FQDN="${ENV_NAME}.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
+PAS_AUTOPILOT=$(get_setting PAS_AUTOPILOT)
 
 
 HOME_DIR="/home/${ADMIN_USERNAME}"
@@ -56,6 +59,9 @@ cp *.sh ${HOME_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.sh
 chmod 755 ${HOME_DIR}/*.sh
 chmod +X ${HOME_DIR}/*.sh
+cp *.yaml ${HOME_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.yaml
+chmod 755 ${HOME_DIR}/*.yaml
 
 $(cat <<-EOF > ${HOME_DIR}/.env.sh
 #!/usr/bin/env bash
@@ -65,16 +71,19 @@ AZURE_CLIENT_ID="${AZURE_CLIENT_ID}"
 AZURE_TENANT_ID="${AZURE_TENANT_ID}"
 AZURE_SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID}"
 PCF_PIVNET_UAA_TOKEN="${PCF_PIVNET_UAA_TOKEN}"
-OM_HOSTNAME="${OM_HOSTNAME}"
+PCF_OPSMAN_FQDN="${PCF_OPSMAN_FQDN}"
 ENV_NAME="${ENV_NAME}"
 ENV_SHORT_NAME="${ENV_SHORT_NAME}"
 OPS_MANAGER_IMAGE_URI="${OPS_MANAGER_IMAGE_URI}"
 LOCATION="${LOCATION}"
-DNS_SUFFIX="${DNS_SUFFIX}"
-DNS_SUBDOMAIN="${DNS_SUBDOMAIN}"
+PCF_DOMAIN_NAME="${PCF_DOMAIN_NAME}"
+PCF_SUBDOMAIN_NAME="${PCF_SUBDOMAIN_NAME}"
 PRODUCT_SLUG="${PRODUCT_SLUG}"
 RELEASE_ID="${RELEASE_ID}"
 HOME_DIR="${HOME_DIR}"
+PCF_OPSMAN_USERNAME="${PCF_OPSMAN_USERNAME}"
+PCF_NOTIFICATIONS_EMAIL="${PCF_NOTIFICATIONS_EMAIL}"
+PAS_AUTOPILOT="${PAS_AUTOPILOT}"
 EOF
 )
 
@@ -171,8 +180,8 @@ env_name              = "${ENV_NAME}"
 env_short_name        = "${ENV_SHORT_NAME}"
 ops_manager_image_uri = "${OPS_MANAGER_IMAGE_URI}"
 location              = "${LOCATION}"
-dns_suffix            = "${DNS_SUFFIX}"
-dns_subdomain         = "${DNS_SUBDOMAIN}"
+PCF_DOMAIN_NAME            = "${PCF_DOMAIN_NAME}"
+PCF_SUBDOMAIN_NAME         = "${PCF_SUBDOMAIN_NAME}"
 EOF
 
 chmod 755 terraform.tfvars
@@ -181,3 +190,6 @@ sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
 sudo -S -u ubuntu terraform apply -auto-approve
 sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
+if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
+    sudo -S -u ubuntu ${HOME_DIR}/deploy_pas.sh
+fi
