@@ -332,7 +332,7 @@
                             "RELEASE_ID": "[parameters('release_id')]",
                             "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
                             "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",
-                            "SSH_PUBLIC_KEY": "[parameters('notificationsEmail')]",
+                            "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
                             "PAS_AUTOPILOT": "[parameters('pasAutopilot')]"
                         }
                     }
