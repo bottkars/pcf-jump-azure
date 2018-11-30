@@ -180,9 +180,10 @@ env_name              = "${ENV_NAME}"
 env_short_name        = "${ENV_SHORT_NAME}"
 ops_manager_image_uri = "${OPS_MANAGER_IMAGE_URI}"
 location              = "${LOCATION}"
-PCF_DOMAIN_NAME            = "${PCF_DOMAIN_NAME}"
-PCF_SUBDOMAIN_NAME         = "${PCF_SUBDOMAIN_NAME}"
+dns_suffix            = "${PCF_DOMAIN_NAME}"
+dns_subdomain         = "${PCF_SUBDOMAIN_NAME}"
 EOF
+
 
 chmod 755 terraform.tfvars
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
