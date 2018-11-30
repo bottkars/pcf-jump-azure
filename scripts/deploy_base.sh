@@ -191,5 +191,6 @@ sudo -S -u ubuntu terraform plan -out=plan
 sudo -S -u ubuntu terraform apply -auto-approve
 sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
+    sudo -S -u ubuntu ${HOME_DIR}/create_certs.sh
     sudo -S -u ubuntu ${HOME_DIR}/deploy_pas.sh
 fi
