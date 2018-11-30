@@ -17,7 +17,8 @@
         },
         "clientID": {
             "minLength": 36,
-            "maxLength": 36,            "type": "string",
+            "maxLength": 36,            
+            "type": "string",
             "metadata": {
                 "description": "AzureService Principal"
             }
@@ -25,7 +26,8 @@
         "tenantID": {
             "type": "string",
             "minLength": 36,
-            "maxLength": 36,            "metadata": {
+            "maxLength": 36,
+            "metadata": {
                 "description": "AzureService Tenant ID"
             }
         },
@@ -40,14 +42,15 @@
         "clientSecret": {
             "type": "string",
             "minLength": 36,
-            "maxLength": 36,            "metadata": {
+            "metadata": {
                 "description": "Azure Service Principal Secret"
             }
         },
         "pivnetToken": {
             "type": "string",
             "minLength": 34,
-            "maxLength": 34,            "metadata": {
+            "maxLength": 34,
+            "metadata": {
                 "description": "pivnet refresh token"
             }
         },
