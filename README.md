@@ -1,6 +1,14 @@
 # pcf-jump-azure
 
+pcf-jump-azure creates an ubuntu based jumpbox to deploy pivotal pas on azure  
+
+it will pave the infrastructure using terraform.
+PCF Operations Manager will be installed and configured.  
+
+Optionally, PAS will be deployed
+
 ## usage 
+
 create an .env file using the .env.example  
 the .env vile requires the following variables to be set:
 
@@ -28,6 +36,7 @@ the .env vile requires the following variables to be set:
 ```bash
 source .env
 ```
+
 ## create a aah keypair for the admin user
 
 ```bash
