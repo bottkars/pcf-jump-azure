@@ -43,7 +43,7 @@ source .env
 ssh-keygen -t rsa -f ~/opsman -C ${ADMIN_USERNAME}
 ```
 
-## cstart the deployment
+## start the deployment
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
