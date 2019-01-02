@@ -1,3 +1,4 @@
+product-name: cf
 network-properties:
   network:
     name: ((pcf_pas_network))

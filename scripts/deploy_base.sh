@@ -51,10 +51,12 @@ PCF_OPSMAN_USERNAME=$(get_setting PCF_OPSMAN_USERNAME)
 PCF_NOTIFICATIONS_EMAIL=$(get_setting PCF_NOTIFICATIONS_EMAIL)
 PCF_OPSMAN_FQDN="${ENV_NAME}.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PAS_AUTOPILOT=$(get_setting PAS_AUTOPILOT)
+PCF_PAS_VERSION=$(get_setting PCF_PAS_VERSION)
 
 
 HOME_DIR="/home/${ADMIN_USERNAME}"
-
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} /mnt
+chmod 755 /mnt
 cp *.sh ${HOME_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.sh
 chmod 755 ${HOME_DIR}/*.sh
@@ -84,6 +86,7 @@ HOME_DIR="${HOME_DIR}"
 PCF_OPSMAN_USERNAME="${PCF_OPSMAN_USERNAME}"
 PCF_NOTIFICATIONS_EMAIL="${PCF_NOTIFICATIONS_EMAIL}"
 PAS_AUTOPILOT="${PAS_AUTOPILOT}"
+PCF_PAS_VERSION="${PCF_PAS_VERSION}"
 EOF
 )
 
@@ -109,7 +112,7 @@ wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-wget -O om https://github.com/pivotal-cf/om/releases/download/0.44.0/om-linux && \
+wget -O om https://github.com/pivotal-cf/om/releases/download/0.48.0/om-linux && \
   chmod +x om && \
   sudo mv om /usr/local/bin/
 

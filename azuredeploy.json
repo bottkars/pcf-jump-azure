@@ -56,14 +56,16 @@
         },
         "product_slug": {
             "type": "string",
+            "defaultValue": "elastic-runtime",
             "metadata": {
                 "description": "product slug from pivnet, eg elastic-runtime"
             }
         },
         "release_id": {
             "type": "string",
+            "defaultValue": "259105",
             "metadata": {
-                "description": "pivnet release"
+                "description": "pivnet release id"
             }
         },
         "env_name": {
@@ -82,6 +84,7 @@
         "ops_manager_image_uri": {
             "type": "string",
             "minLength": "3",
+            "defaultValue": "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd",
             "metadata": {
                 "description": "url for latest osmanager image"
             }
@@ -125,6 +128,10 @@
                 "description": "autodeploy pcf pas"
             }
         },
+        "pasVersion": {
+            "type": "string",
+            "defaultValue": "2.4.1"
+        },       
         "dnsLabelPrefix": {
             "minLength": "3",
             "type": "string",
@@ -350,7 +357,8 @@
                             "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
                             "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",
                             "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
-                            "PAS_AUTOPILOT": "[parameters('pasAutopilot')]"
+                            "PAS_AUTOPILOT": "[parameters('pasAutopilot')]",
+                            "PCF_PAS_VERSION": "[parameters('pasVersion')]"
                         }
                     }
                 }
