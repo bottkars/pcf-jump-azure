@@ -39,7 +39,7 @@ EOF
 
 om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
 --username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} \
-configure-director --config director_config.yaml --vars-file director_vars.yaml
+configure-director --config ${HOME_DIR}/director_config.yaml --vars-file ${HOME_DIR}/director_vars.yaml
 
 until om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
 --username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} apply-changes;
