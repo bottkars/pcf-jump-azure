@@ -47,7 +47,6 @@ om \
   --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
-  --trace \
   download-product \
  --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "cf*.pivotal" \
@@ -57,8 +56,8 @@ om \
  --download-stemcell \
  --output-directory /mnt/downloads
 
-TARGET_FILENAME=$(cat ~/downloads/download-file.json | jq -r '.product_path')
-STEMCELL_FILENAME=$(cat ~/downloads/download-file.json | jq -r '.stemcell_path')
+TARGET_FILENAME=$(cat /mnt/downloads/download-file.json | jq -r '.product_path')
+STEMCELL_FILENAME=$(cat /mnt/downloads/download-file.json | jq -r '.stemcell_path')
 
 # Import the tile to Ops Manager.
 
