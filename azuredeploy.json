@@ -187,7 +187,8 @@
             "[concat(variables('baseUri'),  '/scripts/deploy_base.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_pas.sh')]",
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
-            "[concat(variables('baseUri'),  '/scripts/pas.yaml')]"
+            "[concat(variables('baseUri'),  '/scripts/pas.yaml')]",
+            "[concat(variables('baseUri'),  '/scripts/director_config.yaml')]"            
         ]
     },
     "resources": [
