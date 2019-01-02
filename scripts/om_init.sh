@@ -20,6 +20,7 @@ om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
 
 SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"
 SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
+cd ${HOME_DIR}
 cat << EOF > director_vars.yaml
 subscription_id: ${AZURE_SUBSCRIPTION_ID}
 tenant_id: ${AZURE_TENANT_ID}
