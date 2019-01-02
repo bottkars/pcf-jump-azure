@@ -24,14 +24,15 @@ the .env vile requires the following variables to be set:
 **PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
 **ENV_NAME**=*this name will be prefix for azure resources and you opsman hostname*  
 **ENV_SHORT_NAME**=*will be used as prefix for storage accounts and other azure resources*  
-**OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.3-build.194.vhd"*  
+**OPS_MANAGER_IMAGE_URI**=*default "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"*  
 **PCF_DOMAIN_NAME**=*yourdomain.com*  
 **PCF_SUBDOMAIN_NAME**=*yourpcf*  
-**PRODUCT_SLUG**=*elastic-runtime*  
-**RELEASE_ID**=*220833* 
+**PRODUCT_SLUG**=*default: elastic-runtime*  
+**RELEASE_ID**=*default: 220833* 
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
 **PCF_OPSMAN_USERNAME**=*opsman*  
-**PAS_AUTOPILOT**=*TRUE or FALSE* Autoinstall PAS
+**PAS_AUTOPILOT**=*TRUE or FALSE* Autoinstall PAS  
+**PCF_PAS_VERSION**=*default 2.4.0 or greater*
 
 ```bash
 source .env
@@ -67,7 +68,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     product_slug=${PRODUCT_SLUG} \
     release_id=${RELEASE_ID} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
-    pasAutopilot=${PAS_AUTOPILOT}
+    pasAutopilot=${PAS_AUTOPILOT} \
+    pasVersion =${PCF_PAS_VERSION}
 ```
 
 ```bash

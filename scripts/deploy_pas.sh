@@ -15,6 +15,7 @@ PCF_MYSQL_LB="${ENV_NAME}-mysql-lb"
 
 cd ${HOME_DIR}
 #Authenticate pivnet 
+mkdir /mnt/downloads
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -38,31 +39,26 @@ curl \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   --request POST \
   ${EULA_ACCEPTANCE_URL}
-#  Extract the product file details for the tile we want to download. This can typically be identified by an object key ending with .pivotal. From here we can identify a URL for the download and a suitable target filename.
 
+# download product using om cli
 
+om \
+  --username ${PCF_OPSMAN_USERNAME} \
+  --password ${PCF_PIVNET_UAA_TOKEN} \
+  --target ${PCF_OPSMAN_FQDN} \
+  --skip-ssl-validation \
+  --trace \
+  download-product \
+ --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
+ --pivnet-file-glob "cf*.pivotal" \
+ --pivnet-product-slug elastic-runtime \
+ --product-version ${PCF_PAS_VERSION} \
+ --stemcell-iaas azure \
+ --download-stemcell \
+ --output-directory /mnt/downloads
 
-DOWNLOAD_ELEMENT=$(echo ${RELEASE_JSON} |\
-  jq -r '.product_files[] | select(.aws_object_key | contains("elastic-runtime/cf-2.3"))')
-
-
-
-
-TARGET_FILENAME=$(echo ${DOWNLOAD_ELEMENT} |\
-  jq -r '.aws_object_key | split("/") | last')
-
-URL=$(echo ${DOWNLOAD_ELEMENT} |\
-  jq -r '._links.download.href')
-
-
-curl \
-  --fail \
-  --location \
-  --output ${TARGET_FILENAME} \
-  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
-  ${URL}  
-
-
+TARGET_FILENAME=$(cat ~/downloads/download-file.json | jq -r '.product_path')
+STEMCELL_FILENAME=$(cat ~/downloads/download-file.json | jq -r '.stemcell_path')
 
 # Import the tile to Ops Manager.
 
@@ -116,13 +112,20 @@ om \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   configure-product \
-    -c pas.yaml -l vars.yaml \
-    --product-name ${PRODUCT_NAME}
+    -c pas.yaml -l vars.yaml
 ###
+
 om \
   --username ${PCF_OPSMAN_USERNAME} \
   --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
-  apply-changes \
-    --product-name ${PRODUCT_NAME}
+  upload-stemcell \
+    --stemcell ${STEMCELL_FILENAME}
+
+om \
+  --username ${PCF_OPSMAN_USERNAME} \
+  --password ${PCF_PIVNET_UAA_TOKEN} \
+  --target ${PCF_OPSMAN_FQDN} \
+  --skip-ssl-validation \
+  apply-changes
