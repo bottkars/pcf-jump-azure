@@ -1,0 +1,41 @@
+---
+director-configuration:
+  max_threads: 8  
+iaas-configuration:
+ subscription_id: ((subscription_id))
+ tenant_id: ((tenant_id))
+ client_id: ((client_id))
+ client_secret: ((client_secret))
+ resource_group_name: pcf
+ bosh_storage_account_name: pcfkbdirector
+ default_security_group: pcf-bosh-deployed-vms-security-group
+ ssh_public_key: ((ssh_public_key))
+ ssh_private_key: ((ssh_private_key))
+networks-configuration:
+ icmp_checks_enabled: false
+ networks:
+ - name: pcf-infrastructure-subnet
+   subnets:
+   - iaas_identifier: ((infrastructure-subnet))
+     cidr: 10.0.8.0/24
+     reserved_ip_ranges: 10.0.8.0-10.0.8.4
+     dns: 168.63.129.16
+     gateway: 10.0.8.1
+ - name: pcf-pas-subnet
+   subnets:
+   - iaas_identifier: ((pas-subnet))
+     cidr: 10.0.0.0/22
+     reserved_ip_ranges: 10.0.0.0-10.0.0.4
+     dns: 168.63.129.16
+     gateway: 10.0.0.1
+ - name: pcf-services-subnet
+   service_network: true
+   subnets:
+   - iaas_identifier: ((services-subnet))
+     cidr: 10.0.4.0/22
+     reserved_ip_ranges: 10.0.4.0-10.0.4.4
+     dns: 168.63.129.16
+     gateway: 10.0.4.1
+network-assignment:
+ network:
+  name: pcf-infrastructure-subnet
