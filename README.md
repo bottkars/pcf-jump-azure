@@ -38,7 +38,7 @@ the .env vile requires the following variables to be set:
 source .env
 ```
 
-## create a aah keypair for the admin user
+## create a ssh keypair for the admin user
 
 ```bash
 ssh-keygen -t rsa -f ~/opsman -C ${ADMIN_USERNAME}
