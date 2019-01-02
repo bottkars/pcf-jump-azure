@@ -28,11 +28,11 @@ the .env vile requires the following variables to be set:
 **PCF_DOMAIN_NAME**=*yourdomain.com*  
 **PCF_SUBDOMAIN_NAME**=*yourpcf*  
 **PRODUCT_SLUG**=*default: elastic-runtime*  
-**RELEASE_ID**=*default: 220833* 
+**RELEASE_ID**=*default: 259105*  
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
 **PCF_OPSMAN_USERNAME**=*opsman*  
 **PAS_AUTOPILOT**=*TRUE or FALSE* Autoinstall PAS  
-**PCF_PAS_VERSION**=*default 2.4.0 or greater*
+**PCF_PAS_VERSION**=*default 2.4.0 or greater*  
 
 ```bash
 source .env
