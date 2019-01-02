@@ -69,7 +69,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     release_id=${RELEASE_ID} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
     pasAutopilot=${PAS_AUTOPILOT} \
-    pasVersion =${PCF_PAS_VERSION}
+    pasVersion=${PCF_PAS_VERSION}
 ```
 
 ```bash
