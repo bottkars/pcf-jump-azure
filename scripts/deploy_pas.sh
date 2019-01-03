@@ -147,6 +147,7 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_PAS_DEPLOY_TIME="${END_PAS_DEPLOY_TIME}"
 EOF
 )
+echo Finished
 echo Started BASE deployment at ${START_BASE_DEPLOY_TIME}
 echo Fimnished BASE deployment at ${END_BASE_DEPLOY_TIME}
 echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}

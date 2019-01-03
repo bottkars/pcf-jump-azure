@@ -31,7 +31,7 @@ the .env vile requires the following variables to be set:
 **RELEASE_ID**=*259105*  
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
 **PCF_OPSMAN_USERNAME**=*opsman*  
-**PAS_AUTOPILOT**=*FALSE* Autoinstall PAS when set to true
+**PAS_AUTOPILOT**=*FALSE* Autoinstall PAS when set to true  
 **PCF_PAS_VERSION**=*2.4.1* the version of PAS, must be 2.4.0 or greater
 
 source the env file  
