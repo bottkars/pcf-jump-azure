@@ -276,7 +276,8 @@
                 "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
             ],
             "tags": {
-                "Application": "PCF PAS Jumpbox"
+                "Application": "PCF PAS Jumpbox",
+                "AutoDeployed RG": "[parameters('env_name')]"
             },
             "properties": {
                 "hardwareProfile": {
