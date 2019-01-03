@@ -23,7 +23,7 @@ function retryop()
 }
 
 START_BASE_DEPLOY_TIME=$(date)
-echo starting deployment a ${START_BASE_DEPLOY_TIME}
+echo ${START_BASE_DEPLOY_TIME} starting base deployment
 echo "Installing jq"
 retryop "apt-get update && apt-get install -y jq"
 
@@ -197,12 +197,14 @@ sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
 sudo -S -u ubuntu terraform apply -auto-approve
 END_BASE_DEPLOY_TIME=$(DATE)
+echo ${END_BASE_DEPLOY_TIME} end base deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
 EOF
 )
 
 sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
+
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     sudo -S -u ubuntu ${HOME_DIR}/create_certs.sh
     sudo -S -u ubuntu ${HOME_DIR}/deploy_pas.sh
