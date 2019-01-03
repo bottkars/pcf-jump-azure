@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 source ~/.env.sh 
 START_OPSMAN_DEPLOY_TIME=$(DATE)
-
+echo ${START_OPSMAN_DEPLOY_TIME} start opsman deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 START_OPSMAN_DEPLOY_TIME="${START_OPSMAN_DEPLOY_TIME}"
 EOF
@@ -60,6 +60,7 @@ om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
 
 popd
 END_OPSMAN_DEPLOY_TIME=$(DATE)
+echo ${END_OPSMAN_DEPLOY_TIME} finished opsman deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_OPSMAN_DEPLOY_TIME="${END_OPSMAN_DEPLOY_TIME}"
 EOF
