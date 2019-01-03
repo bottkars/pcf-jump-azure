@@ -18,7 +18,7 @@
         },
         "clientID": {
             "minLength": "36",
-            "maxLength": "36",            
+            "maxLength": "36",
             "type": "string",
             "metadata": {
                 "description": "AzureService Principal"
@@ -135,7 +135,7 @@
         "pasVersion": {
             "type": "string",
             "defaultValue": "2.4.1"
-        },       
+        },
         "dnsLabelPrefix": {
             "minLength": "3",
             "type": "string",
@@ -192,7 +192,7 @@
             "[concat(variables('baseUri'),  '/scripts/deploy_pas.sh')]",
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
             "[concat(variables('baseUri'),  '/scripts/pas.yaml')]",
-            "[concat(variables('baseUri'),  '/scripts/director_config.yaml')]"            
+            "[concat(variables('baseUri'),  '/scripts/director_config.yaml')]"
         ]
     },
     "resources": [
@@ -275,6 +275,9 @@
                 "[resourceId('Microsoft.Storage/storageAccounts/', variables('DiagnosticsStorageAccountName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
             ],
+            "tags": {
+                "Application": "PCF PAS Jumpbox"
+            },
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[variables('vmSize')]"
@@ -295,7 +298,6 @@
                         }
                     }
                 },
-                
                 "storageProfile": {
                     "imageReference": {
                         "publisher": "[variables('imagePublisher')]",
