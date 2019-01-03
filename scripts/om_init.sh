@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 source ~/.env.sh 
-START_OPSMAN_DEPLOY_TIME=$(DATE)
+export OM_TARGET=${PCF_OPSMAN_FQDN}
+export OM_USERNAME=${PCF_OPSMAN_USERNAME}
+export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
+START_OPSMAN_DEPLOY_TIME=$(date)
 echo ${START_OPSMAN_DEPLOY_TIME} start opsman deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 START_OPSMAN_DEPLOY_TIME="${START_OPSMAN_DEPLOY_TIME}"
@@ -18,12 +21,12 @@ until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_
 done
 echo "done"
 
-om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
-configure-authentication --username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} \
+om --skip-ssl-validation \
+configure-authentication \
 --decryption-passphrase ${PCF_PIVNET_UAA_TOKEN}
 
-om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
---username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
+om --skip-ssl-validation \
+deployed-products
 
 SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"
 SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
@@ -44,22 +47,21 @@ pas-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-services-subnet"
 services-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-services-subnet"
 EOF
 
-om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
---username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} \
-configure-director --config ${HOME_DIR}/director_config.yaml --vars-file ${HOME_DIR}/director_vars.yaml
+om --skip-ssl-validation \
+ configure-director --config ${HOME_DIR}/director_config.yaml --vars-file ${HOME_DIR}/director_vars.yaml
 
-until om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
---username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} apply-changes;
+until om --skip-ssl-validation \
+ apply-changes;
 do
   echo retrying
   sleep 1
 done
 
-om --target ${PCF_OPSMAN_FQDN} --skip-ssl-validation \
---username ${PCF_OPSMAN_USERNAME} --password ${PCF_PIVNET_UAA_TOKEN} deployed-products
+om --skip-ssl-validation \
+ deployed-products
 
 popd
-END_OPSMAN_DEPLOY_TIME=$(DATE)
+END_OPSMAN_DEPLOY_TIME=$(date)
 echo ${END_OPSMAN_DEPLOY_TIME} finished opsman deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_OPSMAN_DEPLOY_TIME="${END_OPSMAN_DEPLOY_TIME}"
