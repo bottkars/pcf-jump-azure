@@ -15,7 +15,6 @@ PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk
 PCF_CERT_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.cert | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
 PRODUCT_NAME=cf
-PCF_PAS_NETWORK="pcf-deployment-network"
 PCF_APPS_DOMAIN="apps.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PCF_SYSTEM_DOMAIN="sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PCF_WEB_LB="${ENV_NAME}-web-lb"
@@ -92,7 +91,7 @@ om --skip-ssl-validation \
 echo $(date) end staging PAS 
 
 cat << EOF > vars.yaml
-pcf_deployment_network: ${PCF_PAS_NETWORK}
+pcf_pas_network: ${ENV_NAME}-pas-subnet
 pcf_system_domain: ${PCF_SYSTEM_DOMAIN}
 pcf_apps_domain: ${PCF_APPS_DOMAIN}
 pcf_notifications_email: ${PCF_NOTIFICATIONS_EMAIL}

@@ -66,7 +66,7 @@ ssh_public_key: ${SSH_PUBLIC_KEY}
 ssh_private_key: ${SSH_PRIVATE_KEY}
 ntp_servers_string: 'time.windows.com'
 infrastructure-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-infrastructure-subnet"
-pas-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-services-subnet"
+pas-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-pas-subnet"
 services-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-services-subnet"
 EOF
 
