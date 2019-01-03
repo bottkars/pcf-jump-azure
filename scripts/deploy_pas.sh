@@ -66,8 +66,11 @@ om \
   --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
+  --request-timeout 3600 \
   upload-product \
     --product ${TARGET_FILENAME}
+
+
 
     # 1. Find the version of the product that was imported.
 PRODUCTS=$(om \
