@@ -22,6 +22,8 @@ function retryop()
   fi
 }
 
+START_BASE_DEPLOY_TIME=$(date)
+echo starting deployment a ${START_BASE_DEPLOY_TIME}
 echo "Installing jq"
 retryop "apt-get update && apt-get install -y jq"
 
@@ -87,6 +89,7 @@ PCF_OPSMAN_USERNAME="${PCF_OPSMAN_USERNAME}"
 PCF_NOTIFICATIONS_EMAIL="${PCF_NOTIFICATIONS_EMAIL}"
 PAS_AUTOPILOT="${PAS_AUTOPILOT}"
 PCF_PAS_VERSION="${PCF_PAS_VERSION}"
+START_BASE_DEPLOY_TIME="${START_BASE_DEPLOY_TIME}"
 EOF
 )
 
@@ -193,6 +196,12 @@ chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
 sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
 sudo -S -u ubuntu terraform apply -auto-approve
+END_BASE_DEPLOY_TIME=$(DATE)
+$(cat <<-EOF >> ${HOME_DIR}/.env.sh
+END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
+EOF
+)
+
 sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     sudo -S -u ubuntu ${HOME_DIR}/create_certs.sh

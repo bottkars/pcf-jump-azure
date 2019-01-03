@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
 source ~/.env.sh
+START_PAS_DEPLOY_TIME=$(DATE)
+$(cat <<-EOF >> ${HOME_DIR}/.env.sh
+START_PAS_DEPLOY_TIME="${START_PAS_DEPLOY_TIME}"
+EOF
+)
+
 PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
-PCF_KEY_PEM=$(cat ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
-PCF_CERT_PEM=$(cat ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.cert | awk '{printf "%s\\r\\n", $0}')
+PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
+PCF_CERT_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.cert | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
 PRODUCT_NAME=cf
 PCF_PAS_NETWORK="pcf-pas-subnet"
@@ -131,3 +137,15 @@ om \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   apply-changes
+
+END_PAS_DEPLOY_TIME=$(DATE)
+$(cat <<-EOF >> ${HOME_DIR}/.env.sh
+END_PAS_DEPLOY_TIME="${END_PAS_DEPLOY_TIME}"
+EOF
+)
+echo Started BASE deployment at ${START_BASE_DEPLOY_TIME}
+echo Fimnished BASE deployment at ${END_BASE_DEPLOY_TIME}
+echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}
+echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
+echo Started PAS deployment at ${START_PAS_DEPLOY_TIME}
+echo Finished PAS Deployment at ${END_PAS_DEPLOY_TIME}
