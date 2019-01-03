@@ -47,7 +47,7 @@ curl \
   ${EULA_ACCEPTANCE_URL}
 
 # download product using om cli
-
+echo $(date) start downloading PAS
 om \
   --username ${PCF_OPSMAN_USERNAME} \
   --password ${PCF_PIVNET_UAA_TOKEN} \
@@ -62,11 +62,13 @@ om \
  --download-stemcell \
  --output-directory /mnt/downloads
 
+echo $(date) end downloading PAS 
+
 TARGET_FILENAME=$(cat /mnt/downloads/download-file.json | jq -r '.product_path')
 STEMCELL_FILENAME=$(cat /mnt/downloads/download-file.json | jq -r '.stemcell_path')
 
 # Import the tile to Ops Manager.
-
+echo $(date) start uploading PAS
 om \
   --username ${PCF_OPSMAN_USERNAME} \
   --password ${PCF_PIVNET_UAA_TOKEN} \
@@ -76,7 +78,7 @@ om \
   upload-product \
     --product ${TARGET_FILENAME}
 
-
+echo $(date) end uploading PAS
 
     # 1. Find the version of the product that was imported.
 PRODUCTS=$(om \
@@ -91,7 +93,7 @@ VERSION=$(echo ${PRODUCTS} |\
   jq --arg product_name ${PRODUCT_NAME} -r 'map(select(.name==$product_name)) | first | .version')
 
 # 2.  Stage using om cli
-
+echo $(date) start staging PAS 
 om \
   --username ${PCF_OPSMAN_USERNAME} \
   --password ${PCF_PIVNET_UAA_TOKEN} \
@@ -100,6 +102,7 @@ om \
   stage-product \
     --product-name ${PRODUCT_NAME} \
     --product-version ${VERSION}
+echo $(date) end staging PAS 
 
 cat << EOF > vars.yaml
 pcf_pas_network: ${PCF_PAS_NETWORK}
@@ -130,13 +133,14 @@ om \
   --skip-ssl-validation \
   upload-stemcell \
     --stemcell ${STEMCELL_FILENAME}
-
+echo $(date) start apply PAS
 om \
   --username ${PCF_OPSMAN_USERNAME} \
   --password ${PCF_PIVNET_UAA_TOKEN} \
   --target ${PCF_OPSMAN_FQDN} \
   --skip-ssl-validation \
   apply-changes
+echo $(date) end apply PAS
 
 END_PAS_DEPLOY_TIME=$(DATE)
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
