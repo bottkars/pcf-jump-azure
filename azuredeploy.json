@@ -178,7 +178,7 @@
         "publicIPAddressName": "myPublicIP",
         "publicIPAddressType": "Dynamic",
         "vmName": "pcfjumphost",
-        "vmSize": "Standard_A1",
+        "vmSize": "Standard_F2s_v2",
         "virtualNetworkName": "jumpVNET",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "baseUri": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
@@ -291,6 +291,7 @@
                         }
                     }
                 },
+                
                 "storageProfile": {
                     "imageReference": {
                         "publisher": "[variables('imagePublisher')]",
@@ -299,13 +300,19 @@
                         "version": "latest"
                     },
                     "osDisk": {
-                        "createOption": "FromImage"
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "StandardSSD_LRS"
+                        }
                     },
                     "dataDisks": [
                         {
                             "diskSizeGB": 1200,
                             "lun": 0,
-                            "createOption": "Empty"
+                            "createOption": "Empty",
+                            "managedDisk": {
+                                "storageAccountType": "StandardSSD_LRS"
+                            }
                         }
                     ]
                 },
