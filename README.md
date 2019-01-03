@@ -1,13 +1,14 @@
 # pcf-jump-azure
 
-pcf-jump-azure creates an ubuntu based jumpbox to deploy pivotal pas on azure  
+pcf-jump-azure creates an ubuntu based jumpbox to deploy Pivotal PAS (2.4 and above) on azure  
 
 it will pave the infrastructure using terraform.
+It will use [om cli](https://github.com/pivotal-cf/om) to download and deploy PAS
 PCF Operations Manager will be installed and configured.  
 
 Optionally, PAS will be deployed
 
-## usage 
+## usage  
 
 create an .env file using the .env.example  
 the .env vile requires the following variables to be set:
@@ -34,11 +35,12 @@ the .env vile requires the following variables to be set:
 **PAS_AUTOPILOT**=*TRUE or FALSE* Autoinstall PAS  
 **PCF_PAS_VERSION**=*default 2.4.0 or greater*  
 
+source the env file  
 ```bash
 source .env
 ```
 
-## create a ssh keypair for the admin user
+## create a ssh keypair for the admin user ( if not already done ) 
 
 ```bash
 ssh-keygen -t rsa -f ~/opsman -C ${ADMIN_USERNAME}
@@ -72,8 +74,18 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pasVersion=${PCF_PAS_VERSION}
 ```
 
+## debugging/ monitoring
+
+ssh into the Jumpbox  
+
 ```bash
  ssh -i ~/opsman ubuntu@${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com
+```
+
+tail the installation log  
+
+```bash
+tail -f ~/install.log
 ```
 
 ## cleanup
