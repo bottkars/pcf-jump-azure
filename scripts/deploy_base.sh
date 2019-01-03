@@ -195,7 +195,7 @@ chmod 755 terraform.tfvars
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
 sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
-retryop "sudo -S -u ubuntu terraform apply -auto-approve" 2 1
+retryop "sudo -S -u ubuntu terraform apply -auto-approve" 3 1
 END_BASE_DEPLOY_TIME=$(date)
 echo ${END_BASE_DEPLOY_TIME} end base deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
