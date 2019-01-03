@@ -8,8 +8,8 @@ iaas-configuration:
  client_id: ((client_id))
  client_secret: ((client_secret))
  resource_group_name: pcf
- bosh_storage_account_name: ((bosh_storage_account_name))
- default_security_group: ((default_security_group))
+ bosh_storage_account_name: pcfkbdirector
+ default_security_group: pcf-bosh-deployed-vms-security-group
  ssh_public_key: ((ssh_public_key))
  ssh_private_key: ((ssh_private_key))
 networks-configuration:
@@ -18,7 +18,7 @@ networks-configuration:
  - name: pcf-infrastructure-subnet
    subnets:
    - iaas_identifier: ((infrastructure-subnet))
-     cidr: 10.0.8.0/24
+     cidr: 10.0.8.0/26
      reserved_ip_ranges: 10.0.8.0-10.0.8.4
      dns: 168.63.129.16
      gateway: 10.0.8.1
