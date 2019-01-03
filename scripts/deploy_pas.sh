@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 source ~/.env.sh
+export OM_TARGET=${PCF_OPSMAN_FQDN}
+export OM_USERNAME=${PCF_OPSMAN_USERNAME}
+export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
 START_PAS_DEPLOY_TIME=$(DATE)
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 START_PAS_DEPLOY_TIME="${START_PAS_DEPLOY_TIME}"
@@ -48,11 +51,7 @@ curl \
 
 # download product using om cli
 echo $(date) start downloading PAS
-om \
-  --username ${PCF_OPSMAN_USERNAME} \
-  --password ${PCF_PIVNET_UAA_TOKEN} \
-  --target ${PCF_OPSMAN_FQDN} \
-  --skip-ssl-validation \
+om --skip-ssl-validation \
   download-product \
  --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "cf*.pivotal" \
@@ -69,23 +68,15 @@ STEMCELL_FILENAME=$(cat /mnt/downloads/download-file.json | jq -r '.stemcell_pat
 
 # Import the tile to Ops Manager.
 echo $(date) start uploading PAS
-om \
-  --username ${PCF_OPSMAN_USERNAME} \
-  --password ${PCF_PIVNET_UAA_TOKEN} \
-  --target ${PCF_OPSMAN_FQDN} \
-  --skip-ssl-validation \
+om --skip-ssl-validation \
   --request-timeout 3600 \
   upload-product \
-    --product ${TARGET_FILENAME}
+  --product ${TARGET_FILENAME}
 
 echo $(date) end uploading PAS
 
     # 1. Find the version of the product that was imported.
-PRODUCTS=$(om \
-  --username ${PCF_OPSMAN_USERNAME} \
-  --password ${PCF_PIVNET_UAA_TOKEN} \
-  --target ${PCF_OPSMAN_FQDN} \
-  --skip-ssl-validation \
+PRODUCTS=$(om --skip-ssl-validation \
   available-products \
     --format json)
 
@@ -94,14 +85,10 @@ VERSION=$(echo ${PRODUCTS} |\
 
 # 2.  Stage using om cli
 echo $(date) start staging PAS 
-om \
-  --username ${PCF_OPSMAN_USERNAME} \
-  --password ${PCF_PIVNET_UAA_TOKEN} \
-  --target ${PCF_OPSMAN_FQDN} \
-  --skip-ssl-validation \
+om --skip-ssl-validation \
   stage-product \
-    --product-name ${PRODUCT_NAME} \
-    --product-version ${VERSION}
+  --product-name ${PRODUCT_NAME} \
+  --product-version ${VERSION}
 echo $(date) end staging PAS 
 
 cat << EOF > vars.yaml
@@ -117,28 +104,16 @@ pcf_mysql_lb: ${PCF_MYSQL_LB}
 pcf_web_lb: ${PCF_WEB_LB}
 EOF
 
-om \
-  --username ${PCF_OPSMAN_USERNAME} \
-  --password ${PCF_PIVNET_UAA_TOKEN} \
-  --target ${PCF_OPSMAN_FQDN} \
-  --skip-ssl-validation \
+om --skip-ssl-validation \
   configure-product \
-    -c pas.yaml -l vars.yaml
+  -c pas.yaml -l vars.yaml
 ###
 
-om \
-  --username ${PCF_OPSMAN_USERNAME} \
-  --password ${PCF_PIVNET_UAA_TOKEN} \
-  --target ${PCF_OPSMAN_FQDN} \
-  --skip-ssl-validation \
+om --skip-ssl-validation \
   upload-stemcell \
-    --stemcell ${STEMCELL_FILENAME}
+  --stemcell ${STEMCELL_FILENAME}
 echo $(date) start apply PAS
-om \
-  --username ${PCF_OPSMAN_USERNAME} \
-  --password ${PCF_PIVNET_UAA_TOKEN} \
-  --target ${PCF_OPSMAN_FQDN} \
-  --skip-ssl-validation \
+om --skip-ssl-validation \
   apply-changes
 echo $(date) end apply PAS
 
