@@ -2,8 +2,8 @@
 function retryop()
 {
   retry=0
-  max_retries=10
-  interval=30
+  max_retries=$2
+  interval=$3
   while [ ${retry} -lt ${max_retries} ]; do
     echo "Operation: $1, Retry #${retry}"
     eval $1
@@ -25,7 +25,7 @@ function retryop()
 START_BASE_DEPLOY_TIME=$(date)
 echo ${START_BASE_DEPLOY_TIME} starting base deployment
 echo "Installing jq"
-retryop "apt-get update && apt-get install -y jq"
+retryop "apt-get update && apt-get install -y jq" 10 30
 
 function get_setting() {
   key=$1
@@ -195,7 +195,7 @@ chmod 755 terraform.tfvars
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
 sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
-sudo -S -u ubuntu terraform apply -auto-approve
+retryop "sudo -S -u ubuntu terraform apply -auto-approve" 2 1
 END_BASE_DEPLOY_TIME=$(date)
 echo ${END_BASE_DEPLOY_TIME} end base deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
