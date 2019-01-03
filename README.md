@@ -10,12 +10,11 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 ## usage  
 
 create an .env file using the .env.example  
-the .env vile requires the following variables to be set:
-|Setting|Description|
-|---|---|
-|**IAAS**=*azure*| the environment, azure|  
-**JUMPBOX_RG**=*the name of the ressource group for the JumpBox*  
-**JUMPBOX_NAME**=*the JumpBox hostname*   
+the .env vile requires the following variables to be set:  
+
+**IAAS**=*azure* the environment, azure
+**JUMPBOX_RG**=*JUMPBOX* ,the name of the ressource group for the JumpBox  
+**JUMPBOX_NAME**=*pasjumpbox* ,the JumpBox hostname  
 **ADMIN_USERNAME**=*ubuntu*  
 **AZURE_CLIENT_ID**=*fake your azure client id*  
 **AZURE_CLIENT_SECRET**=*fake your azure client secret*  
@@ -23,17 +22,17 @@ the .env vile requires the following variables to be set:
 **AZURE_SUBSCRIPTION_ID**=*fake your azure subscription id*  
 **AZURE_TENANT_ID**=*fake your azure tenant*  
 **PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
-**ENV_NAME**=*this name will be prefix for azure resources and you opsman hostname*  
-**ENV_SHORT_NAME**=*will be used as prefix for storage accounts and other azure resources*  
-**OPS_MANAGER_IMAGE_URI**=*default "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"*  
+**ENV_NAME**=*pcf* this name will be prefix for azure resources and you opsman hostname  
+**ENV_SHORT_NAME**=*pcfkb* will be used as prefix for storage accounts and other azure resources  
+**OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"* a 2.4 opsman image   
 **PCF_DOMAIN_NAME**=*yourdomain.com*  
 **PCF_SUBDOMAIN_NAME**=*yourpcf*  
-**PRODUCT_SLUG**=*default: elastic-runtime*  
-**RELEASE_ID**=*default: 259105*  
+**PRODUCT_SLUG**=*elastic-runtime*  
+**RELEASE_ID**=*259105*  
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
 **PCF_OPSMAN_USERNAME**=*opsman*  
-**PAS_AUTOPILOT**=*TRUE or FALSE* Autoinstall PAS when set to true
-**PCF_PAS_VERSION**=*default 2.4.0 or greater* | the version of PAS 
+**PAS_AUTOPILOT**=*FALSE* Autoinstall PAS when set to true
+**PCF_PAS_VERSION**=*2.4.1* the version of PAS, must be 2.4.0 or greater
 
 source the env file  
 ```bash

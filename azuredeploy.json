@@ -4,6 +4,7 @@
     "parameters": {
         "adminUsername": {
             "type": "string",
+            "defaultValue": "ubuntu",
             "metadata": {
                 "description": "User name for the Virtual Machine."
             }
@@ -70,6 +71,7 @@
         },
         "env_name": {
             "type": "string",
+            "defaultValue": "pcf",
             "metadata": {
                 "description": "environment name for azure ( will be ops host name )"
             }
@@ -77,6 +79,7 @@
         "env_short_name": {
             "type": "string",
             "minLength": "3",
+            "defaultValue": "pcfkb",
             "metadata": {
                 "description": "will be prefix for pcf terraform resources"
             }
@@ -113,6 +116,7 @@
         "opsmanUsername": {
             "type": "string",
             "minLength": "5",
+            "defaultValue": "opsman",
             "metadata": {
                 "description": "subdomain for pcf"
             }
@@ -301,6 +305,7 @@
                     },
                     "osDisk": {
                         "createOption": "FromImage",
+                        "caching": "ReadWrite",
                         "managedDisk": {
                             "storageAccountType": "StandardSSD_LRS"
                         }
@@ -310,6 +315,7 @@
                             "diskSizeGB": 1200,
                             "lun": 0,
                             "createOption": "Empty",
+                            "caching": "ReadWrite",
                             "managedDisk": {
                                 "storageAccountType": "StandardSSD_LRS"
                             }
