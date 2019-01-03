@@ -1,4 +1,26 @@
 #!/usr/bin/env bash
+function retryop()
+{
+  retry=0
+  max_retries=$2
+  interval=$3
+  while [ ${retry} -lt ${max_retries} ]; do
+    echo "Operation: $1, Retry #${retry}"
+    eval $1
+    if [ $? -eq 0 ]; then
+      echo "Successful"
+      break
+    else
+      let retry=retry+1
+      echo "Sleep $interval seconds, then retry..."
+      sleep $interval
+    fi
+  done
+  if [ ${retry} -eq ${max_retries} ]; then
+    echo "Operation failed: $1"
+    exit 1
+  fi
+}
 source ~/.env.sh 
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
@@ -51,12 +73,8 @@ EOF
 om --skip-ssl-validation \
  configure-director --config ${HOME_DIR}/director_config.yaml --vars-file ${HOME_DIR}/director_vars.yaml
 
-until om --skip-ssl-validation \
- apply-changes;
-do
-  echo retrying
-  sleep 1
-done
+retryop "om --skip-ssl-validation apply-changes" 2 10
+
 
 echo checking deployed products
 om --skip-ssl-validation \
