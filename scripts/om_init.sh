@@ -25,6 +25,7 @@ om --skip-ssl-validation \
 configure-authentication \
 --decryption-passphrase ${PCF_PIVNET_UAA_TOKEN}
 
+echo checking deployed products
 om --skip-ssl-validation \
 deployed-products
 
@@ -57,6 +58,7 @@ do
   sleep 1
 done
 
+echo checking deployed products
 om --skip-ssl-validation \
  deployed-products
 
