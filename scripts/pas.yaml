@@ -45,14 +45,14 @@ resource-config:
     instances: 3
   diego_brain:
     elb_names:
-    - ((pcf-diego-ssh-lb))
+    - ((pcf_diego_ssh_lb))
   mysql_proxy:
     instances: 3
   mysql_proxy:
     elb_names:
-    - ((pcf-mysql-lb))
+    - ((pcf_mysql_lb))
   router:
     instances: 3
   router:
     elb_names:
-    - ((pcf-web-lb))
+    - ((pcf_web_lb))
