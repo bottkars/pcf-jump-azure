@@ -2,9 +2,9 @@
 
 pcf-jump-azure creates an ubuntu based jumpbox to deploy Pivotal PAS (2.4 and above) on azure  
 
-It will pave the infrastructure using terraform.  
+It will pave the infrastructure using Pivotal [terraforming-azure](https://github.com/pivotal-cf/terraforming-azure).  
 
-PCF Operations Manager will be installed and configured using  [om cli](https://github.com/pivotal-cf/om).  
+PCF Operations Manager will be installed and configured using Pivotal [om cli](https://github.com/pivotal-cf/om).  
 Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om).  
 
 ## usage  
