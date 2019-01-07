@@ -53,6 +53,7 @@ deployed-products
 
 SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"
 SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
+BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME="$(terraform output bosh_deployed_vms_security_group_name)"
 cd ${HOME_DIR}
 cat << EOF > director_vars.yaml
 subscription_id: ${AZURE_SUBSCRIPTION_ID}
@@ -68,6 +69,7 @@ ntp_servers_string: 'time.windows.com'
 infrastructure-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-infrastructure-subnet"
 pas-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-pas-subnet"
 services-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-services-subnet"
+bosh_deployed_vms_security_group_name: ${BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME}
 EOF
 
 om --skip-ssl-validation \
