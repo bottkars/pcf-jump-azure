@@ -36,7 +36,8 @@ pushd ${HOME_DIR}
 
 cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
-echo "checking opsman api ready"
+echo "checking opsman api ready using the new fqdn, 
+if the . keeps showing, check your dns delegation to ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME} is correct"
 until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_OPSMAN_FQDN}/api/v0/info"); do
     printf '.'
     sleep 5
