@@ -7,8 +7,8 @@ iaas-configuration:
  tenant_id: ((tenant_id))
  client_id: ((client_id))
  client_secret: ((client_secret))
- resource_group_name: pcf
- bosh_storage_account_name: pcfkbdirector
+ resource_group_name: ((resource_group_name))
+ bosh_storage_account_name: ((bosh_storage_account_name))
  default_security_group: pcf-bosh-deployed-vms-security-group
  ssh_public_key: ((ssh_public_key))
  ssh_private_key: ((ssh_private_key))
