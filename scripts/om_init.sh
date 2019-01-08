@@ -48,6 +48,9 @@ until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_
     sleep 5
 done
 echo "done"
+export OM_TARGET=${PCF_OPSMAN_FQDN}
+export OM_USERNAME=${PCF_OPSMAN_USERNAME}
+export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
 
 om --skip-ssl-validation \
 configure-authentication \
@@ -75,9 +78,7 @@ services-subnet: "${ENV_NAME}-virtual-network/${ENV_NAME}-services-subnet"
 bosh_deployed_vms_security_group_name: ${BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME}
 EOF
 
-export OM_TARGET=${PCF_OPSMAN_FQDN}
-export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
+
 
 
 om --skip-ssl-validation \
