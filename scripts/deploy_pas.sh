@@ -34,6 +34,7 @@ PIVNET_ACCESS_TOKEN=$(curl \
 
 # release by slug
 RELEASE_JSON=$(curl \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   --fail \
   "https://network.pivotal.io/api/v2/products/${PRODUCT_SLUG}/releases/${RELEASE_ID}")
 # eula acceptance link
@@ -91,7 +92,7 @@ om --skip-ssl-validation \
 echo $(date) end staging PAS 
 
 cat << EOF > vars.yaml
-pcf_pas_network: ${ENV_NAME}-pas-subnet
+pcf_pas_network: pcf-pas-subnet
 pcf_system_domain: ${PCF_SYSTEM_DOMAIN}
 pcf_apps_domain: ${PCF_APPS_DOMAIN}
 pcf_notifications_email: ${PCF_NOTIFICATIONS_EMAIL}
