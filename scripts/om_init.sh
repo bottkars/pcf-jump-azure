@@ -36,8 +36,12 @@ pushd ${HOME_DIR}
 
 cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
+AZURE_NAMESERVERS=$(terraform output env_dns_zone_name_servers)
+SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"
+SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
+BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME="$(terraform output bosh_deployed_vms_security_group_name)"
 echo "checking opsman api ready using the new fqdn, 
-if the . keeps showing, check your dns delegation to ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME} is correct"
+if the . keeps showing, check if ns record for ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME} has ${AZURE_NAMESERVERS}"
 until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_OPSMAN_FQDN}/api/v0/info"); do
     printf '.'
     sleep 5
@@ -52,9 +56,6 @@ echo checking deployed products
 om --skip-ssl-validation \
 deployed-products
 
-SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"
-SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
-BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME="$(terraform output bosh_deployed_vms_security_group_name)"
 cd ${HOME_DIR}
 cat << EOF > director_vars.yaml
 subscription_id: ${AZURE_SUBSCRIPTION_ID}
