@@ -30,7 +30,8 @@ the .env vile requires the following variables to be set:
 **PRODUCT_SLUG**=*elastic-runtime*  
 **RELEASE_ID**=*259105*  
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
-**PCF_OPSMAN_USERNAME**=*opsman*  
+**PCF_OPSMAN_USERNAME**=*opsman*
+**NET_16_BIT_MASK**=*10.10* 16 bit network mask, defaul 10.10
 **PAS_AUTOPILOT**=*FALSE* Autoinstall PAS when set to true  
 **PCF_PAS_VERSION**=*2.4.1* the version of PAS, must be 2.4.0 or greater
 
@@ -69,6 +70,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     product_slug=${PRODUCT_SLUG} \
     release_id=${RELEASE_ID} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
+    net_16_bit_mask=${NET_16_BIT_MASK} \
     pasAutopilot=${PAS_AUTOPILOT} \
     pasVersion=${PCF_PAS_VERSION}
 ```

@@ -89,6 +89,7 @@ PCF_OPSMAN_USERNAME="${PCF_OPSMAN_USERNAME}"
 PCF_NOTIFICATIONS_EMAIL="${PCF_NOTIFICATIONS_EMAIL}"
 PAS_AUTOPILOT="${PAS_AUTOPILOT}"
 PCF_PAS_VERSION="${PCF_PAS_VERSION}"
+NET_16_BIT_MASK="${NET_16_BIT_MASK}"
 START_BASE_DEPLOY_TIME="${START_BASE_DEPLOY_TIME}"
 EOF
 )
@@ -188,6 +189,11 @@ ops_manager_image_uri = "${OPS_MANAGER_IMAGE_URI}"
 location              = "${LOCATION}"
 dns_suffix            = "${PCF_DOMAIN_NAME}"
 dns_subdomain         = "${PCF_SUBDOMAIN_NAME}"
+ops_manager_private_ip = "${NET_16_BIT_MASK}.8.4"
+pcf_infrastructure_subnet = "${NET_16_BIT_MASK}.8.0/26"
+pcf_pas_subnet = "${NET_16_BIT_MASK}.0.0/22"
+pcf_services_subnet = "${NET_16_BIT_MASK}.4.0/22"
+pcf_virtual_network_address_space = ["${NET_16_BIT_MASK}.0.0/16"]
 EOF
 
 

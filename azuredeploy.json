@@ -106,6 +106,15 @@
                 "description": "subdomain for pcf"
             }
         },
+        "net_16_bit_mask": {
+            "type": "string",
+            "minLength": "3",
+            "defaultValue": "10.10",
+            "metadata": {
+                "description": "first 16 bit of ip range in format xxx.xxx"
+            }
+        },        
+
         "notificationsEmail": {
             "type": "string",
             "minLength": "5",
@@ -374,6 +383,7 @@
                             "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
                             "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",
                             "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
+                            "NET_16_BIT_MASK": "[parameters('net_16_bit_mask')]",
                             "PAS_AUTOPILOT": "[parameters('pasAutopilot')]",
                             "PCF_PAS_VERSION": "[parameters('pasVersion')]"
                         }
