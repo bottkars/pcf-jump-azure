@@ -41,7 +41,9 @@ SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .valu
 SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
 BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME="$(terraform output bosh_deployed_vms_security_group_name)"
 echo "checking opsman api ready using the new fqdn, 
-if the . keeps showing, check if ns record for ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME} has ${AZURE_NAMESERVERS}"
+if the . keeps showing, check if ns record for ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME} has 
+${AZURE_NAMESERVERS}
+as server entries"
 until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_OPSMAN_FQDN}/api/v0/info"); do
     printf '.'
     sleep 5
