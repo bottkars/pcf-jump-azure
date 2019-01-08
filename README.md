@@ -10,7 +10,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 ## usage  
 
 create an .env file using the .env.example  
-the .env vile requires the following variables to be set:  
+the .env file requires the following variables to be set:  
 
 **IAAS**=*azure* the environment, azure
 **JUMPBOX_RG**=*JUMPBOX* ,the name of the ressource group for the JumpBox  
