@@ -102,6 +102,12 @@ pcf_credhub_key: "${PCF_CREDHUB_KEY}"
 pcf_diego_ssh_lb: ${PCF_DIEGO_SSH_LB}
 pcf_mysql_lb: ${PCF_MYSQL_LB}
 pcf_web_lb: ${PCF_WEB_LB}
+smtp_address: "${SMTP_ADDRESS}"
+smtp_identity: "${SMTP_IDENTITY}"
+smtp_password: ${SMTP_PASSWORD}"
+smtp_from: "${SMTP_FROM}"
+smtp_port: "${SMTP_PORT}"
+smtp_enable_starttls_auto: "${SMTP_STARTTLS}"
 EOF
 
 om --skip-ssl-validation \

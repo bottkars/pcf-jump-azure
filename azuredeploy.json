@@ -114,7 +114,6 @@
                 "description": "first 16 bit of ip range in format xxx.xxx"
             }
         },        
-
         "notificationsEmail": {
             "type": "string",
             "minLength": "5",
@@ -122,6 +121,49 @@
                 "description": "subdomain for pcf"
             }
         },
+        "smtpAddress": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "SMTP Server address, e.g. smtp.sendgrid.net"
+            }
+        },
+        "smtpIdentity": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "SMTP Username, e.g. apiuser for sendgrid"
+            }
+        },         
+        "smtpPassword": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "SMTP Password, e.g. apikey for sendgrid"
+            }
+        },
+        "smtpFrom": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "SMTP sender address"
+            }
+        },
+        "smtpPort": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "SMTP port, e.g. 587"
+            }
+        },
+        "smtpStarttls": {
+            "type": "string",
+            "defaultValue": "false",
+            "allowedValues": ["true","false"],
+            "metadata": {
+                "description": "Default false, true for sendgrid"
+            }
+        },                                  
         "opsmanUsername": {
             "type": "string",
             "minLength": "5",
@@ -386,7 +428,13 @@
                             "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
                             "NET_16_BIT_MASK": "[parameters('net_16_bit_mask')]",
                             "PAS_AUTOPILOT": "[parameters('pasAutopilot')]",
-                            "PCF_PAS_VERSION": "[parameters('pasVersion')]"
+                            "PCF_PAS_VERSION": "[parameters('pasVersion')]",
+                            "SMTP_ADDRESS": "[parameters('smtpAddress')]",
+                            "SMTP_IDENTITY": "[parameters('smtpIdentity')]",
+                            "SMTP_PASSWORD": "[parameters('smtpPassword')]",
+                            "SMTP_FROM": "[parameters('smtpFrom')]",
+                            "SMTP_PORT": "[parameters('smtpPort')]",
+                            "SMTP_STARTTLS": "[parameters('smtpStarttls')]"
                         }
                     }
                 }

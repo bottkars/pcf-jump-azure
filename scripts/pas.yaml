@@ -40,6 +40,18 @@ product-properties:
       key:
         secret: ((pcf_credhub_key))
       primary: true
+  .properties.smtp_address:
+    value: ((smtp_address))
+  .properties.smtp_credentials:
+    value:
+      identity: ((smtp_identity))
+      password: ((smtp_password))
+  .properties.smtp_enable_starttls_auto:
+    value: ((smtp_enable_starttls_auto))
+  .properties.smtp_from:
+    value: ((smtp_from))
+  .properties.smtp_port:
+    value: ((smtp_port))      
 resource-config:
   diego_cell:
     instances: 3
