@@ -104,7 +104,7 @@ pcf_mysql_lb: ${PCF_MYSQL_LB}
 pcf_web_lb: ${PCF_WEB_LB}
 smtp_address: "${SMTP_ADDRESS}"
 smtp_identity: "${SMTP_IDENTITY}"
-smtp_password: ${SMTP_PASSWORD}"
+smtp_password: "${SMTP_PASSWORD}"
 smtp_from: "${SMTP_FROM}"
 smtp_port: "${SMTP_PORT}"
 smtp_enable_starttls_auto: "${SMTP_STARTTLS}"
