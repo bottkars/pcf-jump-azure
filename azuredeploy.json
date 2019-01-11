@@ -55,13 +55,6 @@
                 "description": "pivnet refresh token"
             }
         },
-        "product_slug": {
-            "type": "string",
-            "defaultValue": "elastic-runtime",
-            "metadata": {
-                "description": "product slug from pivnet, eg elastic-runtime"
-            }
-        },
         "release_id": {
             "type": "string",
             "defaultValue": "259105",
@@ -422,7 +415,6 @@
                             "LOCATION": "[parameters('location')]",
                             "PCF_DOMAIN_NAME": "[parameters('pcf_domain_name')]",
                             "PCF_SUBDOMAIN_NAME": "[parameters('pcf_subdomain_name')]",
-                            "PRODUCT_SLUG": "[parameters('product_slug')]",
                             "RELEASE_ID": "[parameters('release_id')]",
                             "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
                             "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",

@@ -31,7 +31,6 @@ note: theer is no upfront validation for e.g. email settings
 **ENV_SHORT_NAME**=*pcfkb* will be used as prefix for storage accounts and other azure resources  
 **OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"* a 2.4 opsman image   
  
-**PRODUCT_SLUG**=*elastic-runtime*  
 **RELEASE_ID**=*259105*  
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
 **PCF_OPSMAN_USERNAME**=*opsman*  
@@ -94,7 +93,6 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pcf_domain_name=${PCF_DOMAIN_NAME} \
     pcf_subdomain_name=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
-    product_slug=${PRODUCT_SLUG} \
     release_id=${RELEASE_ID} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
     net_16_bit_mask=${NET_16_BIT_MASK} \
