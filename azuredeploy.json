@@ -72,7 +72,6 @@
         "env_short_name": {
             "type": "string",
             "minLength": "3",
-            "defaultValue": "pcfkb",
             "metadata": {
                 "description": "will be prefix for pcf terraform resources"
             }

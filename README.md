@@ -23,12 +23,13 @@ the .env file requires at the following variables to be set:
 **PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
 **PCF_DOMAIN_NAME**=*yourdomain.com*  
 **PCF_SUBDOMAIN_NAME**=*yourpcf*  
+**ENV_SHORT_NAME**=*yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below    
+
 
 ## optional settings 
 you can use the additional settings to customize your deployment.  
 note: theer is no upfront validation for e.g. email settings
 **ENV_NAME**=*pcf* this name will be prefix for azure resources and you opsman hostname  
-**ENV_SHORT_NAME**=*pcfkb* will be used as prefix for storage accounts and other azure resources  
 **OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"* a 2.4 opsman image   
  
 **RELEASE_ID**=*259105*  
@@ -54,6 +55,13 @@ source .env
 ```bash
 ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 ```
+
+## check availability of storage account  
+
+```bash
+az storage account check-name --name ${ENV_SHORT_NAME}director
+```
+
 ## start the deployment with minimum param set
 
 ```bash
@@ -70,6 +78,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     env_name=${ENV_NAME} \
+    env_short_name=${ENV_SHORT_NAME} \
     ops_manager_image_uri=${OPS_MANAGER_IMAGE_URI} \
     pcf_domain_name=${PCF_DOMAIN_NAME} \
     pcf_subdomain_name=${PCF_SUBDOMAIN_NAME}
@@ -106,6 +115,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
 ```
 
 ## debugging/ monitoring
+
+it is recommended to check the deployment logs. the azure rm command might timeout as the pas deployment takes time. that will not have an impact on the deployment.  
 watching the JUMPHost resource group creation  
 
 ```bash
