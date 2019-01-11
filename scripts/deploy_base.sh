@@ -103,7 +103,7 @@ chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/.env.sh
 
 cp * ${HOME_DIR}
 
-sudo apt-get install apt-transport-https lsb-release software-properties-common -y
+sudo apt-get install apt-transport-https lsb-release software-properties-common ruby ruby-dev gcc libffi-dev make build-essential -y
 AZ_REPO=$(lsb_release -cs)
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
     sudo tee /etc/apt/sources.list.d/azure-cli.list
@@ -132,6 +132,7 @@ wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-r
   tar xvC /tmp/ -f /tmp/bbr.tar && \
   sudo mv /tmp/releases/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
+gem install cf-uaac
 
 cd ${HOME_DIR}
 
@@ -206,6 +207,11 @@ chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
 sudo -S -u ubuntu terraform init
 sudo -S -u ubuntu terraform plan -out=plan
 retryop "sudo -S -u ubuntu terraform apply -auto-approve" 3 1
+
+terraform output ops_manager_ssh_private_key > ~/.ssh/opsman
+chmod 600 ~/opsman
+
+
 END_BASE_DEPLOY_TIME=$(date)
 echo ${END_BASE_DEPLOY_TIME} end base deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
