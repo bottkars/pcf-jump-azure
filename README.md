@@ -34,17 +34,16 @@ note: theer is no upfront validation for e.g. email settings
 **PRODUCT_SLUG**=*elastic-runtime*  
 **RELEASE_ID**=*259105*  
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
-**PCF_OPSMAN_USERNAME**=*opsman*
-**NET_16_BIT_MASK**=*10.10* 16 bit network mask, defaul 10.10
+**PCF_OPSMAN_USERNAME**=*opsman*  
+**NET_16_BIT_MASK**=*10.10* 16 bit network mask, defaul 10.10  
 **PAS_AUTOPILOT**=*FALSE* Autoinstall PAS when set to true  
-**PCF_PAS_VERSION**=*2.4.1* the version of PAS, must be 2.4.0 or greater
-**SMTP_ADDRESS**="mysmtp.example.com"
-**SMTP_IDENTITY**="mysmtpuser"
-**SMTP_PASSWORD**="mysmtppass"
-**SMTP_FROM**="from@example"
-**SMTP_PORT**="587"
-**SMTP_STARTTLS**="true"
-
+**PCF_PAS_VERSION**=*2.4.1* the version of PAS, must be 2.4.0 or greater  
+**SMTP_ADDRESS**="mysmtp.example.com"  
+**SMTP_IDENTITY**="mysmtpuser"  
+**SMTP_PASSWORD**="mysmtppass"  
+**SMTP_FROM**="from@example"  
+**SMTP_PORT**="587"  
+**SMTP_STARTTLS**="true"  
 
 source the env file  
 ```bash
