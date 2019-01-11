@@ -22,7 +22,7 @@ the .env file requires at the following variables to be set:
 **AZURE_TENANT_ID**=*fake your azure tenant*  
 **PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
 **PCF_DOMAIN_NAME**=*yourdomain.com*  
-**PCF_SUBDOMAIN_NAME**=*yourpcf* 
+**PCF_SUBDOMAIN_NAME**=*yourpcf*  
 
 ## optional settings 
 you can use the additional settings to customize your deployment.  
