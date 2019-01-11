@@ -10,9 +10,8 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 ## usage  
 
 create an .env file using the .env.example  
-the .env file requires the following variables to be set:  
+the .env file requires at the following variables to be set:  
 
-**IAAS**=*azure* the environment, azure
 **JUMPBOX_RG**=*JUMPBOX* ,the name of the ressource group for the JumpBox  
 **JUMPBOX_NAME**=*pasjumpbox* ,the JumpBox hostname  
 **ADMIN_USERNAME**=*ubuntu*  
@@ -22,11 +21,16 @@ the .env file requires the following variables to be set:
 **AZURE_SUBSCRIPTION_ID**=*fake your azure subscription id*  
 **AZURE_TENANT_ID**=*fake your azure tenant*  
 **PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
+**PCF_DOMAIN_NAME**=*yourdomain.com*  
+**PCF_SUBDOMAIN_NAME**=*yourpcf* 
+
+## optional settings 
+you can use the additional settings to customize your deployment.  
+note: theer is no upfront validation for e.g. email settings
 **ENV_NAME**=*pcf* this name will be prefix for azure resources and you opsman hostname  
 **ENV_SHORT_NAME**=*pcfkb* will be used as prefix for storage accounts and other azure resources  
 **OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"* a 2.4 opsman image   
-**PCF_DOMAIN_NAME**=*yourdomain.com*  
-**PCF_SUBDOMAIN_NAME**=*yourpcf*  
+ 
 **PRODUCT_SLUG**=*elastic-runtime*  
 **RELEASE_ID**=*259105*  
 **PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
@@ -34,6 +38,13 @@ the .env file requires the following variables to be set:
 **NET_16_BIT_MASK**=*10.10* 16 bit network mask, defaul 10.10
 **PAS_AUTOPILOT**=*FALSE* Autoinstall PAS when set to true  
 **PCF_PAS_VERSION**=*2.4.1* the version of PAS, must be 2.4.0 or greater
+**SMTP_ADDRESS**="mysmtp.example.com"
+**SMTP_IDENTITY**="mysmtpuser"
+**SMTP_PASSWORD**="mysmtppass"
+**SMTP_FROM**="from@example"
+**SMTP_PORT**="587"
+**SMTP_STARTTLS**="true"
+
 
 source the env file  
 ```bash
@@ -45,8 +56,7 @@ source .env
 ```bash
 ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 ```
-
-## start the deployment
+## start the deployment with minimum param set
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
@@ -65,6 +75,24 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     env_short_name=${ENV_SHORT_NAME} \
     ops_manager_image_uri=${OPS_MANAGER_IMAGE_URI} \
     pcf_domain_name=${PCF_DOMAIN_NAME} \
+    pcf_subdomain_name=${PCF_SUBDOMAIN_NAME}
+```
+
+## start the deployment with full param set
+
+```bash
+az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
+az group deployment create --resource-group ${JUMPBOX_RG} \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --parameters \
+    sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
+    dnsLabelPrefix=${JUMPBOX_NAME} \
+    clientSecret=${AZURE_CLIENT_SECRET} \
+    clientID=${AZURE_CLIENT_ID} \
+    tenantID=${AZURE_TENANT_ID} \
+    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
+    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
+    pcf_domain_name=${PCF_DOMAIN_NAME} \
     pcf_subdomain_name=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
     product_slug=${PRODUCT_SLUG} \
@@ -72,7 +100,13 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
     net_16_bit_mask=${NET_16_BIT_MASK} \
     pasAutopilot=${PAS_AUTOPILOT} \
-    pasVersion=${PCF_PAS_VERSION}
+    pasVersion=${PCF_PAS_VERSION} \
+    smtpAddress=${SMTP_ADDRESS} \
+    smtpIdentity=${SMTP_IDENTITY} \
+    smtpPassword=${SMTP_PASSWORD} \
+    smtpFrom=${SMTP_FROM} \
+    smtpPort=${SMTP_PORT} \
+    smtpStarttls=${SMTP_STARTTLS}
 ```
 
 ## debugging/ monitoring

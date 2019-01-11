@@ -117,6 +117,7 @@
         "notificationsEmail": {
             "type": "string",
             "minLength": "5",
+            "defaultValue": "user@example.com",
             "metadata": {
                 "description": "subdomain for pcf"
             }
@@ -174,7 +175,7 @@
         },
         "pasAutopilot": {
             "type": "string",
-            "defaultValue": "FALSE",
+            "defaultValue": "TRUE",
             "allowedValues": [
                 "FALSE",
                 "TRUE"
