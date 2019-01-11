@@ -70,7 +70,6 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     env_name=${ENV_NAME} \
-    env_short_name=${ENV_SHORT_NAME} \
     ops_manager_image_uri=${OPS_MANAGER_IMAGE_URI} \
     pcf_domain_name=${PCF_DOMAIN_NAME} \
     pcf_subdomain_name=${PCF_SUBDOMAIN_NAME}
