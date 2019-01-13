@@ -9,7 +9,7 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 START_PAS_DEPLOY_TIME="${START_PAS_DEPLOY_TIME}"
 EOF
 )
-
+PRODUCT_SLUG=elastic-runtime
 PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.cert | awk '{printf "%s\\r\\n", $0}')
@@ -23,7 +23,6 @@ PCF_MYSQL_LB="${ENV_NAME}-mysql-lb"
 
 cd ${HOME_DIR}
 #Authenticate pivnet 
-mkdir /mnt/downloads
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -42,6 +41,8 @@ EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
 
 
+DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/$PRODUCT_SLUG/${PCF_PAS_VERSION}
+mkdir -p ${DOWNLOAD_DIR_FULL}
 # eula acceptance
 curl \
   --fail \
@@ -50,30 +51,30 @@ curl \
   ${EULA_ACCEPTANCE_URL}
 
 # download product using om cli
-echo $(date) start downloading PAS
+echo $(date) start downloading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
   download-product \
  --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "cf*.pivotal" \
- --pivnet-product-slug elastic-runtime \
+ --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_PAS_VERSION} \
  --stemcell-iaas azure \
  --download-stemcell \
- --output-directory /mnt/downloads
+ --output-directory ${DOWNLOAD_DIR_FULL}
 
-echo $(date) end downloading PAS 
+echo $(date) end downloading ${PRODUCT_SLUG} 
 
-TARGET_FILENAME=$(cat /mnt/downloads/download-file.json | jq -r '.product_path')
-STEMCELL_FILENAME=$(cat /mnt/downloads/download-file.json | jq -r '.stemcell_path')
+TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
+STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
 
 # Import the tile to Ops Manager.
-echo $(date) start uploading PAS
+echo $(date) start uploading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
   --request-timeout 3600 \
   upload-product \
   --product ${TARGET_FILENAME}
 
-echo $(date) end uploading PAS
+echo $(date) end uploading ${PRODUCT_SLUG}
 
     # 1. Find the version of the product that was imported.
 PRODUCTS=$(om --skip-ssl-validation \
@@ -84,12 +85,12 @@ VERSION=$(echo ${PRODUCTS} |\
   jq --arg product_name ${PRODUCT_NAME} -r 'map(select(.name==$product_name)) | first | .version')
 
 # 2.  Stage using om cli
-echo $(date) start staging PAS 
+echo $(date) start staging ${PRODUCT_SLUG} 
 om --skip-ssl-validation \
   stage-product \
   --product-name ${PRODUCT_NAME} \
   --product-version ${VERSION}
-echo $(date) end staging PAS 
+echo $(date) end staging ${PRODUCT_SLUG} 
 
 cat << EOF > vars.yaml
 pcf_pas_network: pcf-pas-subnet
@@ -118,10 +119,12 @@ om --skip-ssl-validation \
 om --skip-ssl-validation \
   upload-stemcell \
   --stemcell ${STEMCELL_FILENAME}
-echo $(date) start apply PAS
+echo $(date) start apply ${PRODUCT_SLUG}
 om --skip-ssl-validation \
-  apply-changes
-echo $(date) end apply PAS
+  apply-changes \
+  --product-name ${PRODUCT_NAME}
+
+echo $(date) end apply ${PRODUCT_SLUG}
 
 END_PAS_DEPLOY_TIME=$(date)
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
@@ -133,5 +136,5 @@ echo Started BASE deployment at ${START_BASE_DEPLOY_TIME}
 echo Fimnished BASE deployment at ${END_BASE_DEPLOY_TIME}
 echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}
 echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
-echo Started PAS deployment at ${START_PAS_DEPLOY_TIME}
-echo Finished PAS Deployment at ${END_PAS_DEPLOY_TIME}
+echo Started ${PRODUCT_SLUG} deployment at ${START_PAS_DEPLOY_TIME}
+echo Finished ${PRODUCT_SLUG} Deployment at ${END_PAS_DEPLOY_TIME}

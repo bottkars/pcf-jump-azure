@@ -74,6 +74,11 @@ chmod +X ${HOME_DIR}/*.sh
 cp *.yaml ${HOME_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.yaml
 chmod 755 ${HOME_DIR}/*.yaml
+
+cp *.env ${HOME_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.env
+chmod 755 ${HOME_DIR}/*.yaml
+
 ${HOME_DIR}/vm-disk-utils-0.1.sh
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${DOWNLOAD_DIR}
 chmod ${DOWNLOAD_DIR}
@@ -236,4 +241,5 @@ sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     sudo -S -u ubuntu ${HOME_DIR}/create_certs.sh
     sudo -S -u ubuntu ${HOME_DIR}/deploy_pas.sh
+    sudo -S -u ubuntu ${HOME_DIR}/deploy_mysql.sh
 fi

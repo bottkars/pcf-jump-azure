@@ -1,0 +1,48 @@
+product-name: ((product_name))
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  service_network:
+    name: ((pcf_service_network))
+  other_availability_zones:
+  - name: "null"
+  singleton_availability_zone:
+    name: "null"
+product-properties:
+  .properties.plan1_selector.leader_follower.instance_limit:
+    value: 5
+  .properties.plan1_selector:
+    value: leader_follower
+    selected_option: leader_follower  
+  .properties.plan1_selector.leader_follower.az_multi_select:
+    value:
+    - 'null'
+  .properties.plan2_selector:
+    value: Inactive
+    selected_option: inactive
+  .properties.plan3_selector:
+    value: Inactive
+    selected_option: inactive
+  .properties.global_recipient_email:
+    value: ((global_recipient_email))
+  .properties.backups_selector.azure.account:
+    value: ((azure_account))
+  .properties.backups_selector.azure.storage_access_key:
+    credential: true
+    value:
+      secret: ((azure_storage_access_key))
+  .properties.backups_selector.azure.path:
+    value: dump
+  .properties.backups_selector.azure.cron_schedule:
+    value: 0 */8 * * *
+  .properties.backups_selector.azure.container:
+    value: backup
+  .properties.backups_selector.azure.blob_store_base_url:
+    value: ((blob_store_base_url))
+  .properties.backups_selector.azure.enable_email_alerts:
+    value: true
+  .properties.deprecated_bindings_string:
+    value: X
+  .properties.backups_selector:
+    value: Azure Backups
+    selected_option: azure
