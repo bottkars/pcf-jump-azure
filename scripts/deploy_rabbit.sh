@@ -82,28 +82,6 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
-echo "creating storage account ${ENV_SHORT_NAME}rabbitbackup"
-
-az login --service-principal \
-  --username ${AZURE_CLIENT_ID} \
-  --password ${AZURE_CLIENT_SECRET} \
-  --tenant ${AZURE_TENANT_ID}
-
-az storage account create --name ${ENV_SHORT_NAME}rabbitbackup \
---resource-group ${ENV_NAME} \
---sku Standard_LRS \
---location $LOCATION
-
-RABBIT_STORAGE_KEY=$(az storage account keys list \
---account-name ${ENV_SHORT_NAME}rabbitbackup \
---resource-group ${ENV_NAME} \
---query "[0].{value:value}" \
---output tsv
-)
-
-az storage container create --name backup \
---account-name ${ENV_SHORT_NAME}rabbitbackup \
---account-key ${RABBIT_STORAGE_KEY}
 
 cat << EOF > ~/rabbit_vars.yaml
 product_name: ${PRODUCT_SLUG}
