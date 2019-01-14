@@ -17,7 +17,7 @@ ST=Hessen
 L=Taunusstein
 O=Karsten Bott
 OU=DEMO
-CN = ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
+CN = *.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 
 [ req_ext ]
 subjectAltName = @alt_names
@@ -27,6 +27,7 @@ DNS.1 = *.sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 DNS.2 = *.login.sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 DNS.3 = *.uaa.sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 DNS.4 = *.apps.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
+DNS.5 = *.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 EOF
 
 openssl req -x509 \

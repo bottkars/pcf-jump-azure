@@ -228,6 +228,7 @@ retryop "sudo -S -u ubuntu terraform apply -auto-approve" 3 10
 sudo -S -u ubuntu terraform output ops_manager_ssh_private_key > ${HOME_DIR}/opsman
 sudo -S -u ubuntu chmod 600 ${HOME_DIR}/opsman
 
+# PCF_NETWORK=$(terraform output network_name)
 
 END_BASE_DEPLOY_TIME=$(date)
 echo ${END_BASE_DEPLOY_TIME} end base deployment
@@ -235,6 +236,9 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
 EOF
 )
+
+
+
 
 sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
 

@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-exec > >(tee -i -a ~/deploy_rabbit.log)
+exec > >(tee -i -a ~/deploy_spring.log)
 exec 2>&1
 
 source ~/.env.sh
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
-START_RABBIT_DEPLOY_TIME=$(date)
+START_SPRING_DEPLOY_TIME=$(date)
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
-START_RABBIT_DEPLOY_TIME="${START_RABBIT_DEPLOY_TIME}"
+START_SPRING_DEPLOY_TIME="${START_SPRING_DEPLOY_TIME}"
 EOF
 )
 
-source  ~/rabbit.env
+source  ~/spring.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -29,7 +29,7 @@ RELEASE_JSON=$(curl \
 EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
 
-DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/${PRODUCT_SLUG}/${PCF_RABBIT_VERSION}
+DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/${PRODUCT_SLUG}/${PCF_SPRING_VERSION}
 mkdir  -p ${DOWNLOAD_DIR_FULL}
 
 curl \
@@ -40,13 +40,13 @@ curl \
 
 
 # download product using om cli
-echo $(date) start downloading RABBIT
+echo $(date) start downloading SPRING
 om --skip-ssl-validation \
   download-product \
  --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
- --product-version ${PCF_RABBIT_VERSION} \
+ --product-version ${PCF_SPRING_VERSION} \
  --stemcell-iaas azure \
  --download-stemcell \
  --output-directory ${DOWNLOAD_DIR_FULL}
@@ -82,17 +82,14 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
-
-cat << EOF > ${HOME_DIR}/rabbit_vars.yaml
+cat << EOF > ${HOME_DIR}/spring_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
-pcf_service_network: pcf-services-subnet
-server_admin_password: ${PCF_PIVNET_UAA_TOKEN}
 EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/rabbit.yaml -l ${HOME_DIR}/rabbit_vars.yaml
+  -c ${HOME_DIR}/spring.yaml -l ${HOME_DIR}/spring_vars.yaml
 
 om --skip-ssl-validation \
 upload-stemcell \

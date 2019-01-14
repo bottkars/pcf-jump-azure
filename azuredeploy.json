@@ -236,12 +236,15 @@
             "[concat(variables('baseUri'),  '/scripts/deploy_pas.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_mysql.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_rabbit.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/deploy_spring.sh')]",
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",            
             "[concat(variables('baseUri'),  '/templates/pas.yaml')]",
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/spring.yaml')]",
             "[concat(variables('baseUri'),  '/env/mysql.env')]",
             "[concat(variables('baseUri'),  '/env/rabbit.env')]",
+            "[concat(variables('baseUri'),  '/env/spring.env')]",            
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
         ]
@@ -432,8 +435,7 @@
                             "SMTP_PASSWORD": "[parameters('smtpPassword')]",
                             "SMTP_FROM": "[parameters('smtpFrom')]",
                             "SMTP_PORT": "[parameters('smtpPort')]",
-                            "SMTP_STARTTLS": "[parameters('smtpStarttls')]"
-                        }
+                            "SMTP_STARTTLS": "[parameters('smtpStarttls')]"                        }
                     }
                 }
             }

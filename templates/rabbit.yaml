@@ -13,7 +13,7 @@ product-properties:
     value: disabled
   .properties.on_demand_broker_plan_1_rabbitmq_az_placement:
     value:
-    - null
+    - "null"
   .properties.on_demand_broker_plan_1_disk_limit_acknowledgement:
     value:
     - acknowledge
@@ -22,5 +22,5 @@ product-properties:
   .properties.multitenant_support.enabled.server_admin_credentials:
     value:
       identity: rabbitadmin
-      password: ((server_admin_password)))
+      password: ((server_admin_password))
 

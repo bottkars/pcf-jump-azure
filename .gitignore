@@ -1,6 +1,8 @@
 *.tfvars
 om_init.1.sh
 .env
+scratch.sh
+.env.dev
 
 
 
