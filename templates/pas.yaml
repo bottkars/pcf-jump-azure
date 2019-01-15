@@ -53,7 +53,7 @@ product-properties:
   .properties.smtp_enable_starttls_auto:
     value: ((smtp_enable_starttls_auto))
   .properties.smtp_auth_mechanism:
-    value: none 
+    value: plain 
   .properties.smtp_from:
     value: ((smtp_from))
   .properties.smtp_port:
