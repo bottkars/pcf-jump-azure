@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 source ~/.env.sh
+cd ${HOME_DIR}
 
 DOMAIN="${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 
