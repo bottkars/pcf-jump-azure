@@ -23,12 +23,12 @@ the .env file requires at the following variables to be set:
 **PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
 **PCF_DOMAIN_NAME**=*yourdomain.com*  
 **PCF_SUBDOMAIN_NAME**=*yourpcf*  
-**ENV_SHORT_NAME**=*yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below   
+**ENV_SHORT_NAME**=*yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below  
+**ENV_NAME**=*pcf* this name will be prefix for azure resources and you opsman hostname  
 
 ## optional settings 
 you can use the additional settings to customize your deployment.  
 note: there is no upfront validation for e.g. email settings  
-**ENV_NAME**=*pcf* this name will be prefix for azure resources and you opsman hostname  
 **OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"* a 2.4 opsman image  
  
 **RELEASE_ID**=*259105*  
