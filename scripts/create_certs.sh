@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 source ~/.env.sh
 cd ${HOME_DIR}
 git clone https://github.com/Neilpang/acme.sh.git ./acme.sh
