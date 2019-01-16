@@ -25,7 +25,7 @@ the .env file requires at the following variables to be set:
 **PCF_SUBDOMAIN_NAME**|||yes|the subdomain name that will be created in your resource group
 **ENV_SHORT_NAME**|env_short_name||yes|*yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below  
 **ENV_NAME**|env_name|pcf||*pcf* this name will be prefix for azure resources and you opsman hostname  
-**OPS_MANAGER_IMAGE_URI**|ops_manager_image_uri|"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"|no| a 2.4 opsman image url
+**OPS_MANAGER_IMAGE_URI**|ops_manager_image_uri|https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd|no| a 2.4 opsman image url
 **RELEASE_ID**|release_id|259105|no|**  
 **PCF_NOTIFICATIONS_EMAIL**|user@example.com"||*"*  
 **PCF_OPSMAN_USERNAME**||||*opsman*  
