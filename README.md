@@ -8,7 +8,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 ## features
 - automated opsman deployment and configuration
 - pas infrastructure paving
-- autopilot for starting pas, mysql, rabbit and spring deployment
+- autopilot for starting pas, mysql, rabbit and spring deployment (will take several hours )
 - certificate generation using selfsigned or let´s encrypt certificates
 - [sendgrid](/sendgrid.md) integration for notifications and user sign up
 - dns configuration and check
@@ -182,7 +182,44 @@ tail the installation log
 ```bash
 tail -f ~/install.log
 ```
+## post deploy
 
+if you do not autodeploy ( default behaviour ), you can kickstart the deployment of all components from the jumphost:
+
+### pas
+
+using selfsigned certificates
+
+```bash
+./create_self_certs.sh
+./deploy_pas.sh
+```
+or using Let´s encrypt
+
+```bash
+./create_certs.sh
+./deploy_pas.sh
+```
+
+### mysql
+requires pas deployed
+ 
+ ```bash
+./deploy_mysql.sh
+```
+### rabbit
+requires pas deployed
+ 
+ ```bash
+./deploy_rabbit.sh
+```
+
+### spring service
+requires pas, rabbit and mysql deployed
+ 
+ ```bash
+./deploy_spring.sh
+```
 ## cleanup
 
 ```bash
