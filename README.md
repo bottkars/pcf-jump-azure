@@ -17,8 +17,8 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 create an .env file using the [.env.example](/.env.example)  
 the .env file requires at the following variables to be set:  
 
-variable                    | azure rm template parameter | default value                                                                           | mandatory         | description
-----------------------------|-----------------------------|-----------------------------------------------------------------------------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
+variable| azure rm parameter | default value | mandatory | description
+--------|--------------------|---------------|-----------|-----------
 **JUMPBOX_RG**              |                             |                                                                                         | yes               | the name of the ressource group for the JumpBox
 **JUMPBOX_NAME**            | dnsLabelPrefix              | -                                                                                       | yes               | the JumpBox hostname , must be unique for the region !
 **ADMIN_USERNAME**          | adminUsername               | ubuntu                                                                                  | no                | the jumpbox os username
