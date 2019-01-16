@@ -37,8 +37,11 @@ az storage account check-name --name ${ENV_SHORT_NAME}director
 ```
 
 you are now good to go to deploy  
-[with minimum parameters](#deployment-with-minimum-param-set)
-[with full parameters](#deployment-with-full-param-set)
+[with minimum parameters](#deployment-with-minimum-param-set)  
+[with full parameters](#deployment-with-full-param-set)  
+also, note that AUTOPILOT is disabled by default now.   
+you can set the Environment for PAS_AUTOPILOT or use -pasAutopilot=TRUE during deployment.  
+if not using autopilot, see [Post Deployment Stepos](#post-deploy) for more Details
 
 ## deployment with minimum param set
 
