@@ -6,13 +6,17 @@ It will pave the infrastructure using Pivotal [terraforming-azure](https://githu
 
 PCF Operations Manager will be installed and configured using Pivotal [om cli](https://github.com/pivotal-cf/om).  
 Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om).  
-
-## usage  
-
+|## usage 
 create an .env file using the .env.example  
 the .env file requires at the following variables to be set:  
 
-**JUMPBOX_RG**=*JUMPBOX* ,the name of the ressource group for the JumpBox  
+| variable  	| parameter  	|  default value 	|  mandatory 	| description  	|
+|---	|---	|---	|---	|---	|
+|   	|   	|   	|   	|   	|
+|   	|   	|   	|   	|   	|
+|   	|   	|   	|   	|   	|
+|   	|   	|   	|   	|   	 
+|**JUMPBOX_RG**||||*JUMPBOX* ,the name of the ressource group for the JumpBox  
 **JUMPBOX_NAME**=*pasjumpbox* ,the JumpBox hostname  
 **ADMIN_USERNAME**=*ubuntu*  
 **AZURE_CLIENT_ID**=*fake your azure client id*  
