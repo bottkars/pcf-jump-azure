@@ -20,7 +20,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 create an .env file using the [.env.example](/.env.example)  
 Parameter Explanation in this [table](#env-variables)  
-if you need a full parameter set or a minimum depends on your cuastomizations (e.g. [sendgrid](/sendgrid.md) and others )
+if you need a full parameter set or a minimum depends on your customizations (e.g. [sendgrid](/sendgrid.md) and others )
 
 source the env file
 
@@ -45,7 +45,7 @@ you are now good to go to deploy
 [with full parameters](#deployment-with-full-param-set)  
 also, note that AUTOPILOT is disabled by default now.   
 you can set the Environment for PAS_AUTOPILOT or use -pasAutopilot=TRUE during deployment.  
-if not using autopilot, see [Post Deployment Stepos](#post-deploy) for more Details
+if not using autopilot, see [Post Deployment Steps](#post-deploy) for more Details
 
 ## deployment with minimum param set
 
