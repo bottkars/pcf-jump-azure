@@ -10,43 +10,39 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 create an .env file using the .env.example  
 the .env file requires at the following variables to be set:  
 
-| variable  	| parameter  	|  default value 	|  mandatory 	| description  	|
-|---	|---	|---	|---	|---	|
-|   	|   	|   	|   	|   	|
-|   	|   	|   	|   	|   	|
-|   	|   	|   	|   	|   	|
-|   	|   	|   	|   	|   	 
+| variable|parameter|default value|mandatory|description|
+|---|---|---|---|---|
 |**JUMPBOX_RG**||||*JUMPBOX* ,the name of the ressource group for the JumpBox  
-**JUMPBOX_NAME**=*pasjumpbox* ,the JumpBox hostname  
-**ADMIN_USERNAME**=*ubuntu*  
-**AZURE_CLIENT_ID**=*fake your azure client id*  
-**AZURE_CLIENT_SECRET**=*fake your azure client secret*  
-**AZURE_REGION**=*westeurope*  
-**AZURE_SUBSCRIPTION_ID**=*fake your azure subscription id*  
-**AZURE_TENANT_ID**=*fake your azure tenant*  
-**PCF_PIVNET_UAA_TOKEN**=*fave your pivnet refresh token*  
-**PCF_DOMAIN_NAME**=*yourdomain.com*  
-**PCF_SUBDOMAIN_NAME**=*yourpcf*  
-**ENV_SHORT_NAME**=*yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below  
-**ENV_NAME**=*pcf* this name will be prefix for azure resources and you opsman hostname  
+**JUMPBOX_NAME**||||*pasjumpbox* ,the JumpBox hostname  
+**ADMIN_USERNAME**||||*ubuntu*  
+**AZURE_CLIENT_ID**||||*fake your azure client id*  
+**AZURE_CLIENT_SECRET**||||*fake your azure client secret*  
+**AZURE_REGION**||||*westeurope*  
+**AZURE_SUBSCRIPTION_ID**||||*fake your azure subscription id*  
+**AZURE_TENANT_ID**||||*fake your azure tenant*  
+**PCF_PIVNET_UAA_TOKEN**||||*fave your pivnet refresh token*  
+**PCF_DOMAIN_NAME**||||*yourdomain.com*  
+**PCF_SUBDOMAIN_NAME**||||*yourpcf*  
+**ENV_SHORT_NAME**||||*yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below  
+**ENV_NAME**||||*pcf* this name will be prefix for azure resources and you opsman hostname  
 
 ## optional settings 
 you can use the additional settings to customize your deployment.  
 note: there is no upfront validation for e.g. email settings  
-**OPS_MANAGER_IMAGE_URI**=*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"* a 2.4 opsman image  
+**OPS_MANAGER_IMAGE_URI**||||*"https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"* a 2.4 opsman image  
  
-**RELEASE_ID**=*259105*  
-**PCF_NOTIFICATIONS_EMAIL**=*"user@example.com"*  
-**PCF_OPSMAN_USERNAME**=*opsman*  
-**NET_16_BIT_MASK**=*10.10* 16 bit network mask, defaul 10.10  
-**PAS_AUTOPILOT**=*FALSE* Autoinstall PAS when set to true  
-**PCF_PAS_VERSION**=*2.4.1* the version of PAS, must be 2.4.0 or greater  
-**SMTP_ADDRESS**="mysmtp.example.com"  
-**SMTP_IDENTITY**="mysmtpuser"  
-**SMTP_PASSWORD**="mysmtppass"  
-**SMTP_FROM**="from@example"  
-**SMTP_PORT**="587"  
-**SMTP_STARTTLS**="true"  
+**RELEASE_ID**||||*259105*  
+**PCF_NOTIFICATIONS_EMAIL**||||*"user@example.com"*  
+**PCF_OPSMAN_USERNAME**||||*opsman*  
+**NET_16_BIT_MASK**||||*10.10* 16 bit network mask, defaul 10.10  
+**PAS_AUTOPILOT**||||*FALSE* Autoinstall PAS when set to true  
+**PCF_PAS_VERSION**||||*2.4.1* the version of PAS, must be 2.4.0 or greater  
+**SMTP_ADDRESS**||||*"mysmtp.example.com"  
+**SMTP_IDENTITY**||||*"mysmtpuser"  
+**SMTP_PASSWORD**||||*"mysmtppass"  
+**SMTP_FROM**||||*"from@example"  
+**SMTP_PORT**||||*"587"  
+**SMTP_STARTTLS**||||*"true"  
 
 source the env file  
 ```bash
