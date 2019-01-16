@@ -15,7 +15,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 ## usage 
 create an .env file using the [.env.example](/.env.example)  
-Parameter Explanation in this [table](/#env-variables)
+Parameter Explanation in this [table](# env-variables)
 
 source the env file  
 ```bash
