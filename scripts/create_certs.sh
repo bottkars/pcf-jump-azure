@@ -8,11 +8,13 @@ export AZUREDNS_TENANTID=${AZURE_TENANT_ID}
 export AZUREDNS_APPID=${AZURE_CLIENT_ID}
 export AZUREDNS_CLIENTSECRET=${AZURE_CLIENT_SECRET}
 DOMAIN="${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
-./acme.sh/acme.sh --issue \
+./acme.sh/acme.sh \
+ --issue \
  --dns dns_azure \
  --dnssleep 10 \
  --force \
  --debug \
+ --staging \
  -d ${DOMAIN} \
  -d *.sys.${DOMAIN} \
  -d *.apps.${DOMAIN} \
