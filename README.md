@@ -15,36 +15,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 ## usage 
 create an .env file using the [.env.example](/.env.example)  
-the .env file requires at the following variables to be set:  
-
-variable                    | azure rm parameter | default value     | mandatory         | description
-----------------------------|--------------------|-------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
-**JUMPBOX_RG**              |                    |                   | yes               | the name of the ressource group for the JumpBox
-**JUMPBOX_NAME**            | dnsLabelPrefix     | -                 | yes               | the JumpBox hostname , must be unique for the region !
-**ADMIN_USERNAME**          | adminUsername      | ubuntu            | no                | the jumpbox os username
-**AZURE_CLIENT_ID**         | clientID           |                   | yes               | *Azure Service Principal*
-**AZURE_CLIENT_SECRET**     | clientSecret       |                   | yes               | *Service Principal client secret*
-**AZURE_REGION**            |                    |                   | yes               | used from az resource group command, no default
-**AZURE_SUBSCRIPTION_ID**   | subscriptionID     |                   | yes               | Your Azure Subscription ID,
-**AZURE_TENANT_ID**         | tenantID           |                   | yes               | Your AZURE tenant
-**PCF_PIVNET_UAA_TOKEN**    | pivnetToken        |                   | yes               | Your Token from Pivotal Network
-**PCF_DOMAIN_NAME**         | pcfDomainName      |                   | yes               | the domain your pcf subdomain will be hosted in
-**PCF_SUBDOMAIN_NAME**      | pcfSubdomainName   |                   | yes               | the subdomain name that will be created in your resource group
-**ENV_SHORT_NAME**          | envShortName       |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below
-**ENV_NAME**                | envName            | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname
-**OPS_MANAGER_IMAGE_URI**   | opsmanImageUri     | [opsurl](https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd)                  | no                | a 2.4 opsman image url
-**PCF_NOTIFICATIONS_EMAIL** | notificationsEmail | user@example.com" | no                | wher to sent PCF Notifications
-**PCF_OPSMAN_USERNAME**     | opsmanUsername     | opsman            | no                | *opsman*
-**NET_16_BIT_MASK**         | net16bitmask       | 10.10             | no                | *16 bit networkdefault 10.10
-**PAS_AUTOPILOT**           | pasAutopilot       | FALSE             |                   | Autoinstall PAS, RABBIT, MYSQL, Spring Service when set to true
-**PCF_PAS_VERSION**         | pasVersion         | 2.4.1             | no                | the version of PAS, must be 2.4.0 or greater
-**SMTP_ADDRESS**            | smtpAddress        | null              | no                | "mysmtp.example.com"
-**SMTP_IDENTITY**           | smtpIdentity       | null              | no                | "mysmtpuser"
-**SMTP_PASSWORD**           | smtpPassword       | null              | no                | "mysmtppass"
-**SMTP_FROM**               | smtpFrom           | null              | no                | "from@example.com"
-**SMTP_PORT**               | smtpPort           | null              | no                | "587"
-**SMTP_STARTTLS**           | smtpStarttls       | false             | no                | true or false
-**USE_SELF_CERTS**          | useSelfcerts       | true              | no                | true or false
+Parameter Explanation in this [table](## env variables) 
 
 source the env file  
 ```bash
@@ -212,6 +183,38 @@ az group delete --name ${JUMPBOX_RG} --yes
 az group delete --name ${ENV_NAME} --yes
 ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
+
+(## env variables)
+
+variable                    | azure rm parameter | default value     | mandatory         | description
+----------------------------|--------------------|-------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
+**JUMPBOX_RG**              |                    |                   | yes               | the name of the ressource group for the JumpBox
+**JUMPBOX_NAME**            | dnsLabelPrefix     | -                 | yes               | the JumpBox hostname , must be unique for the region !
+**ADMIN_USERNAME**          | adminUsername      | ubuntu            | no                | the jumpbox os username
+**AZURE_CLIENT_ID**         | clientID           |                   | yes               | *Azure Service Principal*
+**AZURE_CLIENT_SECRET**     | clientSecret       |                   | yes               | *Service Principal client secret*
+**AZURE_REGION**            |                    |                   | yes               | used from az resource group command, no default
+**AZURE_SUBSCRIPTION_ID**   | subscriptionID     |                   | yes               | Your Azure Subscription ID,
+**AZURE_TENANT_ID**         | tenantID           |                   | yes               | Your AZURE tenant
+**PCF_PIVNET_UAA_TOKEN**    | pivnetToken        |                   | yes               | Your Token from Pivotal Network
+**PCF_DOMAIN_NAME**         | pcfDomainName      |                   | yes               | the domain your pcf subdomain will be hosted in
+**PCF_SUBDOMAIN_NAME**      | pcfSubdomainName   |                   | yes               | the subdomain name that will be created in your resource group
+**ENV_SHORT_NAME**          | envShortName       |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below
+**ENV_NAME**                | envName            | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname
+**OPS_MANAGER_IMAGE_URI**   | opsmanImageUri     | [opsurl](https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd)                  | no                | a 2.4 opsman image url
+**PCF_NOTIFICATIONS_EMAIL** | notificationsEmail | user@example.com" | no                | wher to sent PCF Notifications
+**PCF_OPSMAN_USERNAME**     | opsmanUsername     | opsman            | no                | *opsman*
+**NET_16_BIT_MASK**         | net16bitmask       | 10.10             | no                | *16 bit networkdefault 10.10
+**PAS_AUTOPILOT**           | pasAutopilot       | FALSE             |                   | Autoinstall PAS, RABBIT, MYSQL, Spring Service when set to true
+**PCF_PAS_VERSION**         | pasVersion         | 2.4.1             | no                | the version of PAS, must be 2.4.0 or greater
+**SMTP_ADDRESS**            | smtpAddress        | null              | no                | "mysmtp.example.com"
+**SMTP_IDENTITY**           | smtpIdentity       | null              | no                | "mysmtpuser"
+**SMTP_PASSWORD**           | smtpPassword       | null              | no                | "mysmtppass"
+**SMTP_FROM**               | smtpFrom           | null              | no                | "from@example.com"
+**SMTP_PORT**               | smtpPort           | null              | no                | "587"
+**SMTP_STARTTLS**           | smtpStarttls       | false             | no                | true or false
+**USE_SELF_CERTS**          | useSelfcerts       | true              | no                | true or false
+
 
 ## required nameserver delegation
 
