@@ -6,8 +6,14 @@ It will pave the infrastructure using Pivotal [terraforming-azure](https://githu
 
 PCF Operations Manager will be installed and configured using Pivotal [om cli](https://github.com/pivotal-cf/om).  
 Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om).  
-|## usage 
-create an .env file using the .env.example  
+## features
+- automated opsman deployment and configuration
+- pas infrastructure paving
+- autopilot for starting pas, mysql, rabbit and spring deployment
+- certificate generation using selfsigned or let´s encrypt certificates
+
+## usage 
+create an .env file using the [.env.example](/.env.example)  
 the .env file requires at the following variables to be set:  
 
 | variable                    | azure rm template parameter | default value     | mandatory         | description                                                                                                                                                     |
@@ -21,15 +27,15 @@ the .env file requires at the following variables to be set:
 | **AZURE_SUBSCRIPTION_ID**   | subscriptionID              |                   | yes               | Your Azure Subscription ID,                                                                                                                                     |
 | **AZURE_TENANT_ID**         | tenantID                    |                   | yes               | Your AZURE tenant                                                                                                                                               |
 | **PCF_PIVNET_UAA_TOKEN**    | pivnetToken                 |                   | yes               | Your Token from Pivotal Network                                                                                                                                 |
-| **PCF_DOMAIN_NAME**         | pcfDomainName             |                   | yes               | the domain your pcf subdomain will be hosted in                                                                                                                 |
-| **PCF_SUBDOMAIN_NAME**      | pcfSubdomainName          |                   | yes               | the subdomain name that will be created in your resource group                                                                                                  |
-| **ENV_SHORT_NAME**          | envShortName              |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below |
-| **ENV_NAME**                | envName                    | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname                                                                                      |
-| **OPS_MANAGER_IMAGE_URI**   | opsmanImageUri       |                   | no                | a 2.4 opsman image url                                                                                                                                          |
-| **RELEASE_ID**              | pasReleaseID                  | 259105            | no                | must correspond to PAS Version !                                                                                                                                |
+| **PCF_DOMAIN_NAME**         | pcfDomainName               |                   | yes               | the domain your pcf subdomain will be hosted in                                                                                                                 |
+| **PCF_SUBDOMAIN_NAME**      | pcfSubdomainName            |                   | yes               | the subdomain name that will be created in your resource group                                                                                                  |
+| **ENV_SHORT_NAME**          | envShortName                |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below |
+| **ENV_NAME**                | envName                     | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname                                                                                      |
+| **OPS_MANAGER_IMAGE_URI**   | opsmanImageUri              |                   | no                | a 2.4 opsman image url                                                                                                                                          |
+| **RELEASE_ID**              | pasReleaseID                | 259105            | no                | must correspond to PAS Version !                                                                                                                                |
 | **PCF_NOTIFICATIONS_EMAIL** | notificationsEmail          | user@example.com" | no                | wher to sent PCF Notifications                                                                                                                                  |
 | **PCF_OPSMAN_USERNAME**     | opsmanUsername              | opsman            | no                | *opsman*                                                                                                                                                        |
-| **NET_16_BIT_MASK**         | net16bitmask             | 10.10             | no                | *16 bit networkdefault 10.10                                                                                                                                    |
+| **NET_16_BIT_MASK**         | net16bitmask                | 10.10             | no                | *16 bit networkdefault 10.10                                                                                                                                    |
 | **PAS_AUTOPILOT**           | pasAutopilot                | FALSE             |                   | Autoinstall PAS, RABBIT, MYSQL, Spring Service when set to true                                                                                                 |
 | **PCF_PAS_VERSION**         | pasVersion                  | 2.4.1             | no                | the version of PAS, must be 2.4.0 or greater                                                                                                                    |
 | **SMTP_ADDRESS**            | smtpAddress                 | null              | no                | "mysmtp.example.com"                                                                                                                                            |
@@ -38,6 +44,8 @@ the .env file requires at the following variables to be set:
 | **SMTP_FROM**               | smtpFrom                    | null              | no                | "from@example.com"                                                                                                                                              |
 | **SMTP_PORT**               | smtpPort                    | null              | no                | "587"                                                                                                                                                           |
 | **SMTP_STARTTLS**           | smtpStarttls                | false             | no                | true or false                                                                                                                                                   |
+| **USE_SELF_CERTS**           | useSelfcerts                | true             | no                | true or false                                                                                                                                                   |
+
 source the env file  
 ```bash
 source .env
