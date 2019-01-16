@@ -11,6 +11,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 - pas infrastructure paving
 - autopilot for starting pas, mysql, rabbit and spring deployment
 - certificate generation using selfsigned or let´s encrypt certificates
+- [sendgrid](/sendgrid.md) integration for notifications and user sign up
 
 ## usage 
 create an .env file using the [.env.example](/.env.example)  
