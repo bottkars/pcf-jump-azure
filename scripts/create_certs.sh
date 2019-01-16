@@ -14,7 +14,6 @@ DOMAIN="${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
  --dnssleep 10 \
  --force \
  --debug \
- --staging \
  -d ${DOMAIN} \
  -d *.sys.${DOMAIN} \
  -d *.apps.${DOMAIN} \
