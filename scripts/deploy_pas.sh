@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source ~/.env.sh
+
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
@@ -9,7 +10,7 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 START_PAS_DEPLOY_TIME="${START_PAS_DEPLOY_TIME}"
 EOF
 )
-PRODUCT_SLUG=elastic-runtime
+source ~/pas.env
 PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
 #PCF_KEY_PEM=$(cat ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 #PCF_CERT_PEM=$(cat ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')

@@ -33,7 +33,6 @@ variable                    | azure rm parameter | default value     | mandatory
 **ENV_SHORT_NAME**          | envShortName       |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below
 **ENV_NAME**                | envName            | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname
 **OPS_MANAGER_IMAGE_URI**   | opsmanImageUri     | [opsurl](https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd)                  | no                | a 2.4 opsman image url
-**RELEASE_ID**              | pasReleaseID       | 259105            | no                | must correspond to PAS Version !
 **PCF_NOTIFICATIONS_EMAIL** | notificationsEmail | user@example.com" | no                | wher to sent PCF Notifications
 **PCF_OPSMAN_USERNAME**     | opsmanUsername     | opsman            | no                | *opsman*
 **NET_16_BIT_MASK**         | net16bitmask       | 10.10             | no                | *16 bit networkdefault 10.10
@@ -106,7 +105,6 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
-    pasReleaseID=${RELEASE_ID} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
     net16bitmask=${NET_16_BIT_MASK} \
     pasAutopilot=${PAS_AUTOPILOT} \

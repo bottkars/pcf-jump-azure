@@ -55,13 +55,6 @@
                 "description": "pivnet refresh token"
             }
         },
-        "pasReleaseID": {
-            "type": "string",
-            "defaultValue": "259105",
-            "metadata": {
-                "description": "pivnet release id"
-            }
-        },
         "envName": {
             "type": "string",
             "defaultValue": "pcf",
@@ -78,7 +71,9 @@
         },
         "opsmanImageUri": {
             "type": "string",
-            "minLength": "3",
+            "allowedValues": ["https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd",
+            "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.117.vhd"
+            ],
             "defaultValue": "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd",
             "metadata": {
                 "description": "url for latest osmanager image"
@@ -189,7 +184,8 @@
         },
         "pasVersion": {
             "type": "string",
-            "defaultValue": "2.4.1"
+            "defaultValue": "2.4.1",
+            "allowedValues": ["2.4.1","2.4.0"]
         },
         "dnsLabelPrefix": {
             "minLength": "3",
@@ -255,6 +251,7 @@
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
             "[concat(variables('baseUri'),  '/templates/spring.yaml')]",
             "[concat(variables('baseUri'),  '/env/mysql.env')]",
+            "[concat(variables('baseUri'),  '/env/pas/',parameters('pasVersion'),'/pas.env')]",
             "[concat(variables('baseUri'),  '/env/rabbit.env')]",
             "[concat(variables('baseUri'),  '/env/spring.env')]",            
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
@@ -435,7 +432,6 @@
                             "LOCATION": "[parameters('location')]",
                             "PCF_DOMAIN_NAME": "[parameters('pcfDomainName')]",
                             "PCF_SUBDOMAIN_NAME": "[parameters('pcfSubdomainName')]",
-                            "RELEASE_ID": "[parameters('pasReleaseID')]",
                             "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
                             "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",
                             "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
