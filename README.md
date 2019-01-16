@@ -15,9 +15,11 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 ## usage 
 create an .env file using the [.env.example](/.env.example)  
-Parameter Explanation in this [table](#env-variables)
+Parameter Explanation in this [table](#env-variables)  
+if you need a full parameter set or a minimum depends on your cuastomizations (e.g. [sendgrid](/sendgrid.md) and others )
 
-source the env file  
+source the env file
+
 ```bash
 source .env
 ```
@@ -34,7 +36,12 @@ ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 az storage account check-name --name ${ENV_SHORT_NAME}director
 ```
 
-## eployment with minimum param set
+you are now good to go to deploy  
+[with minimum parameters](#deployment-with-minimum-param-set)
+[with full parameters](#deployment-with-full-param-set)
+
+## deployment with minimum param set
+
 the minimum parameter set uses defaults where possible
 
 ### validate minimum
