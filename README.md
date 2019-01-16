@@ -10,35 +10,34 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 create an .env file using the .env.example  
 the .env file requires at the following variables to be set:  
 
-| variable|azure rm template parameter|default value|mandatory|description|
-|---|---|---|---|---|
-|**JUMPBOX_RG**|||yes|the name of the ressource group for the JumpBox  |
-|**JUMPBOX_NAME**|dnsLabelPrefix|-|yes|the JumpBox hostname , must be unique for the region ! |
-|**ADMIN_USERNAME**|adminUsername|ubuntu|no|the jimpbox os username |
-|**AZURE_CLIENT_ID**|clientID||true|*Azure Service Principal*  |
-|**AZURE_CLIENT_SECRET**|clientSecret|||*Service Principal client secret*  |
-|**AZURE_REGION**||||used from az resource group command, no default |
-|**AZURE_SUBSCRIPTION_ID**||||Your Azure Subscription ID,  |
-|**AZURE_TENANT_ID**||||Your AZURE tenant |
-|**PCF_PIVNET_UAA_TOKEN**|||yes|Your Token from Pivotal Network |
-|**PCF_DOMAIN_NAME**|||yes|the domain your pcf subdomain will be hosted in |
-|**PCF_SUBDOMAIN_NAME**|||yes|the subdomain name that will be created in your resource group|
-|**ENV_SHORT_NAME**|env_short_name||yes|*yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below  |
-|**ENV_NAME**|env_name|pcf||*pcf* this name will be prefix for azure resources and you opsman hostname  |
-|**OPS_MANAGER_IMAGE_URI**|ops_manager_image_uri||no| a 2.4 opsman image url |
-|**RELEASE_ID**|release_id|259105|no|**  |
-|**PCF_NOTIFICATIONS_EMAIL**|notificationsEmail|user@example.com"||wher to sent PCF Notifications |
-|**PCF_OPSMAN_USERNAME**||||*opsman*  |
-|**NET_16_BIT_MASK**||||*10.10* 16 bit network mask, defaul 10.10  |
-|**PAS_AUTOPILOT**|pasAutopilot|FALSE|| Autoinstall PAS, RABBIT, MYSQL, Spring Service when set to true  |
-|**PCF_PAS_VERSION**|pasVersion|2.4.1|no| the version of PAS, must be 2.4.0 or greater  |
-|**SMTP_ADDRESS**|smtpAddress||no|"mysmtp.example.com"  |
-|**SMTP_IDENTITY**|smtpIdentity||no|"mysmtpuser"  |
-|**SMTP_PASSWORD**|smtpPassword||no|"mysmtppass"  |
-|**SMTP_FROM**|smtpFrom||no|"from@example.com"  |
-|**SMTP_PORT**|smtpPort||no|"587"  |
-|**SMTP_STARTTLS**|smtpStarttls|false|no|true or false  |
-
+| variable                    | azure rm template parameter | default value     | mandatory | description                                                                                                                                                     |
+|-----------------------------|-----------------------------|-------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **JUMPBOX_RG**              |                             |                   | yes       | the name of the ressource group for the JumpBox                                                                                                                 |
+| **JUMPBOX_NAME**            | dnsLabelPrefix              | -                 | yes       | the JumpBox hostname , must be unique for the region !                                                                                                          |
+| **ADMIN_USERNAME**          | adminUsername               | ubuntu            | no        | the jimpbox os username                                                                                                                                         |
+| **AZURE_CLIENT_ID**         | clientID                    |                   | true      | *Azure Service Principal*                                                                                                                                       |
+| **AZURE_CLIENT_SECRET**     | clientSecret                |                   |           | *Service Principal client secret*                                                                                                                               |
+| **AZURE_REGION**            |                             |                   |           | used from az resource group command, no default                                                                                                                 |
+| **AZURE_SUBSCRIPTION_ID**   |                             |                   |           | Your Azure Subscription ID,                                                                                                                                     |
+| **AZURE_TENANT_ID**         |                             |                   |           | Your AZURE tenant                                                                                                                                               |
+| **PCF_PIVNET_UAA_TOKEN**    |                             |                   | yes       | Your Token from Pivotal Network                                                                                                                                 |
+| **PCF_DOMAIN_NAME**         |                             |                   | yes       | the domain your pcf subdomain will be hosted in                                                                                                                 |
+| **PCF_SUBDOMAIN_NAME**      |                             |                   | yes       | the subdomain name that will be created in your resource group                                                                                                  |
+| **ENV_SHORT_NAME**          | env_short_name              |                   | yes       | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below |
+| **ENV_NAME**                | env_name                    | pcf               |           | *pcf* this name will be prefix for azure resources and you opsman hostname                                                                                      |
+| **OPS_MANAGER_IMAGE_URI**   | ops_manager_image_uri       |                   | no        | a 2.4 opsman image url                                                                                                                                          |
+| **RELEASE_ID**              | release_id                  | 259105            | no        | **                                                                                                                                                              |
+| **PCF_NOTIFICATIONS_EMAIL** | notificationsEmail          | user@example.com" |           | wher to sent PCF Notifications                                                                                                                                  |
+| **PCF_OPSMAN_USERNAME**     |                             |                   |           | *opsman*                                                                                                                                                        |
+| **NET_16_BIT_MASK**         |                             |                   |           | *10.10* 16 bit network mask, defaul 10.10                                                                                                                       |
+| **PAS_AUTOPILOT**           | pasAutopilot                | FALSE             |           | Autoinstall PAS, RABBIT, MYSQL, Spring Service when set to true                                                                                                 |
+| **PCF_PAS_VERSION**         | pasVersion                  | 2.4.1             | no        | the version of PAS, must be 2.4.0 or greater                                                                                                                    |
+| **SMTP_ADDRESS**            | smtpAddress                 |                   | no        | "mysmtp.example.com"                                                                                                                                            |
+| **SMTP_IDENTITY**           | smtpIdentity                |                   | no        | "mysmtpuser"                                                                                                                                                    |
+| **SMTP_PASSWORD**           | smtpPassword                |                   | no        | "mysmtppass"                                                                                                                                                    |
+| **SMTP_FROM**               | smtpFrom                    |                   | no        | "from@example.com"                                                                                                                                              |
+| **SMTP_PORT**               | smtpPort                    |                   | no        | "587"                                                                                                                                                           |
+| **SMTP_STARTTLS**           | smtpStarttls                | false             | no        | true or false                                                                                                                                                   |
 source the env file  
 ```bash
 source .env
