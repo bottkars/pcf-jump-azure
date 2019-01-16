@@ -63,7 +63,32 @@ ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 az storage account check-name --name ${ENV_SHORT_NAME}director
 ```
 
-## start the deployment with minimum param set
+## eployment with minimum param set
+the minimum parameter set uses defaults where possible
+
+### validate minimum
+
+```bash
+az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
+az group deployment validate --resource-group ${JUMPBOX_RG} \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --parameters \
+    adminUsername=${ADMIN_USERNAME} \
+    sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
+    dnsLabelPrefix=${JUMPBOX_NAME} \
+    clientSecret=${AZURE_CLIENT_SECRET} \
+    clientID=${AZURE_CLIENT_ID} \
+    tenantID=${AZURE_TENANT_ID} \
+    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
+    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
+    envName=${ENV_NAME} \
+    envShortName=${ENV_SHORT_NAME} \
+    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
+    pcfDomainName=${PCF_DOMAIN_NAME} \
+    pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
+```
+
+### deploy minimum
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
@@ -85,38 +110,11 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
 ```
 
-## start the deployment with full param set
+## deployment with full param set
 
-```bash
-az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
-az group deployment create --resource-group ${JUMPBOX_RG} \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
-    --parameters \
-    sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
-    dnsLabelPrefix=${JUMPBOX_NAME} \
-    clientSecret=${AZURE_CLIENT_SECRET} \
-    clientID=${AZURE_CLIENT_ID} \
-    tenantID=${AZURE_TENANT_ID} \
-    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
-    envName=${ENV_NAME} \
-    envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
-    pcfDomainName=${PCF_DOMAIN_NAME} \
-    pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
-    opsmanUsername=${PCF_OPSMAN_USERNAME} \
-    notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
-    net16bitmask=${NET_16_BIT_MASK} \
-    pasAutopilot=${PAS_AUTOPILOT} \
-    pasVersion=${PCF_PAS_VERSION} \
-    smtpAddress=${SMTP_ADDRESS} \
-    smtpIdentity=${SMTP_IDENTITY} \
-    smtpPassword=${SMTP_PASSWORD} \
-    smtpFrom=${SMTP_FROM} \
-    smtpPort=${SMTP_PORT} \
-    smtpStarttls=${SMTP_STARTTLS}
-```
-## validate before deploying
+the full parameter set´s optiional Values like smtp config
+
+### validate full
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
@@ -146,8 +144,40 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     smtpFrom=${SMTP_FROM} \
     smtpPort=${SMTP_PORT} \
     smtpStarttls=${SMTP_STARTTLS}
-
 ```
+
+### deploy full
+
+```bash
+az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
+az group deployment create --resource-group ${JUMPBOX_RG} \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --parameters \
+    sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
+    dnsLabelPrefix=${JUMPBOX_NAME} \
+    clientSecret=${AZURE_CLIENT_SECRET} \
+    clientID=${AZURE_CLIENT_ID} \
+    tenantID=${AZURE_TENANT_ID} \
+    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
+    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
+    envName=${ENV_NAME} \
+    envShortName=${ENV_SHORT_NAME} \
+    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
+    pcfDomainName=${PCF_DOMAIN_NAME} \
+    pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
+    opsmanUsername=${PCF_OPSMAN_USERNAME} \
+    notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
+    net16bitmask=${NET_16_BIT_MASK} \
+    pasAutopilot=${PAS_AUTOPILOT} \
+    pasVersion=${PCF_PAS_VERSION} \
+    smtpAddress=${SMTP_ADDRESS} \
+    smtpIdentity=${SMTP_IDENTITY} \
+    smtpPassword=${SMTP_PASSWORD} \
+    smtpFrom=${SMTP_FROM} \
+    smtpPort=${SMTP_PORT} \
+    smtpStarttls=${SMTP_STARTTLS}
+```
+
 ## debugging/ monitoring
 
 it is recommended to check the deployment logs. the azure rm command might timeout as the pas deployment takes time. that will not have an impact on the deployment.  
