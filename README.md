@@ -10,7 +10,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 create an .env file using the .env.example  
 the .env file requires at the following variables to be set:  
 
-| variable|parameter|default value|mandatory|description|
+| variable|azure rm template parameter|default value|mandatory|description|
 |---|---|---|---|---|
 |**JUMPBOX_RG**|||yes|the name of the ressource group for the JumpBox  |
 |**JUMPBOX_NAME**|dnsLabelPrefix|-|yes|the JumpBox hostname , must be unique for the region ! |
@@ -27,17 +27,17 @@ the .env file requires at the following variables to be set:
 |**ENV_NAME**|env_name|pcf||*pcf* this name will be prefix for azure resources and you opsman hostname  |
 |**OPS_MANAGER_IMAGE_URI**|ops_manager_image_uri||no| a 2.4 opsman image url |
 |**RELEASE_ID**|release_id|259105|no|**  |
-|**PCF_NOTIFICATIONS_EMAIL**|user@example.com"||*"*  |
+|**PCF_NOTIFICATIONS_EMAIL**|notificationsEmail|user@example.com"||wher to sent PCF Notifications |
 |**PCF_OPSMAN_USERNAME**||||*opsman*  |
 |**NET_16_BIT_MASK**||||*10.10* 16 bit network mask, defaul 10.10  |
-|**PAS_AUTOPILOT**||||*FALSE* Autoinstall PAS when set to true  |
-|**PCF_PAS_VERSION**||||*2.4.1* the version of PAS, must be 2.4.0 or greater  |
-|**SMTP_ADDRESS**||||*"mysmtp.example.com"  |
-|**SMTP_IDENTITY**||||*"mysmtpuser"  |
-|**SMTP_PASSWORD**||||*"mysmtppass"  |
-|**SMTP_FROM**||||*"from@example"  |
-|**SMTP_PORT**||||*"587"  |
-|**SMTP_STARTTLS**||||*"true"  |
+|**PAS_AUTOPILOT**|pasAutopilot|FALSE|| Autoinstall PAS, RABBIT, MYSQL, Spring Service when set to true  |
+|**PCF_PAS_VERSION**|pasVersion|2.4.1|no| the version of PAS, must be 2.4.0 or greater  |
+|**SMTP_ADDRESS**|smtpAddress||no|"mysmtp.example.com"  |
+|**SMTP_IDENTITY**|smtpIdentity||no|"mysmtpuser"  |
+|**SMTP_PASSWORD**|smtpPassword||no|"mysmtppass"  |
+|**SMTP_FROM**|smtpFrom||no|"from@example.com"  |
+|**SMTP_PORT**|smtpPort||no|"587"  |
+|**SMTP_STARTTLS**|smtpStarttls|false|no|true or false  |
 
 source the env file  
 ```bash
