@@ -55,28 +55,28 @@
                 "description": "pivnet refresh token"
             }
         },
-        "release_id": {
+        "pasReleaseID": {
             "type": "string",
             "defaultValue": "259105",
             "metadata": {
                 "description": "pivnet release id"
             }
         },
-        "env_name": {
+        "envName": {
             "type": "string",
             "defaultValue": "pcf",
             "metadata": {
                 "description": "environment name for azure ( will be ops host name )"
             }
         },
-        "env_short_name": {
+        "envShortName": {
             "type": "string",
             "minLength": "3",
             "metadata": {
                 "description": "will be prefix for pcf terraform resources"
             }
         },
-        "ops_manager_image_uri": {
+        "opsmanImageUri": {
             "type": "string",
             "minLength": "3",
             "defaultValue": "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd",
@@ -84,21 +84,21 @@
                 "description": "url for latest osmanager image"
             }
         },
-        "pcf_domain_name": {
+        "pcfDomainName": {
             "type": "string",
             "minLength": "7",
             "metadata": {
                 "description": "dns suffix for pcf"
             }
         },
-        "pcf_subdomain_name": {
+        "pcfSubdomainName": {
             "type": "string",
             "minLength": "3",
             "metadata": {
                 "description": "subdomain for pcf"
             }
         },
-        "net_16_bit_mask": {
+        "net16bitmask": {
             "type": "string",
             "minLength": "3",
             "defaultValue": "10.10",
@@ -343,7 +343,7 @@
             ],
             "tags": {
                 "Application": "PCF PAS Jumpbox",
-                "AutoDeployed RG": "[parameters('env_name')]"
+                "AutoDeployed RG": "[parameters('envName')]"
             },
             "properties": {
                 "hardwareProfile": {
@@ -429,17 +429,17 @@
                             "AZURE_SUBSCRIPTION_ID": "[parameters('subscriptionID')]",
                             "AZURE_TENANT_ID": "[parameters('tenantID')]",
                             "PCF_PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
-                            "ENV_NAME": "[parameters('env_name')]",
-                            "ENV_SHORT_NAME": "[parameters('env_short_name')]",
-                            "OPS_MANAGER_IMAGE_URI": "[parameters('ops_manager_image_uri')]",
+                            "ENV_NAME": "[parameters('envName')]",
+                            "ENV_SHORT_NAME": "[parameters('envShortName')]",
+                            "OPS_MANAGER_IMAGE_URI": "[parameters('opsmanImageUri')]",
                             "LOCATION": "[parameters('location')]",
-                            "PCF_DOMAIN_NAME": "[parameters('pcf_domain_name')]",
-                            "PCF_SUBDOMAIN_NAME": "[parameters('pcf_subdomain_name')]",
-                            "RELEASE_ID": "[parameters('release_id')]",
+                            "PCF_DOMAIN_NAME": "[parameters('pcfDomainName')]",
+                            "PCF_SUBDOMAIN_NAME": "[parameters('pcfSubdomainName')]",
+                            "RELEASE_ID": "[parameters('pasReleaseID')]",
                             "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
                             "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",
                             "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
-                            "NET_16_BIT_MASK": "[parameters('net_16_bit_mask')]",
+                            "NET_16_BIT_MASK": "[parameters('net16bitmask')]",
                             "PAS_AUTOPILOT": "[parameters('pasAutopilot')]",
                             "PCF_PAS_VERSION": "[parameters('pasVersion')]",
                             "SMTP_ADDRESS": "[parameters('smtpAddress')]",

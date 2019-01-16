@@ -21,15 +21,15 @@ the .env file requires at the following variables to be set:
 | **AZURE_SUBSCRIPTION_ID**   | subscriptionID              |                   | yes               | Your Azure Subscription ID,                                                                                                                                     |
 | **AZURE_TENANT_ID**         | tenantID                    |                   | yes               | Your AZURE tenant                                                                                                                                               |
 | **PCF_PIVNET_UAA_TOKEN**    | pivnetToken                 |                   | yes               | Your Token from Pivotal Network                                                                                                                                 |
-| **PCF_DOMAIN_NAME**         | pcf_domain_name             |                   | yes               | the domain your pcf subdomain will be hosted in                                                                                                                 |
-| **PCF_SUBDOMAIN_NAME**      | pcf_subdomain_name          |                   | yes               | the subdomain name that will be created in your resource group                                                                                                  |
-| **ENV_SHORT_NAME**          | env_short_name              |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below |
-| **ENV_NAME**                | env_name                    | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname                                                                                      |
-| **OPS_MANAGER_IMAGE_URI**   | ops_manager_image_uri       |                   | no                | a 2.4 opsman image url                                                                                                                                          |
-| **RELEASE_ID**              | release_id                  | 259105            | no                | must correspond to PAS Version !                                                                                                                                |
+| **PCF_DOMAIN_NAME**         | pcfDomainName             |                   | yes               | the domain your pcf subdomain will be hosted in                                                                                                                 |
+| **PCF_SUBDOMAIN_NAME**      | pcfSubdomainName          |                   | yes               | the subdomain name that will be created in your resource group                                                                                                  |
+| **ENV_SHORT_NAME**          | envShortName              |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below |
+| **ENV_NAME**                | envName                    | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname                                                                                      |
+| **OPS_MANAGER_IMAGE_URI**   | opsmanImageUri       |                   | no                | a 2.4 opsman image url                                                                                                                                          |
+| **RELEASE_ID**              | pasReleaseID                  | 259105            | no                | must correspond to PAS Version !                                                                                                                                |
 | **PCF_NOTIFICATIONS_EMAIL** | notificationsEmail          | user@example.com" | no                | wher to sent PCF Notifications                                                                                                                                  |
 | **PCF_OPSMAN_USERNAME**     | opsmanUsername              | opsman            | no                | *opsman*                                                                                                                                                        |
-| **NET_16_BIT_MASK**         | net_16_bit_mask             | 10.10             | no                | *16 bit networkdefault 10.10                                                                                                                                    |
+| **NET_16_BIT_MASK**         | net16bitmask             | 10.10             | no                | *16 bit networkdefault 10.10                                                                                                                                    |
 | **PAS_AUTOPILOT**           | pasAutopilot                | FALSE             |                   | Autoinstall PAS, RABBIT, MYSQL, Spring Service when set to true                                                                                                 |
 | **PCF_PAS_VERSION**         | pasVersion                  | 2.4.1             | no                | the version of PAS, must be 2.4.0 or greater                                                                                                                    |
 | **SMTP_ADDRESS**            | smtpAddress                 | null              | no                | "mysmtp.example.com"                                                                                                                                            |
@@ -70,11 +70,11 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
-    env_name=${ENV_NAME} \
-    env_short_name=${ENV_SHORT_NAME} \
-    ops_manager_image_uri=${OPS_MANAGER_IMAGE_URI} \
-    pcf_domain_name=${PCF_DOMAIN_NAME} \
-    pcf_subdomain_name=${PCF_SUBDOMAIN_NAME}
+    envName=${ENV_NAME} \
+    envShortName=${ENV_SHORT_NAME} \
+    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
+    pcfDomainName=${PCF_DOMAIN_NAME} \
+    pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
 ```
 
 ## start the deployment with full param set
@@ -91,15 +91,15 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
-    env_name=${ENV_NAME} \
-    env_short_name=${ENV_SHORT_NAME} \
-    ops_manager_image_uri=${OPS_MANAGER_IMAGE_URI} \
-    pcf_domain_name=${PCF_DOMAIN_NAME} \
-    pcf_subdomain_name=${PCF_SUBDOMAIN_NAME} \
+    envName=${ENV_NAME} \
+    envShortName=${ENV_SHORT_NAME} \
+    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
+    pcfDomainName=${PCF_DOMAIN_NAME} \
+    pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
-    release_id=${RELEASE_ID} \
+    pasReleaseID=${RELEASE_ID} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
-    net_16_bit_mask=${NET_16_BIT_MASK} \
+    net16bitmask=${NET_16_BIT_MASK} \
     pasAutopilot=${PAS_AUTOPILOT} \
     pasVersion=${PCF_PAS_VERSION} \
     smtpAddress=${SMTP_ADDRESS} \
