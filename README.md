@@ -15,7 +15,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 ## usage 
 create an .env file using the [.env.example](/.env.example)  
-Parameter Explanation in this [table](## env variables) 
+Parameter Explanation in this [table](/#env-variables)
 
 source the env file  
 ```bash
@@ -184,7 +184,7 @@ az group delete --name ${ENV_NAME} --yes
 ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
 
-(## env variables)
+## env variables
 
 variable                    | azure rm parameter | default value     | mandatory         | description
 ----------------------------|--------------------|-------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
