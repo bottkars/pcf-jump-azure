@@ -1,19 +1,23 @@
 # pcf-jump-azure
+
 ## Overview
+
 pcf-jump-azure creates an ubuntu based jumpbox to deploy Pivotal PAS (2.4 and above) on azure  
 It will pave the infrastructure using Pivotal [terraforming-azure](https://github.com/pivotal-cf/terraforming-azure).  
 PCF Operations Manager will be installed and configured using Pivotal [om cli](https://github.com/pivotal-cf/om).  
 Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om).  
 
 ## features
+
 - automated opsman deployment and configuration
 - pas infrastructure paving
 - autopilot for starting pas, mysql, rabbit and spring deployment (will take several hours )
-- certificate generation using selfsigned or let´s encrypt certificates
+- certificate generation using selfsigned or let´s encrypt [certificates](#certificates)
 - [sendgrid](/sendgrid.md) integration for notifications and user sign up
 - dns configuration and check
 
-## usage 
+## usage
+
 create an .env file using the [.env.example](/.env.example)  
 Parameter Explanation in this [table](#env-variables)  
 if you need a full parameter set or a minimum depends on your cuastomizations (e.g. [sendgrid](/sendgrid.md) and others )
@@ -156,7 +160,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     smtpPassword=${SMTP_PASSWORD} \
     smtpFrom=${SMTP_FROM} \
     smtpPort=${SMTP_PORT} \
-    smtpStarttls=${SMTP_STARTTLS}
+    smtpStarttls=${SMTP_STARTTLS} \
+    useSelfCerts=${USE_SELF_CERTS}
 ```
 
 ## debugging/ monitoring
@@ -191,12 +196,13 @@ if you do not autodeploy ( default behaviour ), you can kickstart the deployment
 
 ### pas
 
-using selfsigned certificates
+using selfsigned [certificates](#certificates)
 
 ```bash
 ./create_self_certs.sh
 ./deploy_pas.sh
 ```
+
 or using Let´s encrypt
 
 ```bash
@@ -205,24 +211,29 @@ or using Let´s encrypt
 ```
 
 ### mysql
+
 requires pas deployed
- 
+
  ```bash
 ./deploy_mysql.sh
 ```
+
 ### rabbit
+
 requires pas deployed
- 
+
  ```bash
 ./deploy_rabbit.sh
 ```
 
 ### spring service
+
 requires pas, rabbit and mysql deployed
- 
+
  ```bash
 ./deploy_spring.sh
 ```
+
 ## cleanup
 
 ```bash
@@ -230,6 +241,16 @@ az group delete --name ${JUMPBOX_RG} --yes
 az group delete --name ${ENV_NAME} --yes
 ssh-keygen -R "${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com"
 ```
+
+## certificates
+
+the deployment uses self-signed certificates by default. to uses automated generation of Let´s encrypt Certificates, set
+
+```bash
+USE_SELF_CERTS="FALSE"
+```
+
+and use the [Full Deployment Method](#deploy-full)
 
 ## env variables
 
@@ -266,9 +287,9 @@ variable                    | azure rm parameter | default value     | mandatory
 ## required nameserver delegation
 
 make sure that your domain has a ns resource record to your pcf domain.  
-the  following nsmaserver entries must be part of the resource record:   
+the  following nameserver entries must be part of the resource record:  
 
-```
+```bash
 ns1-07.azure-dns.com.
 ns2-07.azure-dns.net.
 ns3-07.azure-dns.org.
