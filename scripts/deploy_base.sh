@@ -149,7 +149,7 @@ wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-r
 # get pivnet UAA TOKEN
 
 cd ${HOME_DIR}
-source ~/pas.env
+source ${HOME_DIR}/pas.env
 AUTHENTICATION_RESPONSE=$(curl \
   --fail \
   --data "{\"refresh_token\": \"${PCF_PIVNET_UAA_TOKEN}\"}" \
