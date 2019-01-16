@@ -42,8 +42,9 @@ az storage account check-name --name ${ENV_SHORT_NAME}director
 
 you are now good to go to deploy  
 [with minimum parameters](#deployment-with-minimum-param-set)  
-[with full parameters](#deployment-with-full-param-set)  
-also, note that AUTOPILOT is disabled by default now.   
+[with full parameters](#deployment-with-full-param-set)
+[with parameter file](#deployment-using-parameter-file)
+also, note that AUTOPILOT is disabled by default now.  
 you can set the Environment for PAS_AUTOPILOT or use -pasAutopilot=TRUE during deployment.  
 if not using autopilot, see [Post Deployment Steps](#post-deploy) for more Details
 
@@ -162,6 +163,21 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     smtpPort=${SMTP_PORT} \
     smtpStarttls=${SMTP_STARTTLS} \
     useSelfCerts=${USE_SELF_CERTS}
+```
+
+## deployment using parameter file
+
+you also might want to deploy the template using an parameter file.  
+simply create a local azuredeploy.parameter.json file from the [example](./azuredeploy.parameters.example.json)
+
+then run 
+
+```bash
+az group create --name <RG_NAME> --location <AZURE_REGION>
+az group deployment create --resource-group <rg_name> \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --parameters @azuredeploy.parameters.json
+
 ```
 
 ## debugging/ monitoring
