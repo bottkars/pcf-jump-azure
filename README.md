@@ -19,7 +19,7 @@ the .env file requires at the following variables to be set:
 
 variable| azure rm parameter | default value | mandatory | description
 --------|--------------------|---------------|-----------|-----------
-**JUMPBOX_RG**              |                             |                                                                                         | yes               | the name of the ressource group for the JumpBox
+**JUMPBOX_RG**              |                |                                                                                         | yes               | the name of the ressource group for the JumpBox
 **JUMPBOX_NAME**            | dnsLabelPrefix              | -                                                                                       | yes               | the JumpBox hostname , must be unique for the region !
 **ADMIN_USERNAME**          | adminUsername               | ubuntu                                                                                  | no                | the jumpbox os username
 **AZURE_CLIENT_ID**         | clientID                    |                                                                                         | yes               | *Azure Service Principal*
