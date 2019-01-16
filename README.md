@@ -12,11 +12,11 @@ the .env file requires at the following variables to be set:
 
 | variable|parameter|default value|mandatory|description|
 |---|---|---|---|---|
-|**JUMPBOX_RG**||||*JUMPBOX* ,the name of the ressource group for the JumpBox  
-**JUMPBOX_NAME**||||*pasjumpbox* ,the JumpBox hostname  
-**ADMIN_USERNAME**||||*ubuntu*  
-**AZURE_CLIENT_ID**||||*fake your azure client id*  
-**AZURE_CLIENT_SECRET**||||*fake your azure client secret*  
+|**JUMPBOX_RG**|||yes|the name of the ressource group for the JumpBox  
+**JUMPBOX_NAME**|dnsLabelPrefix|-|yes|the JumpBox hostname , must be unique for the region ! 
+**ADMIN_USERNAME**|adminUsername|ubuntu|no|the jimpbox os username 
+**AZURE_CLIENT_ID**|clientID||true|*Azure Service Principal*  
+**AZURE_CLIENT_SECRET**|clientSecret|||*fService Principal client secret*  
 **AZURE_REGION**||||*westeurope*  
 **AZURE_SUBSCRIPTION_ID**||||*fake your azure subscription id*  
 **AZURE_TENANT_ID**||||*fake your azure tenant*  
