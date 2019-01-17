@@ -1,6 +1,6 @@
 # bosh tasks
 
-credits to [Alan McGinley](https://github.com/amcginlay/bosh-topics)
+credits to [Alan McGinlay](https://github.com/amcginlay/bosh-topics)
 
 ```bash
 export $( \
