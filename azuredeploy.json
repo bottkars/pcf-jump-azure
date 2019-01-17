@@ -444,7 +444,10 @@
                             "SMTP_FROM": "[parameters('smtpFrom')]",
                             "SMTP_PORT": "[parameters('smtpPort')]",
                             "SMTP_STARTTLS": "[parameters('smtpStarttls')]",
-                            "USE_SELF_CERTS": "[parameters('useSelfCerts')]"
+                            "USE_SELF_CERTS": "[parameters('useSelfCerts')]",
+                            "JUMP_VNET": "[variables('virtualNetworkName')]",
+                            "JUMP_RG": "[resourceGroup().name]"
+
                         }
                     }
                 }
