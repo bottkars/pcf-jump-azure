@@ -1,5 +1,8 @@
 # pcf-jump-azure
 
+<img src="https://docs.pivotal.io/images/PVLG-PivotalApplicationService-Symbol.png" width="100"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/800px-Heart_coraz%C3%B3n.svg.png" width="100">
+<img src="https://docs.pivotal.io/images/icon_microsoft_azure@2x.png" width="100">
+
 ## Overview
 
 pcf-jump-azure creates an ubuntu based jumpbox to deploy Pivotal PAS (2.4 and above) on azure  
