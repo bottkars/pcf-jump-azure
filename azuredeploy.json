@@ -232,6 +232,19 @@
                 "description": "Location for all resources."
             }
         },
+        "opsmanImageRegion": {
+            "type": "string",
+            "defaultValue": "westeurope",
+            "allowedValues": [
+                "eastus",
+                "westus",
+                "westeurope",
+                "southeastasia"
+            ],
+            "metadata": {
+                "description": "Location for OPSMAN  Download resources."    
+            }
+        },           
         "_artifactsLocation": {
             "type": "string",
             "defaultValue": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
@@ -447,7 +460,7 @@
                             "PCF_PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
                             "ENV_NAME": "[parameters('envName')]",
                             "ENV_SHORT_NAME": "[parameters('envShortName')]",
-                            "OPS_MANAGER_IMAGE_URI": "[concat('https://opsmanager',parameters('location'),'.blob.core.windows.net/images/',parameters('opsmanImage'))]",
+                            "OPS_MANAGER_IMAGE_URI": "[concat('https://opsmanager',parameters('opsmanImageregion'),'.blob.core.windows.net/images/',parameters('opsmanImage'))]",
                             "LOCATION": "[parameters('location')]",
                             "PCF_DOMAIN_NAME": "[parameters('pcfDomainName')]",
                             "PCF_SUBDOMAIN_NAME": "[parameters('pcfSubdomainName')]",
