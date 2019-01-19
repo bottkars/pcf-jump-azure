@@ -2,7 +2,7 @@
 
 source ~/.env.sh
 
-export OM_TARGET=${PCF_OPSMAN_FQDN}
+export OM_TARGET=${P${BRANCH}_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
 START_PAS_DEPLOY_TIME=$(date)
@@ -18,7 +18,7 @@ PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
-PRODUCT_NAME=cf
+PRODUCT_NAME=${PAS_EDITION}
 PCF_APPS_DOMAIN="apps.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PCF_SYSTEM_DOMAIN="sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PCF_WEB_LB="${ENV_NAME}-web-lb"
@@ -59,7 +59,7 @@ echo $(date) start downloading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
   download-product \
  --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
- --pivnet-file-glob "cf*.pivotal" \
+ --pivnet-file-glob "${PAS_EDITION}*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_PAS_VERSION} \
  --stemcell-iaas azure \

@@ -170,7 +170,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     smtpStarttls=${SMTP_STARTTLS} \
     useSelfCerts=${USE_SELF_CERTS} \
     _artifactsLocation=${ARTIFACTS_LOCATION} \
-    vmSize=${VMSIZE}
+    vmSize=${VMSIZE} \
+    pasEdition=${PAS_EDITION}
 ```
 
 ## deployment using parameter file
