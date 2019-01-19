@@ -45,7 +45,7 @@ EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
 
 
-DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/$PRODUCT_SLUG/${PCF_PAS_VERSION}
+DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/$PRODUCT_SLUG/${PCF_PAS_VERSION}-${PAS_EDITION}
 mkdir -p ${DOWNLOAD_DIR_FULL}
 # eula acceptance
 curl \
