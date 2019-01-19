@@ -255,7 +255,7 @@
         "vmName": "pcfjumphost",
         "virtualNetworkName": "jumpVNET",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
-        "baseUri": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
+        "baseUri": "[parameters('_artifactsLocation')]",
         "filesToDownload": [
             "[concat(variables('baseUri'),  '/scripts/create_certs.sh')]",
             "[concat(variables('baseUri'),  '/scripts/create_self_certs.sh')]",
