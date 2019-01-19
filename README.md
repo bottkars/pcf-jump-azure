@@ -60,7 +60,7 @@ the minimum parameter set uses defaults where possible
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
@@ -82,7 +82,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment create --resource-group ${JUMPBOX_RG} \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
@@ -108,7 +108,7 @@ the full parameter set´s optiional Values like smtp config
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     dnsLabelPrefix=${JUMPBOX_NAME} \
@@ -134,7 +134,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     smtpPort=${SMTP_PORT} \
     smtpStarttls=${SMTP_STARTTLS} \
     useSelfCerts=${USE_SELF_CERTS} \
-    _articactsLocation=${ARTIFACTS_LOCATION} \
+    _artifactsLocation=${ARTIFACTS_LOCATION} \
     vmSize=${VMSIZE}
 ```
 
@@ -143,7 +143,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment create --resource-group ${JUMPBOX_RG} \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     dnsLabelPrefix=${JUMPBOX_NAME} \
@@ -169,7 +169,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     smtpPort=${SMTP_PORT} \
     smtpStarttls=${SMTP_STARTTLS} \
     useSelfCerts=${USE_SELF_CERTS} \
-    _articactsLocation=${ARTIFACTS_LOCATION} \
+    _artifactsLocation=${ARTIFACTS_LOCATION} \
     vmSize=${VMSIZE}
 ```
 
@@ -183,7 +183,7 @@ then run
 ```bash
 az group create --name <RG_NAME> --location <AZURE_REGION>
 az group deployment create --resource-group <rg_name> \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
     --parameters @azuredeploy.parameters.json
 
 ```
