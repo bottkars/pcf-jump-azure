@@ -138,7 +138,7 @@ EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c pas.yaml -l vars.yaml
+  -c ${HOME_DIR}/pas-${PAS_EDITION}.yaml -l vars.yaml
 ###
 
 om --skip-ssl-validation \
