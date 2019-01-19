@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
 
+case $key in
+    -n|--NO_DOWNLOAD)
+    NO_DOWNLOAD="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
 source ~/.env.sh
 
 export OM_TARGET=${PCF_OPSMAN_FQDN}
@@ -18,7 +35,7 @@ PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
-PRODUCT_NAME=${PAS_EDITION}
+PRODUCT_NAME=cf
 PCF_APPS_DOMAIN="apps.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PCF_SYSTEM_DOMAIN="sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PCF_WEB_LB="${ENV_NAME}-web-lb"
@@ -53,6 +70,8 @@ curl \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   --request POST \
   ${EULA_ACCEPTANCE_URL}
+# download product using om cli
+if  [ -z ${NO_DOWNLOAD} ] ; then
 
 # download product using om cli
 echo $(date) start downloading ${PRODUCT_SLUG}
@@ -65,8 +84,10 @@ om --skip-ssl-validation \
  --stemcell-iaas azure \
  --download-stemcell \
  --output-directory ${DOWNLOAD_DIR_FULL}
-
-echo $(date) end downloading ${PRODUCT_SLUG} 
+echo $(date) end downloading ${PRODUCT_SLUG}
+else 
+echo ignoring download by user 
+fi
 
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
 STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
