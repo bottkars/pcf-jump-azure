@@ -69,14 +69,16 @@
                 "description": "will be prefix for pcf terraform resources"
             }
         },
-        "opsmanImageUri": {
+        "opsmanImage": {
             "type": "string",
-            "allowedValues": ["https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd",
-            "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.117.vhd"
+            "allowedValues": [
+                "ops-manager-2.4-build.142.vhd",
+                "ops-manager-2.4-build.131.vhd",
+                "ops-manager-2.4-build.117.vhd"
             ],
-            "defaultValue": "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd",
+            "defaultValue": "ops-manager-2.4-build.142.vhd",
             "metadata": {
-                "description": "url for latest osmanager image"
+                "description": "latest osmanager image"
             }
         },
         "pcfDomainName": {
@@ -100,7 +102,7 @@
             "metadata": {
                 "description": "first 16 bit of ip range in format xxx.xxx"
             }
-        },        
+        },
         "notificationsEmail": {
             "type": "string",
             "minLength": "5",
@@ -122,7 +124,7 @@
             "metadata": {
                 "description": "SMTP Username, e.g. apiuser for sendgrid"
             }
-        },         
+        },
         "smtpPassword": {
             "type": "string",
             "defaultValue": "",
@@ -147,11 +149,14 @@
         "smtpStarttls": {
             "type": "string",
             "defaultValue": "false",
-            "allowedValues": ["true","false"],
+            "allowedValues": [
+                "true",
+                "false"
+            ],
             "metadata": {
                 "description": "Default false, true for sendgrid"
             }
-        },                                  
+        },
         "opsmanUsername": {
             "type": "string",
             "minLength": "5",
@@ -185,7 +190,10 @@
         "pasVersion": {
             "type": "string",
             "defaultValue": "2.4.1",
-            "allowedValues": ["2.4.1","2.4.0"]
+            "allowedValues": [
+                "2.4.1",
+                "2.4.0"
+            ]
         },
         "dnsLabelPrefix": {
             "minLength": "3",
@@ -203,6 +211,18 @@
             ],
             "metadata": {
                 "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version."
+            }
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2S_v2",
+            "allowedValues": [
+                "Standard_F2s_v2",
+                "Standard_D2s_v2",
+                "Standard_D2s_v3"
+            ],
+            "metadata": {
+                "description": "VM Size for Jumphost"
             }
         },
         "location": {
@@ -233,7 +253,6 @@
         "publicIPAddressName": "myPublicIP",
         "publicIPAddressType": "Dynamic",
         "vmName": "pcfjumphost",
-        "vmSize": "Standard_F2s_v2",
         "virtualNetworkName": "jumpVNET",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
         "baseUri": "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master",
@@ -245,7 +264,7 @@
             "[concat(variables('baseUri'),  '/scripts/deploy_mysql.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_rabbit.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_spring.sh')]",
-            "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",            
+            "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
             "[concat(variables('baseUri'),  '/templates/pas.yaml')]",
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
@@ -253,7 +272,7 @@
             "[concat(variables('baseUri'),  '/env/mysql.env')]",
             "[concat(variables('baseUri'),  '/env/pas/',parameters('pasVersion'),'/pas.env')]",
             "[concat(variables('baseUri'),  '/env/rabbit.env')]",
-            "[concat(variables('baseUri'),  '/env/spring.env')]",            
+            "[concat(variables('baseUri'),  '/env/spring.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
         ]
@@ -344,7 +363,7 @@
             },
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[variables('vmSize')]"
+                    "vmSize": "[parameters('vmSize')]"
                 },
                 "osProfile": {
                     "computerName": "[variables('vmName')]",
@@ -428,7 +447,7 @@
                             "PCF_PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
                             "ENV_NAME": "[parameters('envName')]",
                             "ENV_SHORT_NAME": "[parameters('envShortName')]",
-                            "OPS_MANAGER_IMAGE_URI": "[parameters('opsmanImageUri')]",
+                            "OPS_MANAGER_IMAGE_URI": "[concat('https://opsmanager',parameters('location'),'.blob.core.windows.net/images/',parameters('opsmanImage'))]",
                             "LOCATION": "[parameters('location')]",
                             "PCF_DOMAIN_NAME": "[parameters('pcfDomainName')]",
                             "PCF_SUBDOMAIN_NAME": "[parameters('pcfSubdomainName')]",
@@ -447,7 +466,6 @@
                             "USE_SELF_CERTS": "[parameters('useSelfCerts')]",
                             "JUMP_VNET": "[variables('virtualNetworkName')]",
                             "JUMP_RG": "[resourceGroup().name]"
-
                         }
                     }
                 }

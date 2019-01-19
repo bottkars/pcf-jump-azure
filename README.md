@@ -119,7 +119,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
+    opsmanImage=${OPS_MANAGER_IMAGE} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
@@ -132,7 +132,9 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     smtpPassword=${SMTP_PASSWORD} \
     smtpFrom=${SMTP_FROM} \
     smtpPort=${SMTP_PORT} \
-    smtpStarttls=${SMTP_STARTTLS}
+    smtpStarttls=${SMTP_STARTTLS} \
+    useSelfCerts=${USE_SELF_CERTS} \
+    _articactsLocation=${ARTIFACTS_LOCATION}
 ```
 
 ### deploy full
@@ -151,7 +153,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
+    opsmanImageUri=${OPS_MANAGER_IMAGE} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
@@ -165,7 +167,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     smtpFrom=${SMTP_FROM} \
     smtpPort=${SMTP_PORT} \
     smtpStarttls=${SMTP_STARTTLS} \
-    useSelfCerts=${USE_SELF_CERTS}
+    useSelfCerts=${USE_SELF_CERTS} \
+    _articactsLocation=${ARTIFACTS_LOCATION}
 ```
 
 ## deployment using parameter file
