@@ -134,7 +134,8 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     smtpPort=${SMTP_PORT} \
     smtpStarttls=${SMTP_STARTTLS} \
     useSelfCerts=${USE_SELF_CERTS} \
-    _articactsLocation=${ARTIFACTS_LOCATION}
+    _articactsLocation=${ARTIFACTS_LOCATION} \
+    vmSize=${VMSIZE}
 ```
 
 ### deploy full
@@ -168,7 +169,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     smtpPort=${SMTP_PORT} \
     smtpStarttls=${SMTP_STARTTLS} \
     useSelfCerts=${USE_SELF_CERTS} \
-    _articactsLocation=${ARTIFACTS_LOCATION}
+    _articactsLocation=${ARTIFACTS_LOCATION} \
+    vmSize=${VMSIZE}
 ```
 
 ## deployment using parameter file
