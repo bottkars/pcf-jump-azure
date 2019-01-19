@@ -107,6 +107,7 @@ the full parameter set´s optiional Values like smtp config
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
+
 az group deployment validate --resource-group ${JUMPBOX_RG} \
     --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
     --parameters \
@@ -119,7 +120,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImage=${OPS_MANAGER_IMAGE} \
+    opsmanImageUri=${OPS_MANAGER_IMAGE} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
@@ -135,7 +136,8 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     smtpStarttls=${SMTP_STARTTLS} \
     useSelfCerts=${USE_SELF_CERTS} \
     _artifactsLocation=${ARTIFACTS_LOCATION} \
-    vmSize=${VMSIZE}
+    vmSize=${VMSIZE} \
+    pasEdition=${PAS_EDITION}
 ```
 
 ### deploy full
