@@ -120,7 +120,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE} \
+    opsmanImageregion=${OPS_MANAGER_IMAGE} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
@@ -156,7 +156,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE} \
+    opsmanImageregion=${OPS_MANAGER_IMAGE} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
