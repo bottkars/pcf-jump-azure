@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-source ~/.env.sh
-cd ${HOME_DIR}
+cd $1
+source .env.sh
 mkdir -p ${HOME_DIR}/logs
 exec &> >(tee -a "${HOME_DIR}/logs/$0.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1

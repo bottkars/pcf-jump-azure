@@ -276,4 +276,5 @@ EOF
 
 
 
-su ubuntu  -c "nohup ${HOME_DIR}/om_init.sh >/dev/null 2>&1 &"
+su ubuntu  -c "nohup ${HOME_DIR}/om_init.sh ${HOME_DIR}"
+ # ">/dev/null 2>&1 &"
