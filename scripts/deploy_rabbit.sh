@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-exec &> >(tee -a "$0.log")
+source ~/.env.sh
+cd ${HOME_DIR}
+mkdir -p ${HOME_DIR}/logs
+exec &> >(tee -a "${HOME_DIR}/logs/$0.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -26,7 +29,6 @@ shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-source ~/.env.sh
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
