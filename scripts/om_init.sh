@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+source ~/.env.sh
+cd ${HOME_DIR}
+mkdir -p ${HOME_DIR}/logs
+exec &> >(tee -a "${HOME_DIR}/logs/$0.$(date '+%Y-%m-%d-%H').log")
+exec 2>&1
 function retryop()
 {
   retry=0
@@ -21,7 +26,6 @@ function retryop()
     exit 1
   fi
 }
-source ~/.env.sh 
 START_OPSMAN_DEPLOY_TIME=$(date)
 echo ${START_OPSMAN_DEPLOY_TIME} start opsman deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
@@ -109,3 +113,15 @@ echo Started BASE deployment at ${START_BASE_DEPLOY_TIME}
 echo Fimnished BASE deployment at ${END_BASE_DEPLOY_TIME}
 echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}
 echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
+
+if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
+    if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
+      ${HOME_DIR}/create_self_certs.sh
+    else  
+      ${HOME_DIR}/create_certs.sh
+    fi
+    ${HOME_DIR}/deploy_pas.sh
+    ${HOME_DIR}/deploy_mysql.sh
+    ${HOME_DIR}/deploy_rabbit.sh
+    ${HOME_DIR}/deploy_spring.sh
+fi

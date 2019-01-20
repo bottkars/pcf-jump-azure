@@ -276,16 +276,4 @@ EOF
 
 
 
-sudo -S -u ubuntu ${HOME_DIR}/om_init.sh
-
-if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
-    if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
-      sudo -S -u ubuntu ${HOME_DIR}/create_self_certs.sh
-    else  
-      sudo -S -u ubuntu ${HOME_DIR}/create_certs.sh
-    fi
-    sudo -S -u ubuntu ${HOME_DIR}/deploy_pas.sh
-    sudo -S -u ubuntu ${HOME_DIR}/deploy_mysql.sh
-    sudo -S -u ubuntu ${HOME_DIR}/deploy_rabbit.sh
-    sudo -S -u ubuntu ${HOME_DIR}/deploy_spring.sh
-fi
+su ubuntu  -c "nohup ${HOME_DIR}/om_init.sh >/dev/null 2>&1 &"
