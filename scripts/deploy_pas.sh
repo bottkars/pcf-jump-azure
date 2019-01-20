@@ -10,6 +10,11 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    -d|--DO_NOT_APPLY_CHANGES)
+    NO_APPLY="$2"
+    shift # past argument
+    shift # past value
+    ;;    
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
@@ -140,11 +145,16 @@ om --skip-ssl-validation \
   configure-product \
   -c ${HOME_DIR}/pas-${PAS_EDITION}.yaml -l vars.yaml
 ###
-
+if  [ -z ${NO_APPLY} ] ; then
 om --skip-ssl-validation \
   upload-stemcell \
   --stemcell ${STEMCELL_FILENAME}
 echo $(date) start apply ${PRODUCT_SLUG}
+else
+echo "No Product Apply"
+fi
+
+
 om --skip-ssl-validation \
   apply-changes \
   --product-name ${PRODUCT_NAME}
