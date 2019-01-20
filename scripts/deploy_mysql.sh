@@ -158,7 +158,7 @@ echo $(date) start apply ${PRODUCT_SLUG}
 if  [ -z ${NO_APPLY} ] ; then
 om --skip-ssl-validation \
   apply-changes \
-  --product-name ${PRODUCT_NAME}
+  --product-name ${PRODUCT_SLUG}
 else
 echo "No Product Apply"
 fi
