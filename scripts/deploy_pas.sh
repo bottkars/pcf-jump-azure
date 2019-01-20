@@ -6,20 +6,21 @@ key="$1"
 
 case $key in
     -n|--NO_DOWNLOAD)
-    NO_DOWNLOAD="$2"
-    shift # past argument
-    shift # past value
+    NO_DOWNLOAD=TRUE
+    echo No download  $NO_DOWNLOAD
+    # shift # past value
     ;;
     -d|--DO_NOT_APPLY_CHANGES)
-    NO_APPLY="$2"
-    shift # past argument
-    shift # past value
+    NO_APPLY=TRUE
+    echo No APPLY  $NO_APPLY
+    # shift # past value
     ;;    
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
     ;;
 esac
+shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 source ~/.env.sh
