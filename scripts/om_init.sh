@@ -2,7 +2,7 @@
 cd $1
 source .env.sh
 mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/$0.$(date '+%Y-%m-%d-%H').log")
+exec &> >(tee -a "${HOME_DIR}/logs/$(basename $0).$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 function retryop()
 {
