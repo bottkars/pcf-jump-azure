@@ -145,20 +145,20 @@ om --skip-ssl-validation \
   configure-product \
   -c ${HOME_DIR}/pas-${PAS_EDITION}.yaml -l vars.yaml
 ###
-if  [ -z ${NO_APPLY} ] ; then
+
 om --skip-ssl-validation \
   upload-stemcell \
   --stemcell ${STEMCELL_FILENAME}
 echo $(date) start apply ${PRODUCT_SLUG}
-else
-echo "No Product Apply"
-fi
 
 
+if  [ -z ${NO_APPLY} ] ; then
 om --skip-ssl-validation \
   apply-changes \
   --product-name ${PRODUCT_NAME}
-
+else
+echo "No Product Apply"
+fi
 echo $(date) end apply ${PRODUCT_SLUG}
 
 END_PAS_DEPLOY_TIME=$(date)
