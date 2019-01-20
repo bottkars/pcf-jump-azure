@@ -68,8 +68,6 @@ PAS_EDITION=$(get_setting PAS_EDITION)
 
 
 HOME_DIR="/home/${ADMIN_USERNAME}"
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} /mnt
-chmod 755 /mnt
 cp *.sh ${HOME_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.sh
 chmod 755 ${HOME_DIR}/*.sh

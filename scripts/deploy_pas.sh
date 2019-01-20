@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+exec &> >(tee -a "$0.log")
+exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -7,13 +9,13 @@ key="$1"
 case $key in
     -n|--NO_DOWNLOAD)
     NO_DOWNLOAD=TRUE
-    echo No download  $NO_DOWNLOAD
-    # shift # past value
+    echo "No download is ${NO_DOWNLOAD}"
+    # shift # past value if  arg value
     ;;
     -d|--DO_NOT_APPLY_CHANGES)
     NO_APPLY=TRUE
-    echo No APPLY  $NO_APPLY
-    # shift # past value
+    echo "No APPLY is ${NO_APPLY}"
+    # shift # past value ia arg value
     ;;    
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
@@ -24,7 +26,6 @@ shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 source ~/.env.sh
-
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
@@ -76,10 +77,9 @@ curl \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   --request POST \
   ${EULA_ACCEPTANCE_URL}
-# download product using om cli
-if  [ -z ${NO_DOWNLOAD} ] ; then
 
 # download product using om cli
+if  [ -z ${NO_DOWNLOAD} ] ; then
 echo $(date) start downloading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
   download-product \
@@ -150,8 +150,8 @@ om --skip-ssl-validation \
 om --skip-ssl-validation \
   upload-stemcell \
   --stemcell ${STEMCELL_FILENAME}
-echo $(date) start apply ${PRODUCT_SLUG}
 
+echo $(date) start apply ${PRODUCT_SLUG}
 
 if  [ -z ${NO_APPLY} ] ; then
 om --skip-ssl-validation \

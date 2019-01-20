@@ -1,6 +1,30 @@
 #!/usr/bin/env bash
-exec > >(tee -i -a ~/deploy_spring.log)
+exec &> >(tee -a "$0.log")
 exec 2>&1
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -n|--NO_DOWNLOAD)
+    NO_DOWNLOAD=TRUE
+    echo "No download is ${NO_DOWNLOAD}"
+    # shift # past value if  arg value
+    ;;
+    -d|--DO_NOT_APPLY_CHANGES)
+    NO_APPLY=TRUE
+    echo "No APPLY is ${NO_APPLY}"
+    # shift # past value ia arg value
+    ;;    
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+shift
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
 
 source ~/.env.sh
 export OM_TARGET=${PCF_OPSMAN_FQDN}
@@ -40,7 +64,9 @@ curl \
 
 
 # download product using om cli
-echo $(date) start downloading SPRING
+if  [ -z ${NO_DOWNLOAD} ] ; then
+echo $(date) start downloading ${PRODUCT_SLUG}
+
 om --skip-ssl-validation \
   download-product \
  --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
@@ -52,6 +78,9 @@ om --skip-ssl-validation \
  --output-directory ${DOWNLOAD_DIR_FULL}
 
 echo $(date) end downloading ${PRODUCT_SLUG}
+else 
+echo ignoring download by user 
+fi
 
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
 STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
@@ -94,8 +123,14 @@ om --skip-ssl-validation \
 om --skip-ssl-validation \
 upload-stemcell \
 --stemcell ${STEMCELL_FILENAME}
+
 echo $(date) start apply ${PRODUCT_SLUG}
+
+if  [ -z ${NO_APPLY} ] ; then
 om --skip-ssl-validation \
-apply-changes \
---product-name ${PRODUCT_SLUG}
-echo $(date) end apply ${PRODUCT_SLUG}  
+  apply-changes \
+  --product-name ${PRODUCT_NAME}
+else
+echo "No Product Apply"
+fi
+echo $(date) end apply ${PRODUCT_SLUG}
