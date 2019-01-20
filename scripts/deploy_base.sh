@@ -272,9 +272,5 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
 EOF
 )
-
-
-
-
-su ubuntu  -c "nohup ${HOME_DIR}/om_init.sh ${HOME_DIR}"
- # ">/dev/null 2>&1 &"
+echo "Base install finished, now initializing opsman, see logfiles in ${HOME_DIR}/logs"
+su ubuntu  -c "nohup ${HOME_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"
