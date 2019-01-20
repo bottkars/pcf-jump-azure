@@ -1,6 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 source ~/.env.sh
 cd ${HOME_DIR}
+mkdir -p ${HOME_DIR}/logs
+exec &> >(tee -a "${HOME_DIR}/logs/$0.$(date '+%Y-%m-%d-%H').log")
+exec 2>&1
+
 git clone https://github.com/Neilpang/acme.sh.git ./acme.sh
 
 export AZUREDNS_SUBSCRIPTIONID=${AZURE_SUBSCRIPTION_ID}
