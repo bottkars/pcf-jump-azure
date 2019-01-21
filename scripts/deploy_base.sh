@@ -273,4 +273,4 @@ END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
 EOF
 )
 echo "Base install finished, now initializing opsman, see logfiles in ${HOME_DIR}/logs"
-su ubuntu  -c "nohup ${HOME_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"
+su ubuntu -c "nohup ${HOME_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"
