@@ -111,6 +111,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
+    adminUsername=${ADMIN_USERNAME} \
     dnsLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
@@ -148,6 +149,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
+    adminUsername=${ADMIN_USERNAME} \
     dnsLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
