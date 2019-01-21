@@ -137,3 +137,8 @@ else
 echo "No Product Apply"
 fi
 echo $(date) end apply ${PRODUCT_SLUG}
+END_SPRING_DEPLOY_TIME=$(date)
+$(cat <<-EOF >> ${HOME_DIR}/.env.sh
+END_SPRING_DEPLOY_TIME="${END_SPRING_DEPLOY_TIME}"
+EOF
+)
