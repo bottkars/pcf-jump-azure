@@ -247,6 +247,8 @@
         },
         "opsmanImageRegion": {
             "type": "string",
+            "minLength": 6,
+            "maxLength": 13,
             "defaultValue": "westeurope",
             "allowedValues": [
                 "eastus",
