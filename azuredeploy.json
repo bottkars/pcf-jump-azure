@@ -228,10 +228,10 @@
         },
         "vmSize": {
             "type": "string",
-            "defaultValue": "Standard_D2S_v2",
+            "defaultValue": "Standard_D2s_v3",
             "allowedValues": [
                 "Standard_F2s_v2",
-                "Standard_D2s_v2",
+                "Standard_DS2_v2",
                 "Standard_D2s_v3"
             ],
             "metadata": {
