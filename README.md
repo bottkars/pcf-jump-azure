@@ -313,7 +313,7 @@ variable                    | azure rm parameter | default value     | mandatory
 **SMTP_STARTTLS**           | smtpStarttls       | false             | no                | true or false
 **USE_SELF_CERTS**          | useSelfcerts       | true              | no                | true or false
 **PAS_EDITION**             | pasEdition|cf|no|cf or srt deployment
-
+**OPS_MANAGER_IMAGE_REGION**|opsmanImageRegion|westeurope|yes|the region where to download opsman from. Values are westeurope, westus, eastus, southeastasia
 ## required nameserver delegation
 
 make sure that your domain has a ns resource record to your pcf domain.  
