@@ -311,7 +311,7 @@ variable                    | azure rm parameter | default value     | mandatory
 **SMTP_PORT**               | smtpPort           | null              | no                | "587"
 **SMTP_STARTTLS**           | smtpStarttls       | false             | no                | true or false
 **USE_SELF_CERTS**          | useSelfcerts       | true              | no                | true or false
-
+**PAS_EDITION**             | pasEdition|cf|no|cf or srt deployment
 
 ## required nameserver delegation
 
