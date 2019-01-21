@@ -211,7 +211,7 @@ watch az resource list --output table --resource-group ${ENV_NAME}
 ssh into the Jumpbox  
 
 ```bash
- ssh -i ~/${JUMPBOX_NAME} ubuntu@${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com
+ ssh -i ~/${JUMPBOX_NAME} ${ADMIN_USERNAME}@${JUMPBOX_NAME}.${AZURE_REGION}.cloudapp.azure.com
 ```
 
 tail the installation log  
