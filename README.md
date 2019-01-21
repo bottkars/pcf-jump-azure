@@ -14,10 +14,12 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 - automated opsman deployment and configuration
 - pas infrastructure paving
-- autopilot for starting pas, mysql, rabbit and spring deployment (will take several hours )
+- :zap: autopilot for starting pas, mysql, rabbit and spring deployment (will take several hours )
 - certificate generation using selfsigned or let´s encrypt [certificates](#certificates)
-- [sendgrid](/sendgrid.md) integration for notifications and user sign up
-- dns configuration and check
+- :zap: [sendgrid](/sendgrid.md) integration for notifications and user sign up
+- :zap: dns configuration and check
+- :zap: cert checking and logging
+- :zap: manual options improved  
 
 ## usage
 
