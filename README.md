@@ -61,6 +61,7 @@ the minimum parameter set uses defaults where possible
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
     --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
+    --query properties.parameters.customData.value \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
