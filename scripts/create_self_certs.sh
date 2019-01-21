@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 source ~/.env.sh
 cd ${HOME_DIR}
+MYSELF=$(basename $0)
 mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/$0.$(date '+%Y-%m-%d-%H').log")
+exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
-
 DOMAIN="${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 
 : ${DOMAIN:?must be set the DNS domain root (ex: example.cf-app.com)}

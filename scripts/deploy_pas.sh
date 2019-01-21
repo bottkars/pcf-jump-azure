@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 source ~/.env.sh
 cd ${HOME_DIR}
+MYSELF=$(basename $0)
 mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/$(basename $0).$(date '+%Y-%m-%d-%H').log")
+exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
