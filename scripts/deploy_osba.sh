@@ -158,6 +158,10 @@ MY_REDIS=$(az redis show \
         --resource-group ${ENV_NAME})
 fi
 
+REDIS_KEY=$(az redis list-keys \
+--name ${ENV_SHORT_NAME}redis \
+--resource-group ${ENV_NAME}  \
+--query primaryKey --out tsv)
 
 cat << EOF > ~/osba_vars.yaml
 product_name: ${PRODUCT_SLUG}
