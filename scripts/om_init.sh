@@ -110,6 +110,20 @@ PCF_OPSMAN_FQDN="${PCF_OPSMAN_FQDN}"
 END_OPSMAN_DEPLOY_TIME="${END_OPSMAN_DEPLOY_TIME}"
 EOF
 )
+
+sudo mkdir -p /var/tempest/workspaces/default
+sudo sh -c \
+  "om \
+    --skip-ssl-validation \
+    --target ${PCF_OPSMAN_FQDN} \
+    --username opsman \
+    --password ${PCF_PIVNET_UAA_TOKEN} \
+    curl \
+      --silent \
+      --path "/api/v0/security/root_ca_certificate" |
+        jq --raw-output '.root_ca_certificate_pem' \
+          > /var/tempest/workspaces/default/root_ca_certificate"
+
 echo Started BASE deployment at ${START_BASE_DEPLOY_TIME}
 echo Fimnished BASE deployment at ${END_BASE_DEPLOY_TIME}
 echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}

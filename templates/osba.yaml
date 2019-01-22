@@ -1,0 +1,44 @@
+product-name: ((product_name))
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  other_availability_zones:
+  - name: null
+  singleton_availability_zone:
+    name: null
+product-properties:
+  .properties.azure_subscription_id:    
+    value: ((azure_subscription_id))
+  .properties.azure_tenant_id:
+    value: ((azure_tenant_id))
+  .properties.azure_client_id:
+    value: ((azure_client_id))
+  .properties.azure_client_secret: 
+    value:
+      secret: ((azure_client_secret))
+  .properties.min_stability:
+    value: EXPERIMENTAL 
+  .properties.storage_redis_host:
+    value: ((storage_redis_host))
+  .properties.storage_redis_password:
+    value: ((storage_redis_password))
+  .properties.storage_redis_port:
+    value: 6380
+  .properties.storage_redis_db:
+    value: 0
+  .properties.storage_redis_enable_tls:
+    value: true
+  .properties.crypto_encryption_scheme:
+    value: AES256
+  .properties.crypto_aes256_key:
+    value:
+      secret: ((crypto_aes256_key))
+  .properties.async_redis_host:
+    value: ((async_redis_host))
+  .properties.async_redis_password:
+    value: ((async_redis_password))
+  .properties.async_redis_port:
+    value: 6380
+  .properties.async_redis_db:
+    value: 1
+
