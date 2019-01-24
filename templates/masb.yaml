@@ -1,0 +1,37 @@
+product-name: ((product_name))
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  other_availability_zones:
+  - name: "null"
+  singleton_availability_zone:
+    name: "null"
+product-properties:
+  .properties.environment:
+    value: AzureCloud
+  .properties.subscription_id:    
+    value: ((azure_subscription_id))
+  .properties.tenant_id:
+    value: ((azure_tenant_id))
+  .properties.client_id:
+    value: ((azure_client_id))
+  .properties.client_secret: 
+    value:
+      secret: ((azure_client_secret))
+  .properties.azure_broker_database_provider:
+    value: sqlserver
+  .properties.azure_broker_database_server:
+    value: ((azure_broker_database_server))
+  .properties.azure_broker_database_user:
+    value: sqladmin
+  .properties.azure_broker_database_name:
+    value: ((azure_broker_database_name))
+  .properties.azure_broker_database_password:
+    value:
+      secret: ((azure_broker_database_password))
+  .properties.azure_broker_database_name:
+    value: ((azure_broker_database_name))    
+  .properties.azure_broker_database_encryption_key:
+    value:
+      secret: ((azure_broker_database_encryption_key))
+
