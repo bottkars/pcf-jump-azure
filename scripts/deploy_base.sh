@@ -139,7 +139,7 @@ wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-wget -O om https://github.com/pivotal-cf/om/releases/download/0.48.0/om-linux && \
+wget -O om https://github.com/pivotal-cf/om/releases/download/0.51.0/om-linux && \
   chmod +x om && \
   sudo mv om /usr/local/bin/
 

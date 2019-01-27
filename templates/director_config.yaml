@@ -1,17 +1,18 @@
 ---
-director-configuration:
-  max_threads: 8
-  ntp_servers_string: ((ntp_servers_string))  
-iaas-configuration:
- subscription_id: ((subscription_id))
- tenant_id: ((tenant_id))
- client_id: ((client_id))
- client_secret: ((client_secret))
- resource_group_name: ((resource_group_name))
- bosh_storage_account_name: ((bosh_storage_account_name))
- default_security_group: ((default_security_group))
- ssh_public_key: ((ssh_public_key))
- ssh_private_key: ((ssh_private_key))
+properties-configuration:
+  director_configuration:
+    max_threads: 8
+    ntp_servers_string: ((ntp_servers_string))  
+  iaas_configuration:
+    subscription_id: ((subscription_id))
+    tenant_id: ((tenant_id))
+    client_id: ((client_id))
+    client_secret: ((client_secret))
+    resource_group_name: ((resource_group_name))
+    bosh_storage_account_name: ((bosh_storage_account_name))
+    default_security_group: ((default_security_group))
+    ssh_public_key: ((ssh_public_key))
+    ssh_private_key: ((ssh_private_key))
 networks-configuration:
  icmp_checks_enabled: false
  networks:
