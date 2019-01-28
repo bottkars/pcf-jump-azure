@@ -10,7 +10,6 @@ It will pave the infrastructure using Pivotal [terraforming-azure](https://githu
 PCF Operations Manager will be installed and configured using Pivotal [om cli](https://github.com/pivotal-cf/om).  
 Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om).  
 
-![deploy-pcf](https://user-images.githubusercontent.com/8255007/51845629-2b0d7400-2318-11e9-96dd-d4e3c3ff64b3.gif)
 
 ## features
 
