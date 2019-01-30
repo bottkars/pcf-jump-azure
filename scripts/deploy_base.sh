@@ -131,9 +131,11 @@ sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
      --keyserver packages.microsoft.com \
      --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
 
-sudo apt-get update
+sudo apt install software-properties-common 
+sudo add-apt-repository ppa:tmate.io/archive --yes
+sudo apt update
 
-sudo apt-get install azure-cli && sudo apt --yes install unzip 
+sudo apt-get install azure-cli unzip tmate --yes
 
 wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip && \
   unzip terraform.zip && \
