@@ -64,6 +64,7 @@ the minimum parameter set uses defaults where possible
 ### validate minimum
 
 ```bash
+source ~/.env.testing
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
     --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
@@ -84,6 +85,13 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
 ```
 
 ### deploy minimum
+
+:zap: **do not forget to create ssh key for every environment !**
+
+```bash
+source ~/.env.testing
+ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
+```
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
