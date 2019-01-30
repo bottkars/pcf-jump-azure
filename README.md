@@ -109,8 +109,9 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
 
 the full parameter set´s optiional Values like smtp config
 
-example parameter file for testing branch is [here](/.env.testing.example)
+example parameter file for testing branch is [here](/.env.testing.example)  
 example parameter file for master branch is [here](/.env.example)
+
 ### validate full
 
 ```bash
@@ -150,6 +151,12 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
 ```
 
 ### deploy full
+
+:zap: **do not forget to create ssh key for every environment !**
+
+```bash
+ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
+```
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
