@@ -109,6 +109,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
 
 the full parameter set´s optiional Values like smtp config
 
+example parameter file for testing branch is [here](/.env.testing.example)
+example parameter file for master branch is [here](/.env.example)
 ### validate full
 
 ```bash
