@@ -98,7 +98,7 @@
         "net16bitmask": {
             "type": "string",
             "minLength": "3",
-            "defaultValue": "10.10",
+            "defaultValue": "10.20",
             "metadata": {
                 "description": "first 16 bit of ip range in format xxx.xxx"
             }
