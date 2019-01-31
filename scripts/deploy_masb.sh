@@ -170,7 +170,6 @@ fi
 cat << EOF > ~/masb_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
-pcf_service_network: pcf-services-subnet
 azure_subscription_id: ${AZURE_SUBSCRIPTION_ID}
 azure_tenant_id: ${AZURE_TENANT_ID}
 azure_client_id: ${AZURE_CLIENT_ID}
@@ -187,6 +186,7 @@ om --skip-ssl-validation \
 
 om --skip-ssl-validation \
 upload-stemcell \
+--floating=false \
 --stemcell ${STEMCELL_FILENAME}
 
 echo "$(date) start apply ${PRODUCT_SLUG}"

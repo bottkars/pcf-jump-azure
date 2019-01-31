@@ -208,8 +208,9 @@ om --skip-ssl-validation \
 ###
 
 om --skip-ssl-validation \
-  upload-stemcell \
-  --stemcell ${STEMCELL_FILENAME}
+upload-stemcell \
+--floating=false \
+--stemcell ${STEMCELL_FILENAME}
 
 echo $(date) start apply ${PRODUCT_SLUG}
 
