@@ -72,11 +72,12 @@
         "opsmanImage": {
             "type": "string",
             "allowedValues": [
+                "ops-manager-2.4-build.145.vhd",
                 "ops-manager-2.4-build.142.vhd",
                 "ops-manager-2.4-build.131.vhd",
                 "ops-manager-2.4-build.117.vhd"
             ],
-            "defaultValue": "ops-manager-2.4-build.142.vhd",
+            "defaultValue": "ops-manager-2.4-build.145.vhd",
             "metadata": {
                 "description": "latest osmanager image"
             }
@@ -292,17 +293,17 @@
             "[concat(variables('baseUri'),  '/scripts/deploy_mysql.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_rabbit.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_spring.sh')]",
-            "[concat(variables('baseUri'),  '/scripts/deploy_osba.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/deploy_masb.sh')]",
             "[concat(variables('baseUri'),  '/scripts/cf_startstop.sh')]",
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
             "[concat(variables('baseUri'),  '/templates/pas-',parameters('pasEdition'),'.yaml')]",
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
             "[concat(variables('baseUri'),  '/templates/spring.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/osba.yaml')]",            
+            "[concat(variables('baseUri'),  '/templates/masb.yaml')]",            
             "[concat(variables('baseUri'),  '/env/mysql.env')]",
             "[concat(variables('baseUri'),  '/env/pas/',parameters('pasVersion'),'/pas.env')]",
-            "[concat(variables('baseUri'),  '/env/osba/0.12.0/osba.env')]",            
+            "[concat(variables('baseUri'),  '/env/masb/1.11.0/masb.env')]",            
             "[concat(variables('baseUri'),  '/env/rabbit.env')]",
             "[concat(variables('baseUri'),  '/env/spring.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
