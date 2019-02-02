@@ -125,12 +125,12 @@ upload-stemcell \
 --stemcell ${STEMCELL_FILENAME}
 echo $(date) end uploading ${STEMCELL_FILENAME}
 
-echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
+echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 om --skip-ssl-validation \
 assign-stemcell \
---product ${PRODUCT_NAME} \
+--product ${PRODUCT_SLUG} \
 --stemcell ${STEMCELL_VERSION}
-echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
+echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 
 echo "$(date) start creating ${ENV_SHORT_NAME}redis"
 
