@@ -84,7 +84,7 @@ fi
 
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
 STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
-
+STEMCELL_VERSION=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_version')
 # Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
@@ -111,6 +111,20 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
+echo $(date) start uploading ${STEMCELL_FILENAME}
+om --skip-ssl-validation \
+upload-stemcell \
+--floating=false \
+--stemcell ${STEMCELL_FILENAME}
+echo $(date) end uploading ${STEMCELL_FILENAME}
+
+echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
+om --skip-ssl-validation \
+assign-stemcell \
+--product ${PRODUCT_NAME} \
+--stemcell ${STEMCELL_VERSION}
+echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
+
 
 cat << EOF > ${HOME_DIR}/rabbit_vars.yaml
 product_name: ${PRODUCT_SLUG}
@@ -123,10 +137,6 @@ om --skip-ssl-validation \
   configure-product \
   -c ${HOME_DIR}/rabbit.yaml -l ${HOME_DIR}/rabbit_vars.yaml
 
-om --skip-ssl-validation \
-upload-stemcell \
---floating=false \
---stemcell ${STEMCELL_FILENAME}
 
 echo $(date) start apply ${PRODUCT_SLUG}
 
