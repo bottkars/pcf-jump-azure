@@ -124,7 +124,7 @@ echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 om --skip-ssl-validation \
 assign-stemcell \
 --product ${PRODUCT_SLUG} \
---stemcell ${STEMCELL_VERSION}
+--stemcell latest
 echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 
 echo "creating storage account ${ENV_SHORT_NAME}mysqlbackup"

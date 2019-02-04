@@ -129,7 +129,7 @@ echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 om --skip-ssl-validation \
 assign-stemcell \
 --product ${PRODUCT_SLUG} \
---stemcell ${STEMCELL_VERSION}
+--stemcell latest
 echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 
 echo "$(date) start creating ${ENV_SHORT_NAME}sql"
