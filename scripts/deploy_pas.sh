@@ -38,8 +38,8 @@ declare -a FILES=("${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key" \
 "${HOME_DIR}/fullchain.cer")
 for FILE in "${FILES[@]}"; do
     if [ ! -f $FILE ]; then
-    echo "$FILE not found. Please run create_self_certs.sh "
-    exit
+    echo "$FILE not found. running Create Self Certs "
+    ${HOME_DIR}/create_self_certs.sh
     fi
 done
 
@@ -52,15 +52,6 @@ EOF
 )
 source ~/pas.env
 PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
-#PCF_KEY_PEM=$(cat ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
-#PCF_CERT_PEM=$(cat ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
-
-
-
-
-
-
-
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
