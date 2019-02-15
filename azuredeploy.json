@@ -72,12 +72,13 @@
         "opsmanImage": {
             "type": "string",
             "allowedValues": [
+                "ops-manager-2.4-build.152.vhd",
                 "ops-manager-2.4-build.145.vhd",
                 "ops-manager-2.4-build.142.vhd",
                 "ops-manager-2.4-build.131.vhd",
                 "ops-manager-2.4-build.117.vhd"
-            ],
-            "defaultValue": "ops-manager-2.4-build.145.vhd",
+            ],   
+            "defaultValue": "ops-manager-2.4-build.152.vhd",
             "metadata": {
                 "description": "latest osmanager image"
             }
