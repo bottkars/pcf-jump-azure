@@ -138,5 +138,5 @@ if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES
     ${SCRIPT_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES
     ${SCRIPT_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES
-    ${SCRIPT_DIR}/deploy_spring.sh
+    ${SCRIPT_DIR}/deploy_spring.sh --APPLY_ALL
 fi

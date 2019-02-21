@@ -89,8 +89,7 @@ echo ignoring download by user
 fi
 
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
-STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
-STEMCELL_VERSION=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_version')# Import the tile to Ops Manager.
+# Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
   --request-timeout 3600 \
