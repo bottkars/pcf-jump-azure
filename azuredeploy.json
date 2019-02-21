@@ -315,9 +315,9 @@
         },
         "pcfApmVer": {
             "type": "string",
-            "defaultValue": "1.11.0",
+            "defaultValue": "1.6.0",
             "allowedValues": [
-                "1.11.0"
+                "1.6.0"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
@@ -325,9 +325,9 @@
         },
         "pcfHealthwatchVer": {
             "type": "string",
-            "defaultValue": "1.11.0",
+            "defaultValue": "1.4.5",
             "allowedValues": [
-                "1.11.0"
+                "1.4.5"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
@@ -373,8 +373,8 @@
             "[concat(variables('baseUri'),  '/env/masb/',parameters('pcfMasbVer'),'/masb.env')]",            
             "[concat(variables('baseUri'),  '/env/rabbit/',parameters('pcfRabbitVer'),'/rabbit.env')]",
             "[concat(variables('baseUri'),  '/env/spring/',parameters('pcfSpringVer'),'/spring.env')]",
-            "[concat(variables('baseUri'),  '/env/spring/',parameters('pcfApmVer'),'/Apm.env')]",
-            "[concat(variables('baseUri'),  '/env/spring/',parameters('pcfHealthwatchVer'),'/healthwatch.env')]",
+            "[concat(variables('baseUri'),  '/env/apm/',parameters('pcfApmVer'),'/Apm.env')]",
+            "[concat(variables('baseUri'),  '/env/healthwatch/',parameters('pcfHealthwatchVer'),'/healthwatch.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
         ]
