@@ -76,16 +76,16 @@ TEMPLATE_DIR="${HOME_DIR}/conductor/temmplates"
 
 
 sudo -S -u ${ADMIN_USERNAME} mkdir -p ${TEMPLATE_DIR}
-sudo -S -u ${ADMIN_USERNAME} mkdir -p ${SCRIPTS_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${SCRIPT_DIR}
 sudo -S -u ${ADMIN_USERNAME} mkdir -p ${ENV_DIR}
-sudo -S -u ${ADMIN_USERNAME} mkdir -p ${LOGS_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${LOG_DIR}
 
 
 
-cp *.sh ${SCRIPTS_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${SCRIPTS_DIR}/*.sh
-chmod 755 ${SCRIPTS_DIR}/*.sh
-chmod +X ${SCRIPTS_DIR}/*.sh
+cp *.sh ${SCRIPT_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${SCRIPT_DIR}/*.sh
+chmod 755 ${SCRIPT_DIR}/*.sh
+chmod +X ${SCRIPT_DIR}/*.sh
 
 cp *.yaml ${TEMPLATE_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${TEMPLATE_DIR}/*.yaml
