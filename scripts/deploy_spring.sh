@@ -2,8 +2,8 @@
 source ~/.env.sh
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -44,7 +44,7 @@ START_SPRING_DEPLOY_TIME="${START_SPRING_DEPLOY_TIME}"
 EOF
 )
 
-source  ~/spring.env
+source ${ENV_DIR}/spring.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -132,14 +132,14 @@ assign-stemcell \
 --stemcell latest
 echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 
-cat << EOF > ${HOME_DIR}/spring_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/spring_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/spring.yaml -l ${HOME_DIR}/spring_vars.yaml
+  -c ${TEMPLATE_DIR}/spring.yaml -l ${TEMPLATE_DIR}/spring_vars.yaml
 
 
 echo $(date) start apply ${PRODUCT_SLUG}

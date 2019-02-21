@@ -2,8 +2,8 @@
 source ~/.env.sh
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -49,7 +49,7 @@ START_OSBA_DEPLOY_TIME="${START_OSBA_DEPLOY_TIME}"
 EOF
 )
 
-source  ~/masb.env
+source ${ENV_DIR}/masb.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -185,7 +185,7 @@ MY_SQLDB_SERVER=$(az sql server show \
 fi
 
 
-cat << EOF > ~/masb_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/masb_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 azure_subscription_id: ${AZURE_SUBSCRIPTION_ID}
@@ -200,7 +200,7 @@ EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/masb.yaml -l ${HOME_DIR}/masb_vars.yaml
+  -c ${TEMPLATE_DIR}/masb.yaml -l ${TEMPLATE_DIR}/masb_vars.yaml
 
 echo "$(date) start apply ${PRODUCT_SLUG}"
 

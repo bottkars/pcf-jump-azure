@@ -68,21 +68,36 @@ PAS_EDITION=$(get_setting PAS_EDITION)
 
 
 HOME_DIR="/home/${ADMIN_USERNAME}"
-cp *.sh ${HOME_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.sh
-chmod 755 ${HOME_DIR}/*.sh
-chmod +X ${HOME_DIR}/*.sh
-cp *.yaml ${HOME_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.yaml
-chmod 755 ${HOME_DIR}/*.yaml
+LOG_DIR="${HOME_DIR}/conductor/logs"
+SCRIPT_DIR="${HOME_DIR}/conductor/scripts"
+LOG_DIR="${HOME_DIR}/conductor/logs"
+ENV_DIR="${HOME_DIR}/conductor/env"
+TEMPLATE_DIR="${HOME_DIR}/conductor/temmplates"
 
-cp *.env ${HOME_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.env
-chmod 755 ${HOME_DIR}/*.yaml
+
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${TEMPLATE_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${SCRIPTS_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${ENV_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${LOGS_DIR}
+
+
+
+cp *.sh ${SCRIPTS_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${SCRIPTS_DIR}/*.sh
+chmod 755 ${SCRIPTS_DIR}/*.sh
+chmod +X ${SCRIPTS_DIR}/*.sh
+
+cp *.yaml ${TEMPLATE_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${TEMPLATE_DIR}/*.yaml
+chmod 755 ${TEMPLATE_DIR}/*.yaml
+
+cp *.env ${HOME_DIR}/conductor/env
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${ENV_DIR}/*.env
+chmod 755 ${ENV_DIR}/*.env
 
 ${HOME_DIR}/vm-disk-utils-0.1.sh
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${DOWNLOAD_DIR}
-chmod ${DOWNLOAD_DIR}
+chmod -R 755 ${DOWNLOAD_DIR}
 
 $(cat <<-EOF > ${HOME_DIR}/.env.sh
 #!/usr/bin/env bash
@@ -114,13 +129,14 @@ SMTP_PORT="${SMTP_PORT}"
 SMTP_STARTTLS="${SMTP_STARTTLS}"
 PAS_EDITION="${PAS_EDITION}"
 USE_SELF_CERTS="${USE_SELF_CERTS}"
+LOG_DIR=${LOG_DIR}
+ENV_DIR=${ENV_DIR}
+SCRIPT_DIR=${SCRIPT_DIR}
+TEMPLATE_DIR=${TEMPLATE_DIR}
 EOF
 )
-
 chmod 600 ${HOME_DIR}/.env.sh
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/.env.sh
-
-cp * ${HOME_DIR}
 
 sudo apt-get install apt-transport-https lsb-release software-properties-common -y
 AZ_REPO=$(lsb_release -cs)
@@ -155,7 +171,7 @@ wget -O /tmp/bbr https://github.com/cloudfoundry-incubator/bosh-backup-and-resto
 # get pivnet UAA TOKEN
 
 cd ${HOME_DIR}
-source ${HOME_DIR}/pas.env
+source ${ENV_DIR}/pas.env
 AUTHENTICATION_RESPONSE=$(curl \
   --fail \
   --data "{\"refresh_token\": \"${PCF_PIVNET_UAA_TOKEN}\"}" \
@@ -274,5 +290,5 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
 EOF
 )
-echo "Base install finished, now initializing opsman, see logfiles in ${HOME_DIR}/logs"
-su ${ADMIN_USERNAME} -c "nohup ${HOME_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"
+echo "Base install finished, now initializing opsman, see logfiles in ${LOG_DIR}/logs"
+su ${ADMIN_USERNAME} -c "nohup ${SCRIPT_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"

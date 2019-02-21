@@ -2,8 +2,8 @@
 cd $1
 source .env.sh
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 function retryop()
 {
@@ -131,12 +131,12 @@ echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
 
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
-      ${HOME_DIR}/create_self_certs.sh
+      ${SCRIPT_DIR}/create_self_certs.sh
     else  
-      ${HOME_DIR}/create_certs.sh
+      ${SCRIPT_DIR}/create_certs.sh
     fi
-    ${HOME_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES
-    ${HOME_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES
-    ${HOME_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES
-    ${HOME_DIR}/deploy_spring.sh
+    ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES
+    ${SCRIPT_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES
+    ${SCRIPT_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES
+    ${SCRIPT_DIR}/deploy_spring.sh
 fi

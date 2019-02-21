@@ -2,8 +2,8 @@
 source ~/.env.sh
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -44,7 +44,7 @@ START_MYSQL_DEPLOY_TIME="${START_MYSQL_DEPLOY_TIME}"
 EOF
 )
 
-source  ~/mysql.env
+source ${ENV_DIR}/mysql.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -155,7 +155,7 @@ az storage container create --name backup \
 --account-name ${ENV_SHORT_NAME}mysqlbackup \
 --account-key ${MYSQL_STORAGE_KEY}
 
-cat << EOF > ~/mysql_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/mysql_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -167,7 +167,7 @@ EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/mysql.yaml -l ${HOME_DIR}/mysql_vars.yaml
+  -c ${TEMPLATE_DIR}/mysql.yaml -l ${TEMPLATE_DIR}/mysql_vars.yaml
 
 
 echo $(date) start apply ${PRODUCT_SLUG}

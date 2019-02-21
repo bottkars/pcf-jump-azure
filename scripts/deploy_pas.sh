@@ -2,8 +2,8 @@
 source ~/.env.sh
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -44,7 +44,7 @@ declare -a FILES=("${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key" \
 for FILE in "${FILES[@]}"; do
     if [ ! -f $FILE ]; then
     echo "$FILE not found. running Create Self Certs "
-    ${HOME_DIR}/create_self_certs.sh
+    ${SCRIPT_DIR}/create_self_certs.sh
     fi
 done
 
@@ -55,7 +55,7 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 START_PAS_DEPLOY_TIME="${START_PAS_DEPLOY_TIME}"
 EOF
 )
-source ~/pas.env
+source ${ENV_DIR}/pas.env
 PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
@@ -194,7 +194,7 @@ assign-stemcell \
 echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
 
 echo $(date) start configure ${PRODUCT_NAME}
-cat << EOF > vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/pas_vars.yaml
 pcf_pas_network: pcf-pas-subnet
 pcf_system_domain: ${PCF_SYSTEM_DOMAIN}
 pcf_apps_domain: ${PCF_APPS_DOMAIN}
@@ -215,7 +215,7 @@ EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/pas-${PAS_EDITION}.yaml -l vars.yaml
+  -c ${TEMPLATE_DIR}/pas-${PAS_EDITION}.yaml -l ${TEMPLATE_DIR}/pas_vars.yaml
 ###
 echo $(date) end configure ${PRODUCT_NAME}
 

@@ -2,8 +2,8 @@
 source ~/.env.sh
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -49,7 +49,7 @@ START_OSBA_DEPLOY_TIME="${START_OSBA_DEPLOY_TIME}"
 EOF
 )
 
-source  ~/osba.env
+source ${ENV_DIR}/osba.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -181,7 +181,7 @@ REDIS_KEY=$(az redis list-keys \
 --resource-group ${ENV_NAME}  \
 --query primaryKey --out tsv)
 
-cat << EOF > ~/osba_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/osba_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -199,7 +199,7 @@ EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/osba.yaml -l ${HOME_DIR}/osba_vars.yaml
+  -c ${TEMPLATE_DIR}/osba.yaml -l ${TEMPLATE_DIR}/osba_vars.yaml
 
 
 
