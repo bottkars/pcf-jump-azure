@@ -79,8 +79,9 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    pcfDomainName=${PCF_DOMAIN_NAME} \
-    pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
+    PCFDomainName=${PCF_DOMAIN_NAME} \
+    PCFSubdomainName=${PCF_SUBDOMAIN_NAME} \
+    _artifactsLocation="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH"
 ```
 
 ### deploy minimum
@@ -108,7 +109,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
-    pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
+    pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
+    _artifactsLocation="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH"
 ```
 
 ## deployment with full param set
@@ -127,7 +129,7 @@ example parameter file for master branch is [here](/.env.example)
 source ~/.env.testing
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
-    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
+    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json" \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
