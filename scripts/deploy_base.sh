@@ -137,11 +137,11 @@ sudo apt update
 
 sudo apt-get install azure-cli unzip tmate --yes
 
-wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip && \
+wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.11_linux_amd64.zip && \
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-wget -O om https://github.com/pivotal-cf/om/releases/download/0.51.0/om-linux && \
+wget -O om https://github.com/pivotal-cf/om/releases/download/0.53.0/om-linux && \
   chmod +x om && \
   sudo mv om /usr/local/bin/
 
@@ -149,9 +149,9 @@ wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.4.0-linux-am
   chmod +x bosh && \
   sudo mv bosh /usr/local/bin/
 
-wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-restore/releases/download/v1.2.8/bbr-1.2.8.tar && \
-  tar xvC /tmp/ -f /tmp/bbr.tar && \
-  sudo mv /tmp/releases/bbr /usr/local/bin/
+wget -O /tmp/bbr https://github.com/cloudfoundry-incubator/bosh-backup-and-restore/releases/download/v1.4.0/bbr-1.4.0-linux-amd64 && \
+    chmod +x bbr && \
+  sudo mv /tmp/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
 
 cd ${HOME_DIR}

@@ -20,6 +20,11 @@ case $key in
     echo "No APPLY is ${NO_APPLY}"
     # shift # past value ia arg value
     ;;
+    -a|--APPLY_ALL)
+    APPLY_ALL=TRUE
+    echo "APPLY ALL is ${NO_APPLY}"
+    # shift # past value ia arg value
+    ;;  
     -nodb|--DO_NOT_CREATE_SQLDB_INSTANCE)
     NO_SQLDB=TRUE
     echo "No SQL DB CREATION is ${NO_SQLDB}"
@@ -199,11 +204,16 @@ om --skip-ssl-validation \
 
 echo "$(date) start apply ${PRODUCT_SLUG}"
 
-if  [ -z ${NO_APPLY} ] ; then
+if  [ ! -z ${NO_APPLY} ] ; then
+echo "No Product Apply"
+elif [ ! -z ${APPLY_ALL} ] ; then
+echo "APPLY_ALL"
+om --skip-ssl-validation \
+  apply-changes
+else 
+echo "APPLY Product"
 om --skip-ssl-validation \
   apply-changes \
   --product-name ${PRODUCT_SLUG}
-else
-echo "No Product Apply"
 fi
 echo "$(date) end apply ${PRODUCT_SLUG}"

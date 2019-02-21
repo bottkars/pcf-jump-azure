@@ -202,15 +202,6 @@
                 "description": "for testing, use self signed certs, otherwise Let´s Encrypt"
             }
         },
-        "pasVersion": {
-            "type": "string",
-            "defaultValue": "2.4.2",
-            "allowedValues": [
-                "2.4.2",
-                "2.4.1",
-                "2.4.0"
-            ]
-        },
         "dnsLabelPrefix": {
             "minLength": "3",
             "type": "string",
@@ -269,7 +260,79 @@
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
             }
-        }
+        },
+        "pcfSpringVer": {
+            "type": "string",
+            "defaultValue": "2.0.6",
+            "allowedValues": [
+                "2.0.5",
+                "2.0.6"
+            ],
+            "metadata": {
+                "description": "The Version of the Spring Tile"
+            }
+        },
+        "pcfMysqlVer": {
+            "type": "string",
+            "defaultValue": "2.5.3",
+            "allowedValues": [
+                "2.5.3"
+            ],
+            "metadata": {
+                "description": "The Version of the mysql Tile"
+            }
+        },
+        "pcfRabbitVer": {
+            "type": "string",
+            "defaultValue": "1.15.4",
+            "allowedValues": [
+                "1.15.4",
+                "1.15.3"
+            ],
+            "metadata": {
+                "description": "The Version of the rabbit Tile"
+            }
+        },
+        "pcfPasVer": {
+            "type": "string",
+            "defaultValue": "2.4.3",
+            "allowedValues": [
+                "2.4.3",
+                "2.4.2",
+                "2.4.1",
+                "2.4.0"
+            ]
+        },        
+        "pcfMasbVer": {
+            "type": "string",
+            "defaultValue": "1.11.0",
+            "allowedValues": [
+                "1.11.0"
+            ],
+            "metadata": {
+                "description": "The Version of the Azure Service Broker Tile"
+            }
+        },
+        "pcfApmVer": {
+            "type": "string",
+            "defaultValue": "1.11.0",
+            "allowedValues": [
+                "1.11.0"
+            ],
+            "metadata": {
+                "description": "The Version of the Azure Service Broker Tile"
+            }
+        },
+        "pcfHealthwatchVer": {
+            "type": "string",
+            "defaultValue": "1.11.0",
+            "allowedValues": [
+                "1.11.0"
+            ],
+            "metadata": {
+                "description": "The Version of the Azure Service Broker Tile"
+            }
+        }                                    
     },
     "variables": {
         "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
@@ -302,12 +365,16 @@
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
             "[concat(variables('baseUri'),  '/templates/spring.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/apm.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/healthwatch.yaml')]",            
             "[concat(variables('baseUri'),  '/templates/masb.yaml')]",            
-            "[concat(variables('baseUri'),  '/env/mysql.env')]",
-            "[concat(variables('baseUri'),  '/env/pas/',parameters('pasVersion'),'/pas.env')]",
-            "[concat(variables('baseUri'),  '/env/masb/1.11.0/masb.env')]",            
-            "[concat(variables('baseUri'),  '/env/rabbit.env')]",
-            "[concat(variables('baseUri'),  '/env/spring.env')]",
+            "[concat(variables('baseUri'),  '/env/mysql/',parameters('pcfMysqlVer'),'/mysql.env')]",
+            "[concat(variables('baseUri'),  '/env/pas/',parameters('pcfPasVer'),'/pas.env')]",
+            "[concat(variables('baseUri'),  '/env/masb/',parameters('pcfMasbVer'),'/masb.env')]",            
+            "[concat(variables('baseUri'),  '/env/rabbit/',parameters('pcfRabbitVer'),'/rabbit.env')]",
+            "[concat(variables('baseUri'),  '/env/spring/',parameters('pcfSpringVer'),'/spring.env')]",
+            "[concat(variables('baseUri'),  '/env/spring/',parameters('pcfApmVer'),'/Apm.env')]",
+            "[concat(variables('baseUri'),  '/env/spring/',parameters('pcfHealthwatchVer'),'/healthwatch.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
         ]
@@ -491,7 +558,7 @@
                             "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
                             "NET_16_BIT_MASK": "[parameters('net16bitmask')]",
                             "PAS_AUTOPILOT": "[parameters('pasAutopilot')]",
-                            "PCF_PAS_VERSION": "[parameters('pasVersion')]",
+                            "PCF_PAS_VERSION": "[parameters('pcfPasVer')]",
                             "SMTP_ADDRESS": "[parameters('smtpAddress')]",
                             "SMTP_IDENTITY": "[parameters('smtpIdentity')]",
                             "SMTP_PASSWORD": "[parameters('smtpPassword')]",

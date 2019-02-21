@@ -20,7 +20,12 @@ case $key in
     NO_APPLY=TRUE
     echo "No APPLY is ${NO_APPLY}"
     # shift # past value ia arg value
-    ;;    
+    ;;  
+    -a|--APPLY_ALL)
+    APPLY_ALL=TRUE
+    echo "APPLY ALL is ${NO_APPLY}"
+    # shift # past value ia arg value
+    ;;        
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
@@ -217,12 +222,17 @@ echo $(date) end configure ${PRODUCT_NAME}
 
 echo $(date) start apply ${PRODUCT_SLUG}
 
-if  [ -z ${NO_APPLY} ] ; then
+if  [ ! -z ${NO_APPLY} ] ; then
+echo "No Product Apply"
+elif [ ! -z ${APPLY_ALL} ] ; then
+echo "APPLY_ALL"
+om --skip-ssl-validation \
+  apply-changes
+else 
+echo "APPLY Product"
 om --skip-ssl-validation \
   apply-changes \
-  --product-name ${PRODUCT_NAME}
-else
-echo "No Product Apply"
+  --product-name ${PRODUCT_SLUG}
 fi
 echo $(date) end apply ${PRODUCT_SLUG}
 

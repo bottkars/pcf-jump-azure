@@ -135,8 +135,8 @@ if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     else  
       ${HOME_DIR}/create_certs.sh
     fi
-    ${HOME_DIR}/deploy_pas.sh
-    ${HOME_DIR}/deploy_mysql.sh
-    ${HOME_DIR}/deploy_rabbit.sh
+    ${HOME_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES
+    ${HOME_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES
+    ${HOME_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES
     ${HOME_DIR}/deploy_spring.sh
 fi
