@@ -57,17 +57,17 @@ also, note that AUTOPILOT is disabled by default now.
 you can set the Environment for PAS_AUTOPILOT or use -pasAutopilot=TRUE during deployment.  
 if not using autopilot, see [Post Deployment Steps](#post-deploy) for more Details
 
-## deployment with minimum param set
+## deployment with default parameter set
 
-the minimum parameter set uses defaults where possible
+the default parameter set uses defaults where possible, it is the most convenient way to get started
 
-### validate minimum
+### validate default
 
 ```bash
 source ~/.env.testing
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
@@ -79,7 +79,6 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
 ```
@@ -96,7 +95,7 @@ ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment create --resource-group ${JUMPBOX_RG} \
-    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
+    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json" \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
@@ -108,7 +107,6 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
     pcfDomainName=${PCF_DOMAIN_NAME} \
     pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
 ```
@@ -121,6 +119,9 @@ example parameter file for testing branch is [here](/.env.testing.example)
 example parameter file for master branch is [here](/.env.example)
 
 ### validate full
+
+
+ (.properties.validatedResources[] | select(.name=="generate-customdata"))
 
 ```bash
 source ~/.env.testing
