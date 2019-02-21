@@ -143,8 +143,6 @@ om --skip-ssl-validation \
  --pivnet-file-glob "${PAS_EDITION}*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_PAS_VERSION} \
- --stemcell-iaas azure \
- --download-stemcell \
  --output-directory ${DOWNLOAD_DIR_FULL}
 echo $(date) end downloading ${PRODUCT_SLUG}
 else 
@@ -152,8 +150,6 @@ echo ignoring download by user
 fi
 
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
-STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
-STEMCELL_VERSION=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_version')
 # Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
@@ -179,12 +175,8 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
-echo $(date) start uploading ${STEMCELL_FILENAME}
-om --skip-ssl-validation \
-upload-stemcell \
---floating=false \
---stemcell ${STEMCELL_FILENAME}
-echo $(date) end uploading ${STEMCELL_FILENAME}
+
+$SCRIPT_DIR/stemcell_loader.sh
 
 echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
 om --skip-ssl-validation \

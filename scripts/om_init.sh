@@ -66,7 +66,7 @@ om --skip-ssl-validation \
 deployed-products
 
 cd ${HOME_DIR}
-cat << EOF > director_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/director_vars.yaml
 subscription_id: ${AZURE_SUBSCRIPTION_ID}
 tenant_id: ${AZURE_TENANT_ID}
 client_id: ${AZURE_CLIENT_ID}
@@ -93,7 +93,7 @@ services_gateway: "${NET_16_BIT_MASK}.4.1"
 EOF
 
 om --skip-ssl-validation \
- configure-director --config ${HOME_DIR}/director_config.yaml --vars-file ${HOME_DIR}/director_vars.yaml
+ configure-director --config ${TEMPLATE_DIR}/director_config.yaml --vars-file ${TEMPLATE_DIR}/director_vars.yaml
 
 retryop "om --skip-ssl-validation apply-changes" 2 10
 

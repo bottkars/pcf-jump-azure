@@ -95,7 +95,8 @@ cp *.env ${HOME_DIR}/conductor/env
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${ENV_DIR}/*.env
 chmod 755 ${ENV_DIR}/*.env
 
-${HOME_DIR}/vm-disk-utils-0.1.sh
+${SCRIPT_DIR}/vm-disk-utils-0.1.sh
+
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${DOWNLOAD_DIR}
 chmod -R 755 ${DOWNLOAD_DIR}
 
@@ -245,7 +246,7 @@ sudo -S -u ${ADMIN_USERNAME} terraform plan -out=plan
 retryop "sudo -S -u ${ADMIN_USERNAME} terraform apply -auto-approve" 3 10
 
 sudo -S -u ${ADMIN_USERNAME} terraform output ops_manager_ssh_private_key > ${HOME_DIR}/opsman
-sudo -S -u ${ADMIN_USERNAME} chmod 600 ${HOME_DIR}/opsman
+# sudo -S -u ${ADMIN_USERNAME} chmod 600 ${HOME_DIR}/opsman
 
 # PCF_NETWORK=$(terraform output network_name)
 
@@ -290,5 +291,5 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
 EOF
 )
-echo "Base install finished, now initializing opsman, see logfiles in ${LOG_DIR}/logs"
+echo "Base install finished, now initializing opsman, see logfiles in ${LOG_DIR}"
 su ${ADMIN_USERNAME} -c "nohup ${SCRIPT_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"

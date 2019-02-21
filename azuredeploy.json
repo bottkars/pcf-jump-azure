@@ -364,6 +364,7 @@
             "[concat(variables('baseUri'),  '/scripts/deploy_masb.sh')]",
             "[concat(variables('baseUri'),  '/scripts/cf_startstop.sh')]",
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/stemcell_loader.sh')]",
             "[concat(variables('baseUri'),  '/templates/pas-',parameters('pasEdition'),'.yaml')]",
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
