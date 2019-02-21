@@ -137,7 +137,7 @@ sudo apt update
 
 sudo apt-get install azure-cli unzip tmate --yes
 
-wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.11_linux_amd64.zip && \
+wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip && \
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 

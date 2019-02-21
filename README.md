@@ -123,7 +123,7 @@ example parameter file for master branch is [here](/.env.example)
 ### validate full
 
 
- (.properties.validatedResources[] | select(.name=="generate-customdata"))
+// (.properties.validatedResources[] | select(.name=="generate-customdata"))
 
 ```bash
 source ~/.env.testing
