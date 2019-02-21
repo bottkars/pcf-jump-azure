@@ -178,12 +178,10 @@ echo $(date) end staging ${PRODUCT_SLUG}
 
 $SCRIPT_DIR/stemcell_loader.sh
 
-echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
 om --skip-ssl-validation \
 assign-stemcell \
 --product ${PRODUCT_NAME} \
 --stemcell latest
-echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_NAME}
 
 echo $(date) start configure ${PRODUCT_NAME}
 cat << EOF > ${TEMPLATE_DIR}/pas_vars.yaml

@@ -81,8 +81,6 @@ om --skip-ssl-validation \
  --pivnet-file-glob "*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_SPRING_VERSION} \
- --stemcell-iaas azure \
- --download-stemcell \
  --output-directory ${DOWNLOAD_DIR_FULL}
 
 echo $(date) end downloading ${PRODUCT_SLUG}
@@ -118,19 +116,11 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
-echo $(date) start uploading ${STEMCELL_FILENAME}
-om --skip-ssl-validation \
-upload-stemcell \
---floating=false \
---stemcell ${STEMCELL_FILENAME}
-echo $(date) end uploading ${STEMCELL_FILENAME}
 
-echo $(date) start assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 om --skip-ssl-validation \
 assign-stemcell \
 --product ${PRODUCT_SLUG} \
 --stemcell latest
-echo $(date) end assign stemcell ${STEMCELL_FILENAME} to ${PRODUCT_SLUG}
 
 cat << EOF > ${TEMPLATE_DIR}/spring_vars.yaml
 product_name: ${PRODUCT_SLUG}

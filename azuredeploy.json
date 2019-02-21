@@ -264,7 +264,7 @@
         },        
         "pasAutopilot": {
             "type": "string",
-            "defaultValue": "FALSE",
+            "defaultValue": "TRUE",
             "allowedValues": [
                 "FALSE",
                 "TRUE"
