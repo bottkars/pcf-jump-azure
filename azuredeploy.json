@@ -373,7 +373,7 @@
             "[concat(variables('baseUri'),  '/env/masb/',parameters('pcfMasbVer'),'/masb.env')]",            
             "[concat(variables('baseUri'),  '/env/rabbit/',parameters('pcfRabbitVer'),'/rabbit.env')]",
             "[concat(variables('baseUri'),  '/env/spring/',parameters('pcfSpringVer'),'/spring.env')]",
-            "[concat(variables('baseUri'),  '/env/apm/',parameters('pcfApmVer'),'/Apm.env')]",
+            "[concat(variables('baseUri'),  '/env/apm/',parameters('pcfApmVer'),'/apm.env')]",
             "[concat(variables('baseUri'),  '/env/healthwatch/',parameters('pcfHealthwatchVer'),'/healthwatch.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
