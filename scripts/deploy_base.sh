@@ -68,21 +68,37 @@ PAS_EDITION=$(get_setting PAS_EDITION)
 
 
 HOME_DIR="/home/${ADMIN_USERNAME}"
-cp *.sh ${HOME_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.sh
-chmod 755 ${HOME_DIR}/*.sh
-chmod +X ${HOME_DIR}/*.sh
-cp *.yaml ${HOME_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.yaml
-chmod 755 ${HOME_DIR}/*.yaml
+LOG_DIR="${HOME_DIR}/conductor/logs"
+SCRIPT_DIR="${HOME_DIR}/conductor/scripts"
+LOG_DIR="${HOME_DIR}/conductor/logs"
+ENV_DIR="${HOME_DIR}/conductor/env"
+TEMPLATE_DIR="${HOME_DIR}/conductor/temmplates"
 
-cp *.env ${HOME_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/*.env
-chmod 755 ${HOME_DIR}/*.yaml
 
-${HOME_DIR}/vm-disk-utils-0.1.sh
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${TEMPLATE_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${SCRIPT_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${ENV_DIR}
+sudo -S -u ${ADMIN_USERNAME} mkdir -p ${LOG_DIR}
+
+
+
+cp *.sh ${SCRIPT_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${SCRIPT_DIR}/*.sh
+chmod 755 ${SCRIPT_DIR}/*.sh
+chmod +X ${SCRIPT_DIR}/*.sh
+
+cp *.yaml ${TEMPLATE_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${TEMPLATE_DIR}/*.yaml
+chmod 755 ${TEMPLATE_DIR}/*.yaml
+
+cp *.env ${HOME_DIR}/conductor/env
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${ENV_DIR}/*.env
+chmod 755 ${ENV_DIR}/*.env
+
+${SCRIPT_DIR}/vm-disk-utils-0.1.sh
+
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${DOWNLOAD_DIR}
-chmod ${DOWNLOAD_DIR}
+chmod -R 755 ${DOWNLOAD_DIR}
 
 $(cat <<-EOF > ${HOME_DIR}/.env.sh
 #!/usr/bin/env bash
@@ -114,13 +130,14 @@ SMTP_PORT="${SMTP_PORT}"
 SMTP_STARTTLS="${SMTP_STARTTLS}"
 PAS_EDITION="${PAS_EDITION}"
 USE_SELF_CERTS="${USE_SELF_CERTS}"
+LOG_DIR=${LOG_DIR}
+ENV_DIR=${ENV_DIR}
+SCRIPT_DIR=${SCRIPT_DIR}
+TEMPLATE_DIR=${TEMPLATE_DIR}
 EOF
 )
-
 chmod 600 ${HOME_DIR}/.env.sh
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${HOME_DIR}/.env.sh
-
-cp * ${HOME_DIR}
 
 sudo apt-get install apt-transport-https lsb-release software-properties-common -y
 AZ_REPO=$(lsb_release -cs)
@@ -131,29 +148,31 @@ sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
      --keyserver packages.microsoft.com \
      --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
 
-sudo apt-get update
+sudo apt install software-properties-common 
+sudo add-apt-repository ppa:tmate.io/archive --yes
+sudo apt update
 
-sudo apt-get install azure-cli && sudo apt --yes install unzip 
+sudo apt-get install azure-cli unzip tmate --yes
 
-wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip && \
+wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip && \
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-wget -O om https://github.com/pivotal-cf/om/releases/download/0.48.0/om-linux && \
+wget -O om https://github.com/pivotal-cf/om/releases/download/0.53.0/om-linux && \
   chmod +x om && \
   sudo mv om /usr/local/bin/
 
-wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.3.1-linux-amd64 && \
+wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.4.0-linux-amd64 && \
   chmod +x bosh && \
   sudo mv bosh /usr/local/bin/
 
-wget -O /tmp/bbr.tar https://github.com/cloudfoundry-incubator/bosh-backup-and-restore/releases/download/v1.2.8/bbr-1.2.8.tar && \
-  tar xvC /tmp/ -f /tmp/bbr.tar && \
-  sudo mv /tmp/releases/bbr /usr/local/bin/
+wget -O /tmp/bbr https://github.com/cloudfoundry-incubator/bosh-backup-and-restore/releases/download/v1.4.0/bbr-1.4.0-linux-amd64 && \
+    chmod +x bbr && \
+  sudo mv /tmp/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
 
 cd ${HOME_DIR}
-source ${HOME_DIR}/pas.env
+source ${ENV_DIR}/pas.env
 AUTHENTICATION_RESPONSE=$(curl \
   --fail \
   --data "{\"refresh_token\": \"${PCF_PIVNET_UAA_TOKEN}\"}" \
@@ -227,7 +246,7 @@ sudo -S -u ${ADMIN_USERNAME} terraform plan -out=plan
 retryop "sudo -S -u ${ADMIN_USERNAME} terraform apply -auto-approve" 3 10
 
 sudo -S -u ${ADMIN_USERNAME} terraform output ops_manager_ssh_private_key > ${HOME_DIR}/opsman
-sudo -S -u ${ADMIN_USERNAME} chmod 600 ${HOME_DIR}/opsman
+# sudo -S -u ${ADMIN_USERNAME} chmod 600 ${HOME_DIR}/opsman
 
 # PCF_NETWORK=$(terraform output network_name)
 
@@ -272,5 +291,5 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 END_BASE_DEPLOY_TIME="${END_BASE_DEPLOY_TIME}"
 EOF
 )
-echo "Base install finished, now initializing opsman, see logfiles in ${HOME_DIR}/logs"
-su ${ADMIN_USERNAME} -c "nohup ${HOME_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"
+echo "Base install finished, now initializing opsman, see logfiles in ${LOG_DIR}"
+su ${ADMIN_USERNAME} -c "nohup ${SCRIPT_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"

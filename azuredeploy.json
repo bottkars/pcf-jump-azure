@@ -59,46 +59,130 @@
             "type": "string",
             "defaultValue": "pcf",
             "metadata": {
-                "description": "environment name for azure ( will be ops host name )"
+                "description": "the Environment name for azure, will be a Prefix for PCF Resources"
             }
         },
         "envShortName": {
             "type": "string",
             "minLength": "3",
             "metadata": {
-                "description": "will be prefix for pcf terraform resources"
+                "description": "will be prefix for PCF  Storage Account "
+            }
+        },
+        "PCFDomainName": {
+            "type": "string",
+            "minLength": "7",
+            "metadata": {
+                "description": "dns suffix for PCF"
+            }
+        },
+        "PCFSubdomainName": {
+            "type": "string",
+            "minLength": "3",
+            "metadata": {
+                "description": "subdomain for PCF"
+            }
+        },
+        "dnsLabelPrefix": {
+            "minLength": "3",
+            "type": "string",
+            "metadata": {
+                "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+            }
+        },
+        "PCFSpringVersion": {
+            "type": "string",
+            "defaultValue": "2.0.6",
+            "allowedValues": [
+                "2.0.5",
+                "2.0.6"
+            ],
+            "metadata": {
+                "description": "The Version of the Spring Tile"
+            }
+        },
+        "PCFMysqlVersion": {
+            "type": "string",
+            "defaultValue": "2.5.3",
+            "allowedValues": [
+                "2.5.3"
+            ],
+            "metadata": {
+                "description": "The Version of the mysql Tile"
+            }
+        },
+        "PCFRabbitVersion": {
+            "type": "string",
+            "defaultValue": "1.15.4",
+            "allowedValues": [
+                "1.15.4",
+                "1.15.3"
+            ],
+            "metadata": {
+                "description": "The Version of the Rabbit Tile"
+            }
+        },
+        "PCFPasVersion": {
+            "type": "string",
+            "defaultValue": "2.4.3",
+            "allowedValues": [
+                "2.4.3",
+                "2.4.2",
+                "2.4.1",
+                "2.4.0"
+            ],
+            "metadata": {
+                "description": "The Version of the Pivotal Application Service"
+            }
+        },        
+        "PCFMasbVersion": {
+            "type": "string",
+            "defaultValue": "1.11.0",
+            "allowedValues": [
+                "1.11.0"
+            ],
+            "metadata": {
+                "description": "The Version of the Azure Service Broker Tile"
+            }
+        },
+        "PCFApmVersion": {
+            "type": "string",
+            "defaultValue": "1.6.0",
+            "allowedValues": [
+                "1.6.0"
+            ],
+            "metadata": {
+                "description": "The Version of the Azure Service Broker Tile"
+            }
+        },
+        "PCFHealthwatchVersion": {
+            "type": "string",
+            "defaultValue": "1.4.5",
+            "allowedValues": [
+                "1.4.5"
+            ],
+            "metadata": {
+                "description": "The Version of the Azure Service Broker Tile"
             }
         },
         "opsmanImage": {
             "type": "string",
             "allowedValues": [
+                "ops-manager-2.4-build.152.vhd",
+                "ops-manager-2.4-build.145.vhd",
                 "ops-manager-2.4-build.142.vhd",
                 "ops-manager-2.4-build.131.vhd",
                 "ops-manager-2.4-build.117.vhd"
-            ],
-            "defaultValue": "ops-manager-2.4-build.142.vhd",
+            ],   
+            "defaultValue": "ops-manager-2.4-build.152.vhd",
             "metadata": {
-                "description": "latest osmanager image"
+                "description": "The Version of the Operations Manager Image"
             }
-        },
-        "pcfDomainName": {
-            "type": "string",
-            "minLength": "7",
-            "metadata": {
-                "description": "dns suffix for pcf"
-            }
-        },
-        "pcfSubdomainName": {
-            "type": "string",
-            "minLength": "3",
-            "metadata": {
-                "description": "subdomain for pcf"
-            }
-        },
+        },        
         "net16bitmask": {
             "type": "string",
             "minLength": "3",
-            "defaultValue": "10.10",
+            "defaultValue": "10.20",
             "metadata": {
                 "description": "first 16 bit of ip range in format xxx.xxx"
             }
@@ -108,7 +192,7 @@
             "minLength": "5",
             "defaultValue": "user@example.com",
             "metadata": {
-                "description": "subdomain for pcf"
+                "description": "subdomain for PCF"
             }
         },
         "smtpAddress": {
@@ -162,7 +246,7 @@
             "minLength": "5",
             "defaultValue": "opsman",
             "metadata": {
-                "description": "subdomain for pcf"
+                "description": "subdomain for PCF"
             }
         },
         "pasEdition": {
@@ -180,13 +264,13 @@
         },        
         "pasAutopilot": {
             "type": "string",
-            "defaultValue": "FALSE",
+            "defaultValue": "TRUE",
             "allowedValues": [
                 "FALSE",
                 "TRUE"
             ],
             "metadata": {
-                "description": "autodeploy pcf pas"
+                "description": "autodeploy PCF pas"
             }
         },
         "useSelfCerts": {
@@ -198,21 +282,6 @@
             ],
             "metadata": {
                 "description": "for testing, use self signed certs, otherwise Let´s Encrypt"
-            }
-        },
-        "pasVersion": {
-            "type": "string",
-            "defaultValue": "2.4.1",
-            "allowedValues": [
-                "2.4.1",
-                "2.4.0"
-            ]
-        },
-        "dnsLabelPrefix": {
-            "minLength": "3",
-            "type": "string",
-            "metadata": {
-                "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
             }
         },
         "ubuntuOSVersion": {
@@ -266,7 +335,7 @@
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
             }
-        }
+        }                                    
     },
     "variables": {
         "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
@@ -292,19 +361,24 @@
             "[concat(variables('baseUri'),  '/scripts/deploy_mysql.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_rabbit.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_spring.sh')]",
-            "[concat(variables('baseUri'),  '/scripts/deploy_osba.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/deploy_masb.sh')]",
             "[concat(variables('baseUri'),  '/scripts/cf_startstop.sh')]",
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
+            "[concat(variables('baseUri'),  '/scripts/stemcell_loader.sh')]",
             "[concat(variables('baseUri'),  '/templates/pas-',parameters('pasEdition'),'.yaml')]",
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
             "[concat(variables('baseUri'),  '/templates/spring.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/osba.yaml')]",            
-            "[concat(variables('baseUri'),  '/env/mysql.env')]",
-            "[concat(variables('baseUri'),  '/env/pas/',parameters('pasVersion'),'/pas.env')]",
-            "[concat(variables('baseUri'),  '/env/osba/0.12.0/osba.env')]",            
-            "[concat(variables('baseUri'),  '/env/rabbit.env')]",
-            "[concat(variables('baseUri'),  '/env/spring.env')]",
+            "[concat(variables('baseUri'),  '/templates/apm.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/healthwatch.yaml')]",            
+            "[concat(variables('baseUri'),  '/templates/masb.yaml')]",            
+            "[concat(variables('baseUri'),  '/env/mysql/',parameters('PCFMysqlVersion'),'/mysql.env')]",
+            "[concat(variables('baseUri'),  '/env/pas/',parameters('PCFPasVersion'),'/pas.env')]",
+            "[concat(variables('baseUri'),  '/env/masb/',parameters('PCFMasbVersion'),'/masb.env')]",            
+            "[concat(variables('baseUri'),  '/env/rabbit/',parameters('PCFRabbitVersion'),'/rabbit.env')]",
+            "[concat(variables('baseUri'),  '/env/spring/',parameters('PCFSpringVersion'),'/spring.env')]",
+            "[concat(variables('baseUri'),  '/env/apm/',parameters('PCFApmVersion'),'/apm.env')]",
+            "[concat(variables('baseUri'),  '/env/healthwatch/',parameters('PCFHealthwatchVersion'),'/healthwatch.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
         ]
@@ -481,14 +555,14 @@
                             "ENV_SHORT_NAME": "[parameters('envShortName')]",
                             "OPS_MANAGER_IMAGE_URI": "[concat('https://opsmanager',parameters('opsmanImageregion'),'.blob.core.windows.net/images/',parameters('opsmanImage'))]",
                             "LOCATION": "[parameters('location')]",
-                            "PCF_DOMAIN_NAME": "[parameters('pcfDomainName')]",
-                            "PCF_SUBDOMAIN_NAME": "[parameters('pcfSubdomainName')]",
+                            "PCF_DOMAIN_NAME": "[parameters('PCFDomainName')]",
+                            "PCF_SUBDOMAIN_NAME": "[parameters('PCFSubdomainName')]",
                             "SSH_PUBLIC_KEY": "[parameters('sshkeyData')]",
                             "PCF_OPSMAN_USERNAME": "[parameters('opsmanUsername')]",
                             "PCF_NOTIFICATIONS_EMAIL": "[parameters('notificationsEmail')]",
                             "NET_16_BIT_MASK": "[parameters('net16bitmask')]",
                             "PAS_AUTOPILOT": "[parameters('pasAutopilot')]",
-                            "PCF_PAS_VERSION": "[parameters('pasVersion')]",
+                            "PCF_PAS_VERSION": "[parameters('PCFPasVersion')]",
                             "SMTP_ADDRESS": "[parameters('smtpAddress')]",
                             "SMTP_IDENTITY": "[parameters('smtpIdentity')]",
                             "SMTP_PASSWORD": "[parameters('smtpPassword')]",

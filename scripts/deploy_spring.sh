@@ -2,8 +2,8 @@
 source ~/.env.sh
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -20,7 +20,12 @@ case $key in
     NO_APPLY=TRUE
     echo "No APPLY is ${NO_APPLY}"
     # shift # past value ia arg value
-    ;;    
+    ;;  
+    -a|--APPLY_ALL)
+    APPLY_ALL=TRUE
+    echo "APPLY ALL is ${NO_APPLY}"
+    # shift # past value ia arg value
+    ;;        
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
@@ -39,7 +44,7 @@ START_SPRING_DEPLOY_TIME="${START_SPRING_DEPLOY_TIME}"
 EOF
 )
 
-source  ~/spring.env
+source ${ENV_DIR}/spring.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -76,8 +81,6 @@ om --skip-ssl-validation \
  --pivnet-file-glob "*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_SPRING_VERSION} \
- --stemcell-iaas azure \
- --download-stemcell \
  --output-directory ${DOWNLOAD_DIR_FULL}
 
 echo $(date) end downloading ${PRODUCT_SLUG}
@@ -86,8 +89,6 @@ echo ignoring download by user
 fi
 
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
-STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
-
 # Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
@@ -114,28 +115,37 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
-cat << EOF > ${HOME_DIR}/spring_vars.yaml
+
+om --skip-ssl-validation \
+assign-stemcell \
+--product ${PRODUCT_SLUG} \
+--stemcell latest
+
+cat << EOF > ${TEMPLATE_DIR}/spring_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/spring.yaml -l ${HOME_DIR}/spring_vars.yaml
+  -c ${TEMPLATE_DIR}/spring.yaml -l ${TEMPLATE_DIR}/spring_vars.yaml
 
-om --skip-ssl-validation \
-upload-stemcell \
---stemcell ${STEMCELL_FILENAME}
 
 echo $(date) start apply ${PRODUCT_SLUG}
 
-if  [ -z ${NO_APPLY} ] ; then
+if  [ ! -z ${NO_APPLY} ] ; then
+echo "No Product Apply"
+elif [ ! -z ${APPLY_ALL} ] ; then
+echo "APPLY_ALL"
+om --skip-ssl-validation \
+  apply-changes
+else 
+echo "APPLY Product"
 om --skip-ssl-validation \
   apply-changes \
   --product-name ${PRODUCT_SLUG}
-else
-echo "No Product Apply"
 fi
+
 echo $(date) end apply ${PRODUCT_SLUG}
 END_SPRING_DEPLOY_TIME=$(date)
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh

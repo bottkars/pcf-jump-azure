@@ -2,8 +2,8 @@
 source ~/.env.sh
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -20,7 +20,12 @@ case $key in
     NO_APPLY=TRUE
     echo "No APPLY is ${NO_APPLY}"
     # shift # past value ia arg value
-    ;;    
+    ;;  
+    -a|--APPLY_ALL)
+    APPLY_ALL=TRUE
+    echo "APPLY ALL is ${NO_APPLY}"
+    # shift # past value ia arg value
+    ;;        
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
@@ -38,8 +43,8 @@ declare -a FILES=("${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key" \
 "${HOME_DIR}/fullchain.cer")
 for FILE in "${FILES[@]}"; do
     if [ ! -f $FILE ]; then
-    echo "$FILE not found. Please run create_self_certs.sh "
-    exit
+    echo "$FILE not found. running Create Self Certs "
+    ${SCRIPT_DIR}/create_self_certs.sh
     fi
 done
 
@@ -50,17 +55,8 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 START_PAS_DEPLOY_TIME="${START_PAS_DEPLOY_TIME}"
 EOF
 )
-source ~/pas.env
+source ${ENV_DIR}/pas.env
 PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
-#PCF_KEY_PEM=$(cat ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
-#PCF_CERT_PEM=$(cat ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
-
-
-
-
-
-
-
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
@@ -81,6 +77,42 @@ PIVNET_ACCESS_TOKEN=$(curl \
   https://network.pivotal.io/api/v2/authentication/access_tokens |\
     jq -r '.access_token')
 
+
+## accept 170er stemcells
+RELEASE_JSON=$(curl \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --fail \
+  "https://network.pivotal.io/api/v2/products/233/releases/286469")
+# eula acceptance link
+EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
+  jq -r '._links.eula_acceptance.href')
+
+# eula acceptance
+curl \
+  --fail \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --request POST \
+  ${EULA_ACCEPTANCE_URL}
+
+
+## accept 97er stemcells
+RELEASE_JSON=$(curl \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --fail \
+  "https://network.pivotal.io/api/v2/products/233/releases/162133")
+# eula acceptance link
+EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
+  jq -r '._links.eula_acceptance.href')
+
+# eula acceptance
+curl \
+  --fail \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --request POST \
+  ${EULA_ACCEPTANCE_URL}
+
+
+
 # release by slug
 RELEASE_JSON=$(curl \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
@@ -90,15 +122,17 @@ RELEASE_JSON=$(curl \
 EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
 
-
-DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/$PRODUCT_SLUG/${PCF_PAS_VERSION}-${PAS_EDITION}
-mkdir -p ${DOWNLOAD_DIR_FULL}
 # eula acceptance
 curl \
   --fail \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   --request POST \
   ${EULA_ACCEPTANCE_URL}
+
+
+DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/$PRODUCT_SLUG/${PCF_PAS_VERSION}-${PAS_EDITION}
+mkdir -p ${DOWNLOAD_DIR_FULL}
+
 
 # download product using om cli
 if  [ -z ${NO_DOWNLOAD} ] ; then
@@ -109,8 +143,6 @@ om --skip-ssl-validation \
  --pivnet-file-glob "${PAS_EDITION}*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_PAS_VERSION} \
- --stemcell-iaas azure \
- --download-stemcell \
  --output-directory ${DOWNLOAD_DIR_FULL}
 echo $(date) end downloading ${PRODUCT_SLUG}
 else 
@@ -118,8 +150,6 @@ echo ignoring download by user
 fi
 
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
-STEMCELL_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.stemcell_path')
-
 # Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
@@ -145,7 +175,16 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
-cat << EOF > vars.yaml
+
+$SCRIPT_DIR/stemcell_loader.sh
+
+om --skip-ssl-validation \
+assign-stemcell \
+--product ${PRODUCT_NAME} \
+--stemcell latest
+
+echo $(date) start configure ${PRODUCT_NAME}
+cat << EOF > ${TEMPLATE_DIR}/pas_vars.yaml
 pcf_pas_network: pcf-pas-subnet
 pcf_system_domain: ${PCF_SYSTEM_DOMAIN}
 pcf_apps_domain: ${PCF_APPS_DOMAIN}
@@ -166,21 +205,24 @@ EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${HOME_DIR}/pas-${PAS_EDITION}.yaml -l vars.yaml
+  -c ${TEMPLATE_DIR}/pas-${PAS_EDITION}.yaml -l ${TEMPLATE_DIR}/pas_vars.yaml
 ###
+echo $(date) end configure ${PRODUCT_NAME}
 
-om --skip-ssl-validation \
-  upload-stemcell \
-  --stemcell ${STEMCELL_FILENAME}
 
 echo $(date) start apply ${PRODUCT_SLUG}
 
-if  [ -z ${NO_APPLY} ] ; then
+if  [ ! -z ${NO_APPLY} ] ; then
+echo "No Product Apply"
+elif [ ! -z ${APPLY_ALL} ] ; then
+echo "APPLY_ALL"
+om --skip-ssl-validation \
+  apply-changes
+else 
+echo "APPLY Product"
 om --skip-ssl-validation \
   apply-changes \
-  --product-name ${PRODUCT_NAME}
-else
-echo "No Product Apply"
+  --product-name ${PRODUCT_SLUG}
 fi
 echo $(date) end apply ${PRODUCT_SLUG}
 

@@ -25,9 +25,9 @@ case $key in
     echo "APPLY ALL is ${NO_APPLY}"
     # shift # past value ia arg value
     ;;  
-    -r|--DO_NOT_CREATE_REDIS_INSTANCE)
-    NO_REDIS=TRUE
-    echo "No APPLY is ${NO_APPLY}"
+    -nodb|--DO_NOT_CREATE_SQLDB_INSTANCE)
+    NO_SQLDB=TRUE
+    echo "No SQL DB CREATION is ${NO_SQLDB}"
     # shift # past value ia arg value
     ;;          
     *)    # unknown option
@@ -49,7 +49,7 @@ START_OSBA_DEPLOY_TIME="${START_OSBA_DEPLOY_TIME}"
 EOF
 )
 
-source ${ENV_DIR}/osba.env
+source ${ENV_DIR}/masb.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -125,71 +125,70 @@ assign-stemcell \
 --product ${PRODUCT_SLUG} \
 --stemcell latest
 
-echo "$(date) start creating ${ENV_SHORT_NAME}redis"
+echo "$(date) start creating ${ENV_SHORT_NAME}sql"
 
 az login --service-principal \
   --username ${AZURE_CLIENT_ID} \
   --password ${AZURE_CLIENT_SECRET} \
   --tenant ${AZURE_TENANT_ID}
 
-if  [ -z ${NO_REDIS} ] ; then
-    MY_REDIS=$(az redis create \
-    --name ${ENV_SHORT_NAME}redis \
-    --resource-group ${ENV_NAME} \
+if  [ -z ${NO_SQLDB} ] ; then
+    MY_SQLDB_SERVER=$(az sql server create \
+    --admin-password $PCF_PIVNET_UAA_TOKEN \
+    --admin-user sqladmin \
     --location ${LOCATION} \
-    --sku Basic \
-    --vm-size C0)
+    --name ${ENV_SHORT_NAME}sql \
+    --resource-group ${ENV_NAME})
+                     
 
-    while [[ $(az redis show \
-            --name ${ENV_SHORT_NAME}redis \
+    while [[ $(az sql server show \
+            --name ${ENV_SHORT_NAME}sql \
             --resource-group ${ENV_NAME} \
             --out tsv \
-            --query provisioningState) != 'Succeeded' ]]; do
-        echo "Redis still not finished provisioning. Trying again in 20 seconds."
+            --query state) != 'Ready' ]]; do
+        echo "SQL still not finished provisioning. Trying again in 20 seconds."
         sleep 20
-        if [[ $(az redis show \
-            --name ${ENV_SHORT_NAME}redis \
+        if [[ $(az sql server show \
+            --name ${ENV_SHORT_NAME}sql \
             --resource-group ${ENV_NAME} \
             --out tsv \
             --query provisioningState) == 'failed' ]]; then
-            echo "Redis Provisioning failed."
+            echo "SQL Provisioning failed."
             exit 1
         fi
     done
-    echo "redis provisioned."
-    echo "$(date) end creating ${ENV_SHORT_NAME}redis"
+    echo "sql provisioned."
+    echo "$(date) end creating ${ENV_SHORT_NAME}sql"
+    echo "$(date) creating Dadabase masb${ENV_SHORT_NAME}sql"
+    az sql db create \
+    --resource-group ${ENV_NAME} \
+    --server ${ENV_SHORT_NAME}sql \
+    --resource-group ${ENV_NAME} \
+    --name masb${ENV_SHORT_NAME}sql
+    echo "$(date) end creating Dadabase masb${ENV_SHORT_NAME}sql"
 else
-MY_REDIS=$(az redis show \
-        --name ${ENV_SHORT_NAME}redis \
+MY_SQLDB_SERVER=$(az sql server show \
+        --name ${ENV_SHORT_NAME}sql \
         --resource-group ${ENV_NAME})
 fi
 
-REDIS_KEY=$(az redis list-keys \
---name ${ENV_SHORT_NAME}redis \
---resource-group ${ENV_NAME}  \
---query primaryKey --out tsv)
 
-cat << EOF > ${TEMPLATE_DIR}/osba_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/masb_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
-pcf_service_network: pcf-services-subnet
 azure_subscription_id: ${AZURE_SUBSCRIPTION_ID}
 azure_tenant_id: ${AZURE_TENANT_ID}
-azure_client_id: ${AZURE_CLIENT_SECRET}
-azure_client_secret: ${AZURE_CLIENT_ID}
-storage_redis_host: $(echo $MY_REDIS | jq -r ".hostName")
-storage_redis_password: ${REDIS_KEY}
-crypto_aes256_key: $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-async_redis_host: $(echo $MY_REDIS | jq -r ".hostName")
-async_redis_password: ${REDIS_KEY}
-
+azure_client_id: ${AZURE_CLIENT_ID}
+azure_client_secret: ${AZURE_CLIENT_SECRET}
+azure_broker_database_server: ${ENV_SHORT_NAME}sql.database.windows.net
+azure_broker_database_name: masb${ENV_SHORT_NAME}sql
+azure_broker_database_password: ${PCF_PIVNET_UAA_TOKEN}
+azure_broker_database_encryption_key: $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${TEMPLATE_DIR}/osba.yaml -l ${TEMPLATE_DIR}/osba_vars.yaml
-
-
+  -c ${TEMPLATE_DIR}/masb.yaml -l ${TEMPLATE_DIR}/masb_vars.yaml
 
 echo "$(date) start apply ${PRODUCT_SLUG}"
 

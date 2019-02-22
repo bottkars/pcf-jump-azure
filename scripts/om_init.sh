@@ -2,8 +2,8 @@
 cd $1
 source .env.sh
 MYSELF=$(basename $0)
-mkdir -p ${HOME_DIR}/logs
-exec &> >(tee -a "${HOME_DIR}/logs/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
+mkdir -p ${LOG_DIR}
+exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
 exec 2>&1
 function retryop()
 {
@@ -66,7 +66,7 @@ om --skip-ssl-validation \
 deployed-products
 
 cd ${HOME_DIR}
-cat << EOF > director_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/director_vars.yaml
 subscription_id: ${AZURE_SUBSCRIPTION_ID}
 tenant_id: ${AZURE_TENANT_ID}
 client_id: ${AZURE_CLIENT_ID}
@@ -93,7 +93,7 @@ services_gateway: "${NET_16_BIT_MASK}.4.1"
 EOF
 
 om --skip-ssl-validation \
- configure-director --config ${HOME_DIR}/director_config.yaml --vars-file ${HOME_DIR}/director_vars.yaml
+ configure-director --config ${TEMPLATE_DIR}/director_config.yaml --vars-file ${TEMPLATE_DIR}/director_vars.yaml
 
 retryop "om --skip-ssl-validation apply-changes" 2 10
 
@@ -131,12 +131,12 @@ echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
 
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
-      ${HOME_DIR}/create_self_certs.sh
+      ${SCRIPT_DIR}/create_self_certs.sh
     else  
-      ${HOME_DIR}/create_certs.sh
+      ${SCRIPT_DIR}/create_certs.sh
     fi
-    ${HOME_DIR}/deploy_pas.sh
-    ${HOME_DIR}/deploy_mysql.sh
-    ${HOME_DIR}/deploy_rabbit.sh
-    ${HOME_DIR}/deploy_spring.sh
+    ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES
+    ${SCRIPT_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES
+    ${SCRIPT_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES
+    ${SCRIPT_DIR}/deploy_spring.sh --APPLY_ALL
 fi

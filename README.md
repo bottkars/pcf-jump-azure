@@ -25,8 +25,47 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 - :new: automated bosh tasks / setup  
 - :new: specify download location for ops manager
 
+### Initial supported Pivotal Cloudfoundry Tiles and Versions
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotalapplicationservice@2x.png" height="16"> Pivotal Application Service 2.4.3
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotal_mysql@2x.png" height="16"> MySQL 2.5.3
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_rabbitmq_cf@2x.png" height="16"> RabbitMQ 1.15.4
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_spring_cloud_services_cf@2x.png" height="16"> Spring Cloud Services 2.0.6
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_microsoft_azure_open_service_broker@2x.png" height="16"> Microsoft Azure Service Broker 1.11.0 ( MASB )
+
+![image](https://user-images.githubusercontent.com/8255007/53223791-cc1af080-3672-11e9-85ba-c8a78c550101.png) 
+
  
 ## usage
+
+there are are multiple ways to deploy the ARM template. we will describe Azure Portal Template based an az cli base Method  
+
+## create a ssh keypair for the admin user ( if not already done )
+
+both methods require an SSH Keypair
+
+```bash
+ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
+```
+
+### installation using New Template Deployment
+
+1. In the Azure Portal, click on Create Resource  and enter Template Deployment
+![image](https://user-images.githubusercontent.com/8255007/53224228-4bf58a80-3674-11e9-8bf1-090677009b7c.png)
+2. Select the template Deployment and click on *create*.
+3. Select *Build your own Template in the Editor*
+![image](https://user-images.githubusercontent.com/8255007/53224314-9aa32480-3674-11e9-9997-7c430c0b31c8.png)
+4. Replace the Content in the Editor Window with the Content of azuredeploy.json file
+![image](https://user-images.githubusercontent.com/8255007/53224406-e2c24700-3674-11e9-9dee-5fc9b1d4aeda.png)
+5. click *save*.
+6. fill in all required Parameters ( marked with a red Star )
+![image](https://user-images.githubusercontent.com/8255007/53224565-80b61180-3675-11e9-861e-71a08552743b.png)
+7. when done, click *Purchase*.
+
+### Installation using az cli
+
+for az cli install, we put all required Parameters into an env file
+
+1. create env file
 
 create an .env file using the [.env.example](/.env.example)  
 Parameter Explanation in this [table](#env-variables)  
@@ -38,13 +77,7 @@ source the env file
 source .env
 ```
 
-## create a ssh keypair for the admin user ( if not already done )
-
-```bash
-ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
-```
-
-## check availability of storage account  
+2. check availability of storage account  
 
 ```bash
 az storage account check-name --name ${ENV_SHORT_NAME}director
@@ -58,16 +91,17 @@ also, note that AUTOPILOT is disabled by default now.
 you can set the Environment for PAS_AUTOPILOT or use -pasAutopilot=TRUE during deployment.  
 if not using autopilot, see [Post Deployment Steps](#post-deploy) for more Details
 
-## deployment with minimum param set
+3. deployment with default parameter set
 
-the minimum parameter set uses defaults where possible
+the default parameter set uses defaults where possible, it is the most convenient way to get started
 
-### validate minimum
+### validate default
 
 ```bash
+source ~/.env
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
-    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
@@ -79,17 +113,24 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
-    pcfDomainName=${PCF_DOMAIN_NAME} \
-    pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
+    PCFDomainName=${PCF_DOMAIN_NAME} \
+    PCFSubdomainName=${PCF_SUBDOMAIN_NAME} \
+    _artifactsLocation="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH"
 ```
 
-### deploy minimum
+4. deploy default
+
+:zap: **do not forget to create ssh key for every environment !**
+
+```bash
+source ~/.env
+ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
+```
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment create --resource-group ${JUMPBOX_RG} \
-    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
+    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json" \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
@@ -101,21 +142,23 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
-    opsmanImageUri=${OPS_MANAGER_IMAGE_URI} \
-    pcfDomainName=${PCF_DOMAIN_NAME} \
-    pcfSubdomainName=${PCF_SUBDOMAIN_NAME}
+    PCFDomainName=${PCF_DOMAIN_NAME} \
+    PCFSubdomainName=${PCF_SUBDOMAIN_NAME} \
+    _artifactsLocation="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH"
 ```
 
-## deployment with full param set
+5. deployment with full param set
 
-the full parameter set´s optiional Values like smtp config
-
-### validate full
+the full parameter set´s optional Values like smtp config
+example parameter file for testing branch is [here](/.env.testing.example)
+example parameter file for master branch is [here](/.env.example).
+6. validate full
 
 ```bash
+source ~/.env
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment validate --resource-group ${JUMPBOX_RG} \
-    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
+    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json" \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
@@ -129,8 +172,8 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     envShortName=${ENV_SHORT_NAME} \
     opsmanImage=${OPS_MANAGER_IMAGE} \
     opsmanImageRegion=${OPS_MANAGER_IMAGE_REGION} \
-    pcfDomainName=${PCF_DOMAIN_NAME} \
-    pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
+    PCFDomainName=${PCF_DOMAIN_NAME} \
+    PCFSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
     net16bitmask=${NET_16_BIT_MASK} \
@@ -148,7 +191,14 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     pasEdition=${PAS_EDITION}
 ```
 
-### deploy full
+7. deploy full
+
+:zap: **do not forget to create ssh key for every environment !**
+
+```bash
+source ~/.env
+ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
+```
 
 ```bash
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
@@ -167,8 +217,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     envShortName=${ENV_SHORT_NAME} \
     opsmanImage=${OPS_MANAGER_IMAGE} \
     opsmanImageRegion=${OPS_MANAGER_IMAGE_REGION} \
-    pcfDomainName=${PCF_DOMAIN_NAME} \
-    pcfSubdomainName=${PCF_SUBDOMAIN_NAME} \
+    PCFDomainName=${PCF_DOMAIN_NAME} \
+    PCFSubdomainName=${PCF_SUBDOMAIN_NAME} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
     net16bitmask=${NET_16_BIT_MASK} \
@@ -186,12 +236,12 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     pasEdition=${PAS_EDITION}
 ```
 
-## deployment using parameter file
+### deployment using parameter file
 
 you also might want to deploy the template using an parameter file.  
 simply create a local azuredeploy.parameter.json file from the [example](./azuredeploy.parameters.example.json)
 
-then run 
+then run
 
 ```bash
 az group create --name <RG_NAME> --location <AZURE_REGION>
@@ -302,8 +352,8 @@ variable                    | azure rm parameter | default value     | mandatory
 **AZURE_SUBSCRIPTION_ID**   | subscriptionID     |                   | yes               | Your Azure Subscription ID,
 **AZURE_TENANT_ID**         | tenantID           |                   | yes               | Your AZURE tenant
 **PCF_PIVNET_UAA_TOKEN**    | pivnetToken        |                   | yes               | Your Token from Pivotal Network
-**PCF_DOMAIN_NAME**         | pcfDomainName      |                   | yes               | the domain your pcf subdomain will be hosted in
-**PCF_SUBDOMAIN_NAME**      | pcfSubdomainName   |                   | yes               | the subdomain name that will be created in your resource group
+**PCF_DOMAIN_NAME**         | PCFDomainName      |                   | yes               | the domain your PCF subdomain will be hosted in
+**PCF_SUBDOMAIN_NAME**      | PCFSubdomainName   |                   | yes               | the subdomain name that will be created in your resource group
 **ENV_SHORT_NAME**          | envShortName       |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below
 **ENV_NAME**                | envName            | pcf               | no, using default | *pcf* this name will be prefix for azure resources and you opsman hostname
 **OPS_MANAGER_IMAGE_URI**   | opsmanImageUri     | [opsurl](https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd)                  | no                | a 2.4 opsman image url
@@ -321,7 +371,13 @@ variable                    | azure rm parameter | default value     | mandatory
 **USE_SELF_CERTS**          | useSelfcerts       | true              | no                | true or false
 **PAS_EDITION**             | pasEdition|cf|no|cf or srt deployment
 **OPS_MANAGER_IMAGE_REGION**|opsmanImageRegion|westeurope|yes|the region where to download opsman from. Values are westeurope, westus, eastus, southeastasia
-## required nameserver delegation
+ -|PCFspringVersion|2.0.6 |no|2.0.5,2.0.6
+ -|PCFpasVersion|2.4.3|no|2.4.1,2.4.2,2.4.3
+ -|PCFmysqlVersion|2.5.3|no|2.5.3
+ -|PCFrabbitVersion|1.15.4|no|1.15.3,1.15.4
+ -|PCFmasbVersion|1.11.0|no|1.11.0
+
+### required nameserver delegation
 
 make sure that your domain has a ns resource record to your pcf domain.  
 the  following nameserver entries must be part of the resource record:  
