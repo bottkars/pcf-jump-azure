@@ -91,7 +91,7 @@ cp *.yaml ${TEMPLATE_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${TEMPLATE_DIR}/*.yaml
 chmod 755 ${TEMPLATE_DIR}/*.yaml
 
-cp *.env ${HOME_DIR}/conductor/env
+cp *.env ${ENV_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${ENV_DIR}/*.env
 chmod 755 ${ENV_DIR}/*.env
 
