@@ -112,7 +112,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
-    dnsLabelPrefix=${JUMPBOX_NAME} \
+    JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
@@ -141,7 +141,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     --parameters \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
-    dnsLabelPrefix=${JUMPBOX_NAME} \
+    JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
@@ -169,7 +169,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
-    dnsLabelPrefix=${JUMPBOX_NAME} \
+    JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
@@ -214,7 +214,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     --parameters \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
-    dnsLabelPrefix=${JUMPBOX_NAME} \
+    JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
     clientSecret=${AZURE_CLIENT_SECRET} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
@@ -351,7 +351,7 @@ and use the [Full Deployment Method](#deploy-full)
 variable                    | azure rm parameter | default value     | mandatory         | description
 ----------------------------|--------------------|-------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------
 **JUMPBOX_RG**              |                    |                   | yes               | the name of the ressource group for the JumpBox
-**JUMPBOX_NAME**            | dnsLabelPrefix     | -                 | yes               | the JumpBox hostname , must be unique for the region !
+**JUMPBOX_NAME**            | JumphostDNSLabelPrefix     | -                 | yes               | the JumpBox hostname , must be unique for the region !
 **ADMIN_USERNAME**          | adminUsername      | ubuntu            | no                | the jumpbox os username
 **AZURE_CLIENT_ID**         | clientID           |                   | yes               | *Azure Service Principal*
 **AZURE_CLIENT_SECRET**     | clientSecret       |                   | yes               | *Service Principal client secret*

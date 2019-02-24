@@ -55,13 +55,6 @@
                 "description": "pivnet refresh token"
             }
         },
-        "envName": {
-            "type": "string",
-            "defaultValue": "pcf",
-            "metadata": {
-                "description": "the Environment name for azure, will be a Prefix for PCF Resources"
-            }
-        },
         "envShortName": {
             "type": "string",
             "minLength": "3",
@@ -83,13 +76,21 @@
                 "description": "subdomain for PCF"
             }
         },
-        "dnsLabelPrefix": {
+        "JumphostDNSLabelPrefix": {
             "minLength": "3",
             "type": "string",
             "metadata": {
                 "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
             }
         },
+            "envName": {
+            "type": "string",
+            "defaultValue": "pcf",
+            "metadata": {
+                "description": "the Environment name for azure, will be a Prefix for PCF Resources"
+            }
+        },
+
         "PCFSpringVersion": {
             "type": "string",
             "defaultValue": "2.0.6",
@@ -403,7 +404,7 @@
             "properties": {
                 "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
                 "dnsSettings": {
-                    "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+                    "domainNameLabel": "[parameters('JumphostDNSLabelPrefix')]"
                 }
             }
         },
