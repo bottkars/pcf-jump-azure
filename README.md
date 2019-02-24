@@ -1,4 +1,12 @@
 # pcf-jump-azure
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbottkars%2Fpcf-jump-azure%2Fmaster%2Fazuredeploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fbottkars%2Fpcf-jump-azure%2Fmaster%2Fazuredeploy.json" target="_blank">
+    <img src="http://armviz.io/visualizebutton.png"/>
+</a>
+
+
 
 <img src="https://docs.pivotal.io/images/PVLG-PivotalApplicationService-Symbol.png" width="100"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/800px-Heart_coraz%C3%B3n.svg.png" width="100">
 <img src="https://docs.pivotal.io/images/icon_microsoft_azure@2x.png" width="100">
@@ -34,10 +42,9 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 ![image](https://user-images.githubusercontent.com/8255007/53223791-cc1af080-3672-11e9-85ba-c8a78c550101.png) 
 
- 
 ## usage
 
-there are are multiple ways to deploy the ARM template. we will describe Azure Portal Template based an az cli base Method  
+there are are multiple ways to deploy the ARM template. we will describe Azure Portal Template based and az cli based Method  
 
 ## create a ssh keypair for the admin user ( if not already done )
 
