@@ -90,6 +90,7 @@ pas_gateway: "${NET_16_BIT_MASK}.0.1"
 services_cidr: "${NET_16_BIT_MASK}.4.0/22"
 services_range: "${NET_16_BIT_MASK}.4.1-${NET_16_BIT_MASK}.4.4"
 services_gateway: "${NET_16_BIT_MASK}.4.1"
+fullchain: "$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')"
 EOF
 
 om --skip-ssl-validation \

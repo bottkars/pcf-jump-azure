@@ -1,5 +1,8 @@
 ---
 properties-configuration:
+  security_configuration:
+    trusted_certificates: ((fullchain))
+    opsmanager_root_ca_trusted_certs: true
   director_configuration:
     max_threads: 8
     ntp_servers_string: ((ntp_servers_string))  
