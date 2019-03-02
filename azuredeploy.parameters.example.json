@@ -1,87 +1,114 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-      "adminUsername": {
-          "value": "ubuntu"
-      },
-      "sshKeyData": {
-          "value": "your ssh key"
-      },
-      "clientID": {
-          "value": "your client id"
-      },
-      "tenantID": {
-          "value": "your tenant id"
-      },
-      "subscriptionID": {
-          "value": "your subscription"
-      },
-      "clientSecret": {
-          "value": "your secret"
-      },
-      "pivnetToken": {
-          "value": "your token"
-      },
-      "envName": {
-          "value": "pcf"
-      },
-      "envShortName": {
-          "value": "pcfyou"
-      },
-      "opsmanImageUri": {
-          "value": "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.4-build.131.vhd"
-      },
-      "pcfDomainName": {
-          "value": "yourdomin.io"
-      },
-      "pcfSubdomainName": {
-          "value": "subdomainname"
-      },
-      "net16bitmask": {
-          "value": "10.10"
-      },
-      "notificationsEmail": {
-          "value": "email@example.com"
-      },
-      "smtpAddress": {
-          "value": "s"
-      },
-      "smtpIdentity": {
-          "value": "apikey"
-      },
-      "smtpPassword": {
-          "value": ""
-      },
-      "smtpFrom": {
-          "value": ""
-      },
-      "smtpPort": {
-          "value": ""
-      },
-      "smtpStarttls": {
-          "value": "true"
-      },
-      "opsmanUsername": {
-          "value": "opsman"
-      },
-      "pasAutopilot": {
-          "value": "TRUE"
-      },
-      "useSelfCerts": {
-          "value": "TRUE"
-      },
-      "pasVersion": {
-          "value": "2.4.1"
-      },
-      "dnsLabelPrefix": {
-          "value": "pasjumpbox"
-      },
-      "ubuntuOSVersion": {
-          "value": "18.04-LTS"
-      },
-      "location": {
-          "value": "westeurope"
-      }
-  }
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminUsername": {
+            "value": "ubuntu"
+        },
+        "sshKeyData": {
+            "value": ""
+        },
+        "clientID": {
+            "value": ""
+        },
+        "tenantID": {
+            "value": ""
+        },
+        "subscriptionID": {
+            "value": ""
+        },
+        "clientSecret": {
+            "value": ""
+        },
+        "pivnetToken": {
+            "value": ""
+        },
+        "envShortName": {
+            "value": ""
+        },
+        "pcfDomainName": {
+            "value": ""
+        },
+        "pcfSubdomainName": {
+            "value": ""
+        },
+        "jumphostDNSLabelPrefix": {
+            "value": ""
+        },
+        "envName": {
+            "value": ""
+        },
+        "pcfSpringVersion": {
+            "value": "2.0.6"
+        },
+        "pcfMysqlVersion": {
+            "value": "2.5.3"
+        },
+        "pcfRabbitVersion": {
+            "value": "1.15.4"
+        },
+        "pcfPasVersion": {
+            "value": "2.4.4"
+        },
+        "pcfMasbVersion": {
+            "value": "1.11.0"
+        },
+        "pcfApmVersion": {
+            "value": "1.6.0"
+        },
+        "pcfHealthwatchVersion": {
+            "value": "1.4.5"
+        },
+        "opsmanImage": {
+            "value": "ops-manager-2.4-build.152.vhd"
+        },
+        "net16bitmask": {
+            "value": "10.20"
+        },
+        "notificationsEmail": {
+            "value": "user@examle.com"
+        },
+        "smtpAddress": {
+            "value": ""
+        },
+        "smtpIdentity": {
+            "value": ""
+        },
+        "smtpPassword": {
+            "value": ""
+        },
+        "smtpFrom": {
+            "value": ""
+        },
+        "smtpPort": {
+            "value": ""
+        },
+        "smtpStarttls": {
+            "value": "true"
+        },
+        "opsmanUsername": {
+            "value": "opsman"
+        },
+        "pasEdition": {
+            "value": "srt"
+        },
+        "pasAutopilot": {
+            "value": "TRUE"
+        },
+        "useSelfCerts": {
+            "value": "TRUE"
+        },
+        "ubuntuOSVersion": {
+            "value": "18.04-LTS"
+        },
+        "vmSize": {
+            "value": "Standard_DS2_v2"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "opsmanImageRegion": {
+            "value": "westeurope"
+        }
+    }
 }

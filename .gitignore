@@ -4,6 +4,4 @@ om_init.1.sh
 scratch.sh
 .env.dev
 .env.testing
-
-azuredeploy.parameters.json
 azuredeploy.parameters.json
