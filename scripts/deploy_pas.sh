@@ -51,10 +51,7 @@ done
 
 
 START_PAS_DEPLOY_TIME=$(date)
-$(cat <<-EOF >> ${HOME_DIR}/.env.sh
-START_PAS_DEPLOY_TIME="${START_PAS_DEPLOY_TIME}"
-EOF
-)
+
 source ${ENV_DIR}/pas.env
 PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
@@ -227,14 +224,6 @@ fi
 echo $(date) end apply ${PRODUCT_SLUG}
 
 END_PAS_DEPLOY_TIME=$(date)
-$(cat <<-EOF >> ${HOME_DIR}/.env.sh
-END_PAS_DEPLOY_TIME="${END_PAS_DEPLOY_TIME}"
-EOF
-)
-echo Finished
-echo Started BASE deployment at ${START_BASE_DEPLOY_TIME}
-echo Fimnished BASE deployment at ${END_BASE_DEPLOY_TIME}
-echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}
-echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
+
 echo Started ${PRODUCT_SLUG} deployment at ${START_PAS_DEPLOY_TIME}
 echo Finished ${PRODUCT_SLUG} Deployment at ${END_PAS_DEPLOY_TIME}

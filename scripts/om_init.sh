@@ -29,10 +29,7 @@ function retryop()
 }
 START_OPSMAN_DEPLOY_TIME=$(date)
 echo ${START_OPSMAN_DEPLOY_TIME} start opsman deployment
-$(cat <<-EOF >> ${HOME_DIR}/.env.sh
-START_OPSMAN_DEPLOY_TIME="${START_OPSMAN_DEPLOY_TIME}"
-EOF
-)
+
 
 pushd ${HOME_DIR}
 
@@ -53,6 +50,14 @@ until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_
     sleep 5
 done
 echo "done"
+
+#### need cert´s now for opsman as well
+if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
+  ${SCRIPT_DIR}/create_self_certs.sh
+else  
+  ${SCRIPT_DIR}/create_certs.sh
+fi
+
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
@@ -108,7 +113,6 @@ END_OPSMAN_DEPLOY_TIME=$(date)
 echo ${END_OPSMAN_DEPLOY_TIME} finished opsman deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 PCF_OPSMAN_FQDN="${PCF_OPSMAN_FQDN}"
-END_OPSMAN_DEPLOY_TIME="${END_OPSMAN_DEPLOY_TIME}"
 EOF
 )
 
@@ -131,11 +135,6 @@ echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}
 echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
 
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
-    if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
-      ${SCRIPT_DIR}/create_self_certs.sh
-    else  
-      ${SCRIPT_DIR}/create_certs.sh
-    fi
     ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES
     ${SCRIPT_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES
     ${SCRIPT_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES

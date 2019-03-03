@@ -39,10 +39,7 @@ export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
 START_SPRING_DEPLOY_TIME=$(date)
-$(cat <<-EOF >> ${HOME_DIR}/.env.sh
-START_SPRING_DEPLOY_TIME="${START_SPRING_DEPLOY_TIME}"
-EOF
-)
+
 
 source ${ENV_DIR}/spring.env
 
@@ -147,8 +144,3 @@ om --skip-ssl-validation \
 fi
 
 echo $(date) end apply ${PRODUCT_SLUG}
-END_SPRING_DEPLOY_TIME=$(date)
-$(cat <<-EOF >> ${HOME_DIR}/.env.sh
-END_SPRING_DEPLOY_TIME="${END_SPRING_DEPLOY_TIME}"
-EOF
-)
