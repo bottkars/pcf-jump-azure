@@ -5,3 +5,5 @@ scratch.sh
 .env.dev
 .env.testing
 azuredeploy.parameters.json
+.DS_Store
+
