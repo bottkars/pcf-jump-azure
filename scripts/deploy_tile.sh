@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 source ~/.env.sh
 cd ${HOME_DIR}
+mkdir -p ${LOG_DIR}
 MYSELF=$(basename $0)
-LOGDIR=
+
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -12,22 +13,23 @@ case $key in
     -n|--NO_DOWNLOAD)
     NO_DOWNLOAD=TRUE
     echo "No download is ${NO_DOWNLOAD}"
-    # shift # past value if  arg value
+    shift # past value if  arg value
     ;;
     -d|--DO_NOT_APPLY_CHANGES)
     NO_APPLY=TRUE
     echo "No APPLY is ${NO_APPLY}"
-    # shift # past value ia arg value
+    shift # past value ia arg value
     ;;
     -a|--APPLY_ALL)
     APPLY_ALL=TRUE
     echo "APPLY ALL is ${APPLY_ALL}"
-    # shift # past value ia arg value
+    shift # past value ia arg value
     ;;
     -t|--TILE)
     TILE="$2"
     echo "TILE IS ${TILE}"
     shift # past value ia arg value
+    shift
     ;;
     -s|--LOAD_STEMCELL)
     LOAD_STEMCELL=TRUE
@@ -42,9 +44,11 @@ esac
 shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
-mkdir -p ${LOG_DIR}
-exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H').log")
+
+exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H-%M').log")
 exec 2>&1
+
+PIVNET_UAA_TOKEN=$PCF_PIVNET_UAA_TOKEN
 
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
@@ -144,15 +148,37 @@ PRODUCTS=$(om --skip-ssl-validation \
   available-products \
     --format json)
 
+
+case ${PRODUCT_SLUG} in
+    p-compliance-scanner)
+    PRODUCT=scanner
+    ;;
+    *)
+    PRODUCT=${PRODUCT_SLUG}
+    ;;
+esac    
+
 VERSION=$(echo ${PRODUCTS} |\
-  jq --arg product_name ${PRODUCT_SLUG} -r 'map(select(.name==$product_name)) | first | .version')
+  jq --arg product_name ${PRODUCT} -r 'map(select(.name==$product_name)) | first | .version')
+if [[ -z "$VERSION" ]] ||  [[ "$VERSION" == "null" ]];then 
+  echo "EMPTY Product Version"
+  exit 1
+fi
+
+PRODUCT_NAME=$(echo ${PRODUCTS} |\
+  jq --arg product_name ${PRODUCT} -r 'map(select(.name==$product_name)) | first | .name')
+
+if [[ -z "$PRODUCT_NAME" ]] ||  [[ "$PRODUCT_NAME" == "null" ]];then 
+  echo "EMPTY Product Name"
+  exit 1
+fi
 
 
 # 2.  Stage using om cli
 echo $(date) start staging ${PRODUCT_SLUG}
 om --skip-ssl-validation \
   stage-product \
-  --product-name ${PRODUCT_SLUG} \
+  --product-name ${PRODUCT_NAME} \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG}
 
@@ -164,7 +190,7 @@ fi
 
 om --skip-ssl-validation \
 assign-stemcell \
---product ${PRODUCT_SLUG} \
+--product ${PRODUCT_NAME} \
 --stemcell latest
 
 
@@ -180,7 +206,7 @@ case ${TILE} in
       -c ${TEMPLATE_DIR}/wavefront.yaml -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
     fi
 esac
-echo "No Product Apply"
+
 
 echo $(date) start apply ${PRODUCT_SLUG}
 
@@ -194,11 +220,10 @@ else
 echo "APPLY Product"
 om --skip-ssl-validation \
   apply-changes \
-  --product-name ${PRODUCT_SLUG}
+  --product-name ${PRODUCT_NAME}
 fi
 
 echo "checking deployed products"
 om --skip-ssl-validation \
  deployed-products
-
 echo $(date) end apply ${PRODUCT_SLUG}

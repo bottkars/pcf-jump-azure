@@ -72,7 +72,7 @@ LOG_DIR="${HOME_DIR}/conductor/logs"
 SCRIPT_DIR="${HOME_DIR}/conductor/scripts"
 LOG_DIR="${HOME_DIR}/conductor/logs"
 ENV_DIR="${HOME_DIR}/conductor/env"
-TEMPLATE_DIR="${HOME_DIR}/conductor/temmplates"
+TEMPLATE_DIR="${HOME_DIR}/conductor/templates"
 
 
 sudo -S -u ${ADMIN_USERNAME} mkdir -p ${TEMPLATE_DIR}

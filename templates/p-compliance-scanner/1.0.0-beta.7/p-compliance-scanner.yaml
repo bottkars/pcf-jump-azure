@@ -1,0 +1,8 @@
+product-name: ((product_name))
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  other_availability_zones:
+  - name: 'null'
+  singleton_availability_zone:
+    name: 'null'
