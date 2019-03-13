@@ -167,6 +167,16 @@
                 "description": "The Version of the Azure Service Broker Tile"
             }
         },
+        "PASWindowsVersion": {
+            "type": "string",
+            "defaultValue": "2.4.3",
+            "allowedValues": [
+                "2.4.3"
+            ],
+            "metadata": {
+                "description": "The Version of the Azure Service Broker Tile"
+            }
+        },        
         "opsmanImage": {
             "type": "string",
             "allowedValues": [
@@ -382,6 +392,7 @@
             "[concat(variables('baseUri'),  '/env/spring/',parameters('PCFSpringVersion'),'/spring.env')]",
             "[concat(variables('baseUri'),  '/env/apm/',parameters('PCFApmVersion'),'/apm.env')]",
             "[concat(variables('baseUri'),  '/env/healthwatch/',parameters('PCFHealthwatchVersion'),'/healthwatch.env')]",
+            "[concat(variables('baseUri'),  '/env/pas-windows/',parameters('PASWindowsVersion'),'/pas-windows.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
         ]

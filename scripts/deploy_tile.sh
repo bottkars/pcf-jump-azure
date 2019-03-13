@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 source ~/.env.sh
-cd ${HOME_DIR}
-mkdir -p ${LOG_DIR}
-MYSELF=$(basename $0)
+PIVNET_UAA_TOKEN=$PCF_PIVNET_UAA_TOKEN
 
+export OM_TARGET=${PCF_OPSMAN_FQDN}
+export OM_USERNAME=${PCF_OPSMAN_USERNAME}
+export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
+cd ${HOME_DIR}
+MYSELF=$(basename $0)
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -29,13 +32,12 @@ case $key in
     TILE="$2"
     echo "TILE IS ${TILE}"
     shift # past value ia arg value
-    shift
     ;;
     -s|--LOAD_STEMCELL)
     LOAD_STEMCELL=TRUE
     echo "LOAD_STEMCELL IS ${LOAD_STEMCELL}"
-    #shift # past value ia arg value
-    ;;    
+    shift # past value ia arg value
+    ;;
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
@@ -44,15 +46,13 @@ esac
 shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
+mkdir -p ${LOG_DIR}
 
-exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H-%M').log")
+
+exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H-%M-%S').log")
 exec 2>&1
 
-PIVNET_UAA_TOKEN=$PCF_PIVNET_UAA_TOKEN
 
-export OM_TARGET=${PCF_OPSMAN_FQDN}
-export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 
 echo $(date) start deploy ${TILE}
 
@@ -97,7 +97,7 @@ om --skip-ssl-validation \
 
 echo $(date) end downloading ${PRODUCT_SLUG}
 
-## Mignt get to 
+## Mignt get to
 ###  do we need special, eg pks
     case ${TILE} in
     pks)
@@ -128,11 +128,36 @@ echo $(date) end downloading ${PRODUCT_SLUG}
         chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ./pivotal-container-service-*kubectl-linux-amd64*
         sudo cp ./pivotal-container-service-*kubectl-linux-amd64* /usr/local/bin/kubectl
         ;;
-        esac
+	pas-windows)
+        echo $(date) start downloading win injector
+        om --skip-ssl-validation \
+        download-product \
+        --pivnet-api-token ${PIVNET_UAA_TOKEN} \
+        --pivnet-file-glob "winfs-injector*" \
+        --pivnet-product-slug ${PRODUCT_SLUG} \
+        --product-version ${PCF_VERSION} \
+        --output-directory ${HOME_DIR}
+
+	unzip -o ${HOME}/*winfs-injector*.zip
+
+	chmod +x ${HOME}/winfs-injector-linux
+
+	TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
+	INJECTED_FILENAME=injectded
+	${HOME}/winfs-injector-linux --input-tile ${TARGET_FILENAME} \
+		--output-tile ${INJECTED_FILENAME}
+
+	;;
+	esac
 else
 echo ignoring download by user
 fi
-
+if  [ ! -z ${INJECTED_FILENAME} ] ; then
+om --skip-ssl-validation \
+  --request-timeout 3600 \
+  upload-product \
+  --product ${INJECTED_FILENAME}
+else
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
 # Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
@@ -140,7 +165,7 @@ om --skip-ssl-validation \
   --request-timeout 3600 \
   upload-product \
   --product ${TARGET_FILENAME}
-
+fi
 echo $(date) end uploading ${PRODUCT_SLUG}
 
     # 1. Find the version of the product that was imported.
@@ -156,11 +181,11 @@ case ${PRODUCT_SLUG} in
     *)
     PRODUCT=${PRODUCT_SLUG}
     ;;
-esac    
+esac
 
 VERSION=$(echo ${PRODUCTS} |\
   jq --arg product_name ${PRODUCT} -r 'map(select(.name==$product_name)) | first | .version')
-if [[ -z "$VERSION" ]] ||  [[ "$VERSION" == "null" ]];then 
+if [[ -z "$VERSION" ]] ||  [[ "$VERSION" == "null" ]];then
   echo "EMPTY Product Version"
   exit 1
 fi
@@ -168,7 +193,7 @@ fi
 PRODUCT_NAME=$(echo ${PRODUCTS} |\
   jq --arg product_name ${PRODUCT} -r 'map(select(.name==$product_name)) | first | .name')
 
-if [[ -z "$PRODUCT_NAME" ]] ||  [[ "$PRODUCT_NAME" == "null" ]];then 
+if [[ -z "$PRODUCT_NAME" ]] ||  [[ "$PRODUCT_NAME" == "null" ]];then
   echo "EMPTY Product Name"
   exit 1
 fi

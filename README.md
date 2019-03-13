@@ -285,6 +285,7 @@ tail the installation log
 tail -f ~/install.log
 ```
 ## post deploy
+finde some 'shortcuts' in [advanced](/docs/advanced.md)
 
 if you do not autodeploy ( default behaviour ), you can kickstart the deployment of all components from the jumphost:
 
