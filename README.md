@@ -388,7 +388,8 @@ variable                    | azure rm parameter | default value     | mandatory
 ### required nameserver delegation
 
 make sure that your domain has a ns resource record to your pcf domain.  
-the  following nameserver entries must be part of the resource record:  
+the following list ALL nameserver entries for Azure, 4 will be picked from the Creation of the DNS Zone
+
 
 ```bash
 ns1-07.azure-dns.com.
