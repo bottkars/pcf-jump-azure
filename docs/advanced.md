@@ -18,7 +18,7 @@ sudo sh -c \
     --skip-ssl-validation \
     --target ${PCF_OPSMAN_FQDN} \
     --username ${PCF_OPSMAN_USERNAME} \
-    --password ${PIVNET_UAA_TOKEN} \
+    --password ${PCF_PIVNET_UAA_TOKEN} \
     curl \
       --silent \
       --path "/api/v0/security/root_ca_certificate" |
