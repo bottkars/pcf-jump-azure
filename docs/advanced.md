@@ -6,7 +6,7 @@ to connect to bosh from the Jumpbox
 
 ```bash
 source .env.sh
-export OM_TARGET=pcf.${PKS_SUBDOMAIN_NAME}.${PKS_DOMAIN_NAME}
+export OM_TARGET=pcf.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD=${PIVNET_UAA_TOKEN}
 export $( \
