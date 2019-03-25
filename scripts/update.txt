@@ -1,4 +1,5 @@
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/update.sh
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/update.txt
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/deploy_base.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/deploy_masb.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/deploy_mysql.sh
