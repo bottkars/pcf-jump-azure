@@ -24,7 +24,7 @@ for DIRECTORY in "${DIRECTORIES[@]}"; do
     echo "\n"
 done
 
-rm -rf ${UPADTE_DIR}
+rm -rf ${UPADTE_DIR}/*
 chmod +x ${HOME_DIR}/conductor/scripts/*
 echo "done"
 
