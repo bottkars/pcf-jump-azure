@@ -5,7 +5,7 @@ echo "this is the updater"
 mkdir -p ${LOG_DIR}
 UPDATE_DIR=${HOME_DIR}/conductor/updates
 mkdir -p ${UPDATE_DIR}
-BASE_URI="https://raw.githubusercontent.com/bottkars/pff-jump-azure/master/"
+BASE_URI="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/"
 
 
 if ! which parallel > /dev/null; then
