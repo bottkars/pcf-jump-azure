@@ -5,11 +5,11 @@
 to connect to bosh from the Jumpbox
 
 ```bash
-source .env.sh
+source ~/.env.sh
 
 export OM_TARGET=pcf.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD=${PIVNET_UAA_TOKEN}
+export OM_PASSWORD=${PCF_PIVNET_UAA_TOKEN}
 
 sudo mkdir -p /var/tempest/workspaces/default
 
@@ -58,3 +58,11 @@ export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 ```
 
+```bash
+ADD_USER=user@pivotal.io
+uaac user add ${ADD_USER} -p ChangeMe --emails ${ADD_USER}
+uaac member add cloud_controller.admin ${ADD_USER}
+uaac member add uaa.admin ${ADD_USER}
+uaac member add scim.read ${ADD_USER}
+uaac member add scim.write ${ADD_USER}
+```
