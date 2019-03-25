@@ -1,0 +1,12 @@
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/osba.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas-srt.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/masb.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/mysql.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/healthwatch.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/spring.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/updates.txt
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/apm.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas-cf.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/director_config.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/rabbit.yaml

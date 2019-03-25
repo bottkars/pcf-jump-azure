@@ -1,2 +1,9 @@
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/healthwatch/1.4.5/healthwatch.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/apm/1.6.0/apm.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/masb/1.11.0/masb.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/mysql/2.5.3/mysql.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/rabbit/1.15.4/rabbit.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pas/2.4.4/pas.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pas-windows/2.4.3/pas-windows.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/spring/2.0.7/spring.env

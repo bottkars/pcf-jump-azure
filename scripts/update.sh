@@ -24,7 +24,7 @@ for DIRECTORY in "${DIRECTORIES[@]}"; do
     echo "\n"
 done
 
-rm -rf ${UPDATE_DIR}/*
+rm -rf ${UPDATE_DIR}/updates.txt
 chmod +x ${HOME_DIR}/conductor/scripts/*
 echo "done"
 
