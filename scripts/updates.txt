@@ -16,4 +16,4 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/scratch
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/skeleton.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/stemcell_loader.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/update.sh
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/updates.txt
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/connect_om.sh
