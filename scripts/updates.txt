@@ -17,3 +17,4 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/skeleto
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/stemcell_loader.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/update.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/connect_om.sh
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/update_bosh_director.sh

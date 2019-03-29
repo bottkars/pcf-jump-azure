@@ -40,7 +40,7 @@ export AZURE_STORAGE_CONNECTION_STRING=$(az storage account show-connection-stri
 --name ${ENV_SHORT_NAME}opsmanager --resource-group ${ENV_NAME})
 export OPSMAN_IMAGE_VERSION=2.4-build.171
 
-export OPSMAN_IMAGE_URI=https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-${OPSMAN_IMAGE_VERSION}.vhd
+export OPSMAN_IMAGE_URI=$(dirname ${OPS_MANAGER_IMAGE_URI})/ops-manager-${OPSMAN_IMAGE_VERSION}.vhd
 
 AZURE_STORAGE_ENDPOINT=$(az storage account show --name ${ENV_SHORT_NAME}opsmanager \
  --resource-group ${ENV_NAME} \
@@ -87,3 +87,6 @@ az vm create --name ${ENV_NAME}-ops-manager-vm  --resource-group ${ENV_NAME} \
  om --skip-ssl-validation \
     --decryption-passphrase $PCF_PIVNET_UAA_TOKEN \
     import-installation --installation $EXPORT_FILE
+
+om --skip-ssl-validation \
+apply-changes --skip-unchanged-products    
