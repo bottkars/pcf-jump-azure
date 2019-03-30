@@ -191,7 +191,7 @@ om --skip-ssl-validation \
 echo $(date) end staging ${PRODUCT_SLUG} 
 
 
-$SCRIPT_DIR/stemcell_loader.sh
+$SCRIPT_DIR/stemcell_loader.sh 250
 
 om --skip-ssl-validation \
 assign-stemcell \
