@@ -30,5 +30,5 @@ echo "done"
 
 
 
-# wget -O - https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/scripts/update.sh | bash
+# wget -O - https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/scripts/update.sh | bash
 
