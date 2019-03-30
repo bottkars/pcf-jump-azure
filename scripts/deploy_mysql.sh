@@ -37,7 +37,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
+export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 START_MYSQL_DEPLOY_TIME=$(date)
 
 
@@ -46,7 +46,7 @@ source ${ENV_DIR}/mysql.env
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
   --header "Content-Type: application/json" \
-  --data "{\"refresh_token\": \"${PCF_PIVNET_UAA_TOKEN}\"}" \
+  --data "{\"refresh_token\": \"${PIVNET_UAA_TOKEN}\"}" \
   https://network.pivotal.io/api/v2/authentication/access_tokens |\
     jq -r '.access_token')
 
@@ -74,7 +74,7 @@ echo $(date) start downloading ${PRODUCT_SLUG}
 
 om --skip-ssl-validation \
   download-product \
- --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
+ --pivnet-api-token ${PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_MYSQL_VERSION} \

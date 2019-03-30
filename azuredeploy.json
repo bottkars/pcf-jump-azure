@@ -563,7 +563,7 @@
                             "ADMIN_USERNAME": "[parameters('adminUsername')]",
                             "AZURE_SUBSCRIPTION_ID": "[parameters('subscriptionID')]",
                             "AZURE_TENANT_ID": "[parameters('tenantID')]",
-                            "PCF_PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
+                            "PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
                             "ENV_NAME": "[parameters('envName')]",
                             "ENV_SHORT_NAME": "[parameters('envShortName')]",
                             "OPS_MANAGER_IMAGE_URI": "[concat('https://opsmanager',parameters('opsmanImageregion'),'.blob.core.windows.net/images/ops-manager-',parameters('opsmanImage'),'.vhd')]",

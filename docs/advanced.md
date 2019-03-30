@@ -9,7 +9,7 @@ source ~/.env.sh
 
 export OM_TARGET=pcf.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD=${PCF_PIVNET_UAA_TOKEN}
+export OM_PASSWORD=${PIVNET_UAA_TOKEN}
 
 sudo mkdir -p /var/tempest/workspaces/default
 
@@ -18,7 +18,7 @@ sudo sh -c \
     --skip-ssl-validation \
     --target ${PCF_OPSMAN_FQDN} \
     --username ${PCF_OPSMAN_USERNAME} \
-    --password ${PCF_PIVNET_UAA_TOKEN} \
+    --password ${PIVNET_UAA_TOKEN} \
     curl \
       --silent \
       --path "/api/v0/security/root_ca_certificate" |
@@ -51,7 +51,7 @@ ssh -i opsman ${ADMIN_USERNAME}@${PCF_OPSMAN_FQDN}
 
 ```
 source ~/.env.sh
-PIVNET_UAA_TOKEN=$PCF_PIVNET_UAA_TOKEN
+PIVNET_UAA_TOKEN=$PIVNET_UAA_TOKEN
 
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}

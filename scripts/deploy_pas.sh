@@ -37,7 +37,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
+export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 
 declare -a FILES=("${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key" \
 "${HOME_DIR}/fullchain.cer")
@@ -53,7 +53,7 @@ done
 START_PAS_DEPLOY_TIME=$(date)
 
 source ${ENV_DIR}/pas.env
-PCF_OPSMAN_ADMIN_PASSWD=${PCF_PIVNET_UAA_TOKEN}
+PCF_OPSMAN_ADMIN_PASSWD=${PIVNET_UAA_TOKEN}
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')
 PCF_CREDHUB_KEY="01234567890123456789"
@@ -70,9 +70,27 @@ PCF_MYSQL_LB="${ENV_NAME}-mysql-lb"
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
   --header "Content-Type: application/json" \
-  --data "{\"refresh_token\": \"${PCF_PIVNET_UAA_TOKEN}\"}" \
+  --data "{\"refresh_token\": \"${PIVNET_UAA_TOKEN}\"}" \
   https://network.pivotal.io/api/v2/authentication/access_tokens |\
     jq -r '.access_token')
+
+
+## accept 250er stemcells
+RELEASE_JSON=$(curl \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --fail \
+  "https://network.pivotal.io/api/v2/products/233/releases/331971")
+# eula acceptance link
+EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
+  jq -r '._links.eula_acceptance.href')
+
+# eula acceptance
+curl \
+  --fail \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --request POST \
+  ${EULA_ACCEPTANCE_URL}
+
 
 
 ## accept 170er stemcells
@@ -136,7 +154,7 @@ if  [ -z ${NO_DOWNLOAD} ] ; then
 echo $(date) start downloading ${PRODUCT_SLUG}
 om --skip-ssl-validation \
   download-product \
- --pivnet-api-token ${PCF_PIVNET_UAA_TOKEN} \
+ --pivnet-api-token ${PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "${PAS_EDITION}*.pivotal" \
  --pivnet-product-slug ${PRODUCT_SLUG} \
  --product-version ${PCF_PAS_VERSION} \

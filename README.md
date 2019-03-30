@@ -117,7 +117,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
+    pivnetToken=${PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     PCFDomainName=${PCF_DOMAIN_NAME} \
@@ -146,7 +146,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
+    pivnetToken=${PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     PCFDomainName=${PCF_DOMAIN_NAME} \
@@ -174,7 +174,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
+    pivnetToken=${PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     opsmanImage=${OPS_MANAGER_IMAGE} \
@@ -219,7 +219,7 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     clientID=${AZURE_CLIENT_ID} \
     tenantID=${AZURE_TENANT_ID} \
     subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PCF_PIVNET_UAA_TOKEN} \
+    pivnetToken=${PIVNET_UAA_TOKEN} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     opsmanImage=${OPS_MANAGER_IMAGE} \
@@ -359,7 +359,7 @@ variable                    | azure rm parameter | default value     | mandatory
 **AZURE_REGION**            |                    |                   | yes               | used from az resource group command, no default
 **AZURE_SUBSCRIPTION_ID**   | subscriptionID     |                   | yes               | Your Azure Subscription ID,
 **AZURE_TENANT_ID**         | tenantID           |                   | yes               | Your AZURE tenant
-**PCF_PIVNET_UAA_TOKEN**    | pivnetToken        |                   | yes               | Your Token from Pivotal Network
+**PIVNET_UAA_TOKEN**    | pivnetToken        |                   | yes               | Your Token from Pivotal Network
 **PCF_DOMAIN_NAME**         | PCFDomainName      |                   | yes               | the domain your PCF subdomain will be hosted in
 **PCF_SUBDOMAIN_NAME**      | PCFSubdomainName   |                   | yes               | the subdomain name that will be created in your resource group
 **ENV_SHORT_NAME**          | envShortName       |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below

@@ -31,7 +31,7 @@ done
 
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
+export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 EXPORT_FILE=${HOME_DIR}/$(uuidgen)
 om --skip-ssl-validation \
     export-installation --output-file ${EXPORT_FILE}
@@ -85,7 +85,7 @@ az vm create --name ${ENV_NAME}-ops-manager-vm  --resource-group ${ENV_NAME} \
  --ssh-key-value ${HOME_DIR}/.ssh/authorized_keys
 
  om --skip-ssl-validation \
-    --decryption-passphrase $PCF_PIVNET_UAA_TOKEN \
+    --decryption-passphrase $PIVNET_UAA_TOKEN \
     import-installation --installation $EXPORT_FILE
 
 om --skip-ssl-validation \

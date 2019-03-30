@@ -6,7 +6,7 @@ credits to [Alan McGinlay](https://github.com/amcginlay/bosh-topics)
 source .env.sh
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PCF_PIVNET_UAA_TOKEN}"
+export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 export $( \
   om \
     --skip-ssl-validation \
@@ -23,7 +23,7 @@ sudo sh -c \
     --skip-ssl-validation \
     --target ${PCF_OPSMAN_FQDN} \
     --username opsman \
-    --password ${PCF_PIVNET_UAA_TOKEN} \
+    --password ${PIVNET_UAA_TOKEN} \
     curl \
       --silent \
       --path "/api/v0/security/root_ca_certificate" |
