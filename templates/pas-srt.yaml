@@ -59,7 +59,10 @@ product-properties:
   .properties.smtp_from:
     value: ((smtp_from))
   .properties.smtp_port:
-    value: ((smtp_port))      
+    value: ((smtp_port))   
+  .cloud_controller.encrypt_key:
+    value:
+      secret: ((cloud_controller.encrypt_key))      
 resource-config:
   router:
     instances: 1

@@ -216,6 +216,7 @@ smtp_password: "${SMTP_PASSWORD}"
 smtp_from: "${SMTP_FROM}"
 smtp_port: "${SMTP_PORT}"
 smtp_enable_starttls_auto: "${SMTP_STARTTLS}"
+cloud_controller.encrypt_key: "${PIVNET_UAA_TOKEN}"
 EOF
 
 om --skip-ssl-validation \
