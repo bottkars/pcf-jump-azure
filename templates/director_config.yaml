@@ -44,5 +44,5 @@ networks-configuration:
 network-assignment:
  network:
   name: pcf-infrastructure-subnet
-singleton_availability_zone:
+ singleton_availability_zone:
   name: "zone-1"  
