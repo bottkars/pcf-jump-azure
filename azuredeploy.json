@@ -93,10 +93,11 @@
 
         "PCFSpringVersion": {
             "type": "string",
-            "defaultValue": "2.0.6",
+            "defaultValue": "2.0.7",
             "allowedValues": [
                 "2.0.5",
-                "2.0.6"
+                "2.0.6",
+                "2.0.7"
             ],
             "metadata": {
                 "description": "The Version of the Spring Tile"
@@ -125,13 +126,14 @@
         },
         "PCFPasVersion": {
             "type": "string",
-            "defaultValue": "2.4.4",
+            "defaultValue": "2.5.0",
             "allowedValues": [
                 "2.4.4",
                 "2.4.3",
                 "2.4.2",
                 "2.4.1",
-                "2.4.0"
+                "2.4.0",
+                "2.5.0"
             ],
             "metadata": {
                 "description": "The Version of the Pivotal Application Service"
@@ -159,9 +161,10 @@
         },
         "PCFHealthwatchVersion": {
             "type": "string",
-            "defaultValue": "1.4.5",
+            "defaultValue": "1.5.2",
             "allowedValues": [
-                "1.4.5"
+                "1.4.5",
+                "1.5.2"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
@@ -180,13 +183,9 @@
         "opsmanImage": {
             "type": "string",
             "allowedValues": [
-                "ops-manager-2.4-build.152.vhd",
-                "ops-manager-2.4-build.145.vhd",
-                "ops-manager-2.4-build.142.vhd",
-                "ops-manager-2.4-build.131.vhd",
-                "ops-manager-2.4-build.117.vhd"
+                "ops-manager-2.5-build.158.vhd"
             ],   
-            "defaultValue": "ops-manager-2.4-build.152.vhd",
+            "defaultValue": "ops-manager-2.4-build.158.vhd",
             "metadata": {
                 "description": "The Version of the Operations Manager Image"
             }
@@ -378,7 +377,7 @@
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_tile.sh')]",
             "[concat(variables('baseUri'),  '/scripts/stemcell_loader.sh')]",
-            "[concat(variables('baseUri'),  '/templates/pas-',parameters('pasEdition'),'.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pasEdition'),parameters('PCFPasVersion'),'/pas',parameters('pasEdition'),'.yaml')]",
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
             "[concat(variables('baseUri'),  '/templates/spring.yaml')]",

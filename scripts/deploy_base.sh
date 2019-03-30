@@ -236,7 +236,7 @@ pcf_pas_subnet = "${NET_16_BIT_MASK}.0.0/22"
 pcf_services_subnet = "${NET_16_BIT_MASK}.4.0/22"
 pcf_virtual_network_address_space = ["${NET_16_BIT_MASK}.0.0/16"]
 EOF
-
+exit 0
 
 chmod 755 terraform.tfvars
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars

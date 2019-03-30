@@ -1,0 +1,66 @@
+product-name: cf
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  other_availability_zones:
+  - name: "null"
+  singleton_availability_zone:
+    name: "null"
+product-properties:
+  .cloud_controller.apps_domain:
+    value: ((pcf_apps_domain))
+  .cloud_controller.system_domain:
+    value: ((pcf_system_domain))
+  .properties.haproxy_forward_tls:
+    value: disable
+  .ha_proxy.skip_cert_verify:
+    value: true
+  .properties.routing_tls_termination:
+    value: router
+  .router.frontend_idle_timeout:
+    value: 240  
+  .properties.security_acknowledgement:
+    value: X
+  .mysql_monitor.recipient_email:
+    value: ((pcf_notifications_email))
+  .uaa.service_provider_key_credentials:
+    value:
+      private_key_pem: |
+        ((pcf_key_pem))
+      cert_pem: |
+        ((pcf_cert_pem))
+  .properties.networking_poe_ssl_certs:
+    value:
+    - name: default
+      certificate:
+        private_key_pem: |
+          ((pcf_key_pem))
+        cert_pem: |
+          ((pcf_cert_pem))
+  .properties.credhub_key_encryption_passwords:
+    value:
+    - name: default
+      provider: internal
+      key:
+        secret: ((pcf_credhub_key))
+      primary: true
+  .properties.smtp_address:
+    value: ((smtp_address))
+  .properties.smtp_credentials:
+    value:
+      identity: ((smtp_identity))
+      password: ((smtp_password))
+  .properties.smtp_enable_starttls_auto:
+    value: ((smtp_enable_starttls_auto))
+  .properties.smtp_auth_mechanism:
+    value: plain 
+  .properties.smtp_from:
+    value: ((smtp_from))
+  .properties.smtp_port:
+    value: ((smtp_port))      
+resource-config:
+  router:
+    instances: 1
+  router:
+    elb_names:
+    - ((pcf_web_lb))
