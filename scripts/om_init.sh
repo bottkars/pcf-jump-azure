@@ -40,7 +40,7 @@ SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .valu
 SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
 BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME="$(terraform output bosh_deployed_vms_security_group_name)"
 PCF_OPSMAN_FQDN="$(terraform output ops_manager_dns)"
-BOSH_STORAGE_ACCOUNT_NAME = $(terraform output bosh_root_storage_account)
+BOSH_STORAGE_ACCOUNT_NAME=$(terraform output bosh_root_storage_account)
 
 echo "checking opsman api ready using the new fqdn ${PCF_OPSMAN_FQDN}, 
 if the . keeps showing, check if ns record for ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME} has 
