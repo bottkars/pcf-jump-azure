@@ -377,7 +377,7 @@
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_tile.sh')]",
             "[concat(variables('baseUri'),  '/scripts/stemcell_loader.sh')]",
-            "[concat(variables('baseUri'),  '/templates/',parameters('pasEdition'),parameters('PCFPasVersion'),'/pas',parameters('pasEdition'),'.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pasEdition'),'/',parameters('PCFPasVersion'),'/pas-',parameters('pasEdition'),'.yaml')]",
             "[concat(variables('baseUri'),  '/templates/mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/rabbit.yaml')]",
             "[concat(variables('baseUri'),  '/templates/spring.yaml')]",
