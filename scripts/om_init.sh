@@ -40,6 +40,7 @@ SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .valu
 SSH_PUBLIC_KEY="$(terraform output ops_manager_ssh_public_key)"
 BOSH_DEPLOYED_VMS_SECURITY_GROUP_NAME="$(terraform output bosh_deployed_vms_security_group_name)"
 PCF_OPSMAN_FQDN="$(terraform output ops_manager_dns)"
+BOSH_STORAGE_ACCOUNT_NAME = $(terraform output bosh_root_storage_account)
 
 echo "checking opsman api ready using the new fqdn ${PCF_OPSMAN_FQDN}, 
 if the . keeps showing, check if ns record for ${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME} has 
@@ -62,6 +63,39 @@ export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 
+az login --service-principal \
+  --username ${AZURE_CLIENT_ID} \
+  --password ${AZURE_CLIENT_SECRET} \
+  --tenant ${AZURE_TENANT_ID}
+
+VNet1Id=$(az network vnet show \
+  --resource-group ${JUMP_RG} \
+  --name ${JUMP_VNET} \
+  --query id --out tsv)
+
+VNet2Id=$(az network vnet show \
+  --resource-group ${ENV_NAME} \
+  --name ${ENV_NAME}-virtual-network \
+  --query id --out tsv)
+
+az network vnet peering create --name PCF-Peer \
+--remote-vnet-id ${VNet2Id} \
+--resource-group ${JUMP_RG} \
+--vnet-name ${JUMP_VNET} \
+--allow-forwarded-traffic \
+--allow-gateway-transit \
+--allow-vnet-access
+
+az network vnet peering create --name JUMP-Peer \
+--remote-vnet-id ${VNet1Id} \
+--resource-group ${ENV_NAME} \
+--vnet-name ${ENV_NAME}-virtual-network \
+--allow-forwarded-traffic \
+--allow-gateway-transit \
+--allow-vnet-access
+
+
+
 om --skip-ssl-validation \
 configure-authentication \
 --decryption-passphrase ${PIVNET_UAA_TOKEN}
@@ -77,7 +111,7 @@ tenant_id: ${AZURE_TENANT_ID}
 client_id: ${AZURE_CLIENT_ID}
 client_secret: ${AZURE_CLIENT_SECRET}
 resource_group_name: ${ENV_NAME}
-bosh_storage_account_name: ${ENV_SHORT_NAME}director
+bosh_storage_account_name: ${BOSH_STORAGE_ACCOUNT_NAME}
 default_security_group: ${ENV_NAME}-bosh-deployed-vms-security-group
 ssh_public_key: ${SSH_PUBLIC_KEY}
 ssh_private_key: ${SSH_PRIVATE_KEY}

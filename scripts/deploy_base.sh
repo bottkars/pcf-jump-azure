@@ -251,38 +251,6 @@ sudo -S -u ${ADMIN_USERNAME} terraform output ops_manager_ssh_private_key > ${HO
 
 ## create network peerings
 
-az login --service-principal \
-  --username ${AZURE_CLIENT_ID} \
-  --password ${AZURE_CLIENT_SECRET} \
-  --tenant ${AZURE_TENANT_ID}
-
-VNet1Id=$(az network vnet show \
-  --resource-group ${JUMP_RG} \
-  --name ${JUMP_VNET} \
-  --query id --out tsv)
-
-VNet2Id=$(az network vnet show \
-  --resource-group ${ENV_NAME} \
-  --name ${ENV_NAME}-virtual-network \
-  --query id --out tsv)
-
-az network vnet peering create --name PCF-Peer \
---remote-vnet-id ${VNet2Id} \
---resource-group ${JUMP_RG} \
---vnet-name ${JUMP_VNET} \
---allow-forwarded-traffic \
---allow-gateway-transit \
---allow-vnet-access
-
-az network vnet peering create --name JUMP-Peer \
---remote-vnet-id ${VNet1Id} \
---resource-group ${ENV_NAME} \
---vnet-name ${ENV_NAME}-virtual-network \
---allow-forwarded-traffic \
---allow-gateway-transit \
---allow-vnet-access
-
-
 
 END_BASE_DEPLOY_TIME=$(date)
 echo ${END_BASE_DEPLOY_TIME} end base deployment
