@@ -52,13 +52,6 @@ until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_
 done
 echo "done"
 
-#### need cert´s now for opsman as well
-if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
-  ${SCRIPT_DIR}/create_self_certs.sh
-else  
-  ${SCRIPT_DIR}/create_certs.sh
-fi
-
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
@@ -103,6 +96,33 @@ configure-authentication \
 echo checking deployed products
 om --skip-ssl-validation \
 deployed-products
+
+declare -a FILES=("${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key" \
+"${HOME_DIR}/fullchain.cer")
+# are we first time ?!
+
+for FILE in "${FILES[@]}"; do
+    if [ ! -f $FILE ]; then
+      if [ "${USE_SELF_CERTS}" = "TRUE" ]; then
+        sudo -S -u ${ADMIN_USERNAME} ${SCRIPT_DIR}/create_self_certs.sh
+      else  
+        sudo -S -u ${ADMIN_USERNAME} ${SCRIPT_DIR}/create_certs.sh
+      fi
+    fi  
+done
+## did let´sencrypt just not work ?
+for FILE in "${FILES[@]}"; do
+    if [ ! -f $FILE ]; then
+    echo "$FILE not found. running Create Self Certs "
+    ${SCRIPT_DIR}/create_self_certs.sh
+    fi
+done
+
+
+om --skip-ssl-validation \
+update-ssl-certificate \
+    --certificate-pem "$(cat ${HOME_DIR}/fullchain.cer)" \
+    --private-key-pem "$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)"
 
 cd ${HOME_DIR}
 cat << EOF > ${TEMPLATE_DIR}/director_vars.yaml

@@ -13,18 +13,20 @@ export AZUREDNS_TENANTID=${AZURE_TENANT_ID}
 export AZUREDNS_APPID=${AZURE_CLIENT_ID}
 export AZUREDNS_CLIENTSECRET=${AZURE_CLIENT_SECRET}
 DOMAIN="${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
-./acme.sh/acme.sh \
- --issue \
+./acme.sh/acme.sh --issue \
  --dns dns_azure \
  --dnssleep 10 \
  --force \
  --debug \
  -d ${DOMAIN} \
+ -d pcf.${DOMAIN} \
+ -d harbor.${DOMAIN} \
  -d *.sys.${DOMAIN} \
  -d *.apps.${DOMAIN} \
  -d *.login.sys.${DOMAIN} \
  -d *.uaa.sys.${DOMAIN} \
  -d *.pks.${DOMAIN}
 
-cp ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key ${HOME_DIR}
-cp ${HOME_DIR}/.acme.sh/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}/fullchain.cer ${HOME_DIR}
+cp ${HOME_DIR}/.acme.sh/${DOMAIN}/${DOMAIN}.key ${HOME_DIR}
+cp ${HOME_DIR}/.acme.sh/${DOMAIN}/fullchain.cer ${HOME_DIR}
+cp ${HOME_DIR}/.acme.sh/${DOMAIN}/ca.cer ${HOME_DIR}/${DOMAIN}.ca.crt
