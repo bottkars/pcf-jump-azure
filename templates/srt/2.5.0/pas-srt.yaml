@@ -1,11 +1,13 @@
 product-name: cf
 network-properties:
-  network:
-    name: ((pcf_pas_network))
-  other_availability_zones:
-  - name: "null"
   singleton_availability_zone:
-    name: "null"
+    name: zone-1
+  other_availability_zones:
+  - name: zone-1
+  - name: zone-2
+  - name: zone-3
+  network:
+    name: pcf-pas-subnet
 product-properties:
   .cloud_controller.apps_domain:
     value: ((pcf_apps_domain))
@@ -22,7 +24,7 @@ product-properties:
   .properties.security_acknowledgement:
     value: X
   .properties.stack_migration_acknowledgement:
-    value: X  
+    value: X      
   .mysql_monitor.recipient_email:
     value: ((pcf_notifications_email))
   .uaa.service_provider_key_credentials:
@@ -59,7 +61,10 @@ product-properties:
   .properties.smtp_from:
     value: ((smtp_from))
   .properties.smtp_port:
-    value: ((smtp_port))      
+    value: ((smtp_port))   
+  .cloud_controller.encrypt_key:
+    value:
+      secret: ((cloud_controller.encrypt_key))      
 resource-config:
   router:
     instances: 1
