@@ -16,6 +16,11 @@ case $key in
     echo "No download is ${NO_DOWNLOAD}"
     # shift # past value if  arg value
     ;;
+    -i|--INSTANCES)
+    INSTANCES="$2"
+    echo "instances is ${INSTANCES}"
+    shift # past value if  arg value
+    ;;
     -d|--DO_NOT_APPLY_CHANGES)
     NO_APPLY=TRUE
     echo "No APPLY is ${NO_APPLY}"
@@ -34,7 +39,9 @@ esac
 shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
-
+if  [ -z ${INSTANCES} ] ; then
+INSTANCES=1
+fi
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
@@ -217,6 +224,7 @@ smtp_from: "${SMTP_FROM}"
 smtp_port: "${SMTP_PORT}"
 smtp_enable_starttls_auto: "${SMTP_STARTTLS}"
 cloud_controller.encrypt_key: "${PIVNET_UAA_TOKEN}"
+instances: ${INSTANCES}
 EOF
 
 om --skip-ssl-validation \

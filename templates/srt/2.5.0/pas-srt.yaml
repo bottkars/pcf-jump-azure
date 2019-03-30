@@ -67,7 +67,7 @@ product-properties:
       secret: ((cloud_controller.encrypt_key))      
 resource-config:
   router:
-    instances: 1
+    instances: ((instances))
   router:
     elb_names:
     - ((pcf_web_lb))
