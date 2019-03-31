@@ -1,4 +1,13 @@
 product-name: ((product_name))
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  service_network:
+    name: ((pcf_service_network))
+  singleton_availability_zone:
+    name: ((singleton_zone))
+  other_availability_zones:
+    name: ((zones))
 product-properties:
   .properties.plan1_selector.leader_follower.instance_limit:
     value: 5

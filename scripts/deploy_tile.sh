@@ -51,7 +51,16 @@ mkdir -p ${LOG_DIR}
 
 exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H-%M-%S').log")
 exec 2>&1
-
+if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
+ then 
+  echo "Applying Availability Zones Based Network Config"
+  ZONES="['zone-1' 'zone-2', 'zone-3']"
+  SINGLETON_ZONE= "['zone-1']"
+else
+  echo "Applying Null Zones Network Config"
+  ZONES="['null']"
+  SINGLETON_ZONE= "['null']"
+fi
 
 
 echo $(date) start deploy ${TILE}
@@ -183,6 +192,8 @@ azure_storage_access_key: ${MYSQL_STORAGE_KEY}
 azure_account: ${ENV_SHORT_NAME}mysqlbackup
 global_recipient_email: ${PCF_NOTIFICATIONS_EMAIL}
 blob_store_base_url: blob.core.windows.net
+singleton_zone: ${SINGLETON_ZONE}
+zone: ${ZONE}
 EOF
 
   NETWORK_PLAN="network_pas_services"
@@ -192,10 +203,11 @@ EOF
         echo "calling stemmcell_loader for LOADING Stemcells"
         $SCRIPT_DIR/stemcell_loader.sh -s 97
       fi
-      NETWORK_PLAN="network_pas"
       cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
+singleton_zone: ${SINGLETON_ZONE}
+zone: ${ZONE}
 EOF
   ;;
 	esac
@@ -268,18 +280,7 @@ assign-stemcell \
 --product ${PRODUCT_NAME} \
 --stemcell latest
 
-if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
- then 
-  echo "Applying Availability Zones Based Network Config"
-  om --skip-ssl-validation \
-    configure-product \
-    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}_zones.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
-else
-  echo "Applying Null Zones Network Config"
-  om --skip-ssl-validation \
-    configure-product \
-    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
-fi
+
 
 om --skip-ssl-validation \
   configure-product \
