@@ -148,6 +148,10 @@ echo $(date) end downloading ${PRODUCT_SLUG}
           --output-tile ${INJECTED_FILENAME}
 	;;
   pivotal-mysql)
+      if  [ ! -z ${LOAD_STEMCELL} ] ; then
+        echo "calling stemmcell_loader for LOADING Stemcells"
+        $SCRIPT_DIR/stemcell_loader.sh -s 170
+      fi
     echo "creating storage account ${ENV_SHORT_NAME}mysqlbackup"
 
     az login --service-principal \
