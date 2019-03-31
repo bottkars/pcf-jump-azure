@@ -1,5 +1,5 @@
 network-properties:
-  network:
-    name: ((pcf_pas_network))
-  other_availability_zones:
+network:
+ name: ((pcf_pas_network))
+ other_availability_zones:
   - name: "null"
