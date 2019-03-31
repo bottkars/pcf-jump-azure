@@ -212,7 +212,7 @@ EOF
   ;;
 p-rabbitmq)
 
-cat << EOF > ${TEMPLATE_DIR}/rabbit_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
