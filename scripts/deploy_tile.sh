@@ -217,6 +217,9 @@ product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
 server_admin_password: ${PIVNET_UAA_TOKEN}
+singleton_zone: ${SINGLETON_ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
 EOF
 ;;
 	esac
