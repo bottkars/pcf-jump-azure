@@ -147,13 +147,13 @@ echo $(date) end downloading ${PRODUCT_SLUG}
         ${HOME}/winfs-injector-linux --input-tile ${TARGET_FILENAME} \
           --output-tile ${INJECTED_FILENAME}
 	;;
-  spring)
+  p-spring-services)
       if  [ ! -z ${LOAD_STEMCELL} ] ; then
         echo "calling stemmcell_loader for LOADING Stemcells"
         $SCRIPT_DIR/stemcell_loader.sh -s 97
       fi
       NETWORK_PLAN="network"
-      cat << EOF > ${TEMPLATE_DIR}/spring_vars.yaml
+      cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 EOF

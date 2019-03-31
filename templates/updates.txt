@@ -5,7 +5,7 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas-
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/masb.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/mysql.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/healthwatch.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/spring.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-spring-services/2.0.7/p-spring-services.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/apm.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas-cf.yaml

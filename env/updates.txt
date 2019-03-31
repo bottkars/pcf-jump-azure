@@ -6,4 +6,4 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/mysql/2.5.
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/rabbit/1.15.4/rabbit.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/pas/2.5.0/pas.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/pas-windows/2.4.3/pas-windows.env
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/spring/2.0.7/spring.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/p-spring-services/2.0.7/p-spring-services.env
