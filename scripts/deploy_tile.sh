@@ -197,8 +197,6 @@ singleton_zone: ${SINGLETON_ZONE}
 zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
-
-  NETWORK_PLAN="network_pas_services"
   ;;
   p-spring-services)
       if  [ ! -z ${LOAD_STEMCELL} ] ; then
@@ -212,6 +210,15 @@ singleton_zone: ${SINGLETON_ZONE}
 zone: ${ZONE}
 EOF
   ;;
+p-rabbitmq)
+
+cat << EOF > ${TEMPLATE_DIR}/rabbit_vars.yaml
+product_name: ${PRODUCT_SLUG}
+pcf_pas_network: pcf-pas-subnet
+pcf_service_network: pcf-services-subnet
+server_admin_password: ${PIVNET_UAA_TOKEN}
+EOF
+;;
 	esac
 else
 echo ignoring download by user

@@ -9,7 +9,7 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-sp
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/apm.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-rabbitmq.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-rabbitmq/1.15.4/p-rabbitmq.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas_zones.yaml
