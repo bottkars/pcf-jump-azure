@@ -60,7 +60,7 @@ product-properties:
     value: true          
 resource-config:
   diego_cell:
-    instances: 3
+    instances: ((compute_instances))
   diego_brain:
     elb_names:
     - ((pcf_diego_ssh_lb))

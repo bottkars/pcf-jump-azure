@@ -40,7 +40,7 @@ shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 if  [ -z ${INSTANCES} ] ; then
-INSTANCES=1
+INSTANCES=3
 fi
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
