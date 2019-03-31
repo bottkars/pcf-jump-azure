@@ -152,6 +152,7 @@ echo $(date) end downloading ${PRODUCT_SLUG}
         echo "calling stemmcell_loader for LOADING Stemcells"
         $SCRIPT_DIR/stemcell_loader.sh -s 97
       fi
+      NETWORK_PLAN="network"
       cat << EOF > ${TEMPLATE_DIR}/spring_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
@@ -227,17 +228,19 @@ assign-stemcell \
 --product ${PRODUCT_NAME} \
 --stemcell latest
 
-if [[ ${PAS_VERSION} > "2.4.99" ]]; then 
+if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
+ then 
   echo "Applying Availability Zones Based Network Config"
   om --skip-ssl-validation \
     configure-product \
-    -c ${TEMPLATE_DIR}/network_zones.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
-elif
-  echo "Allying Null Zones Network COnfig"
+    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}_zones.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
+else
+  echo "Applying Null Zones Network Config"
   om --skip-ssl-validation \
     configure-product \
-    -c ${TEMPLATE_DIR}/network.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
+    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
 fi
+
 om --skip-ssl-validation \
   configure-product \
   -c ${TEMPLATE_DIR}/${TILE}.yaml -l ${TEMPLATE_DIR}/${TILE}_vars.yaml

@@ -1,4 +1,5 @@
-network-properties:
+product-name: ((product_name))
+ network-properties:
   singleton_availability_zone:
     name: zone-1
   other_availability_zones:

@@ -1,6 +1,4 @@
 product-name: ((product_name))
-  singleton_availability_zone:
-    name: "null"
 product-properties:
   .deploy-service-broker.disable_cert_check:
     value: "false"
