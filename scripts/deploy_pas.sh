@@ -225,7 +225,22 @@ smtp_port: "${SMTP_PORT}"
 smtp_enable_starttls_auto: "${SMTP_STARTTLS}"
 cloud_controller.encrypt_key: "${PIVNET_UAA_TOKEN}"
 compute_instances: ${INSTANCES}
+product_name: cf
 EOF
+
+
+if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
+ then 
+  echo "Applying Availability Zones Based Network Config"
+  om --skip-ssl-validation \
+    configure-product \
+    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}_zones.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
+else
+  echo "Applying Null Zones Network Config"
+  om --skip-ssl-validation \
+    configure-product \
+    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
+fi
 
 om --skip-ssl-validation \
   configure-product \
