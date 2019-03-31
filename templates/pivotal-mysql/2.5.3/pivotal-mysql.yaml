@@ -6,17 +6,15 @@ network-properties:
     name: ((pcf_service_network))
   singleton_availability_zone:
     name: ((singleton_zone))
-  other_availability_zones:
-    name: ((zones))
+  other_availability_zones: ((zones_map))
 product-properties:
   .properties.plan1_selector.leader_follower.instance_limit:
     value: 5
   .properties.plan1_selector:
     value: leader_follower
-    selected_option: leader_follower  
+    selected_option: leader_follower
   .properties.plan1_selector.leader_follower.az_multi_select:
-    value:
-    - 'null'
+   value: ((zones_list))
   .properties.plan2_selector:
     value: Inactive
     selected_option: inactive

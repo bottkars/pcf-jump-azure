@@ -52,14 +52,15 @@ mkdir -p ${LOG_DIR}
 exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H-%M-%S').log")
 exec 2>&1
 if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
- then 
+ then
   echo "Applying Availability Zones Based Network Config"
-  ZONES="['zone-1' 'zone-2', 'zone-3']"
-  SINGLETON_ZONE= "['zone-1']"
+  ZONES_LIST="['zone-1', 'zone-2', 'zone-3']"
+  ZONES_MAP="[name: 'zone-1', name: 'zone-2', name: 'zone-3']"
+  SINGLETON_ZONE="zone-1"
 else
   echo "Applying Null Zones Network Config"
-  ZONES="['null']"
-  SINGLETON_ZONE= "['null']"
+  ZONES="'null'"
+  SINGLETON_ZONE= "'null'"
 fi
 
 
@@ -193,11 +194,12 @@ azure_account: ${ENV_SHORT_NAME}mysqlbackup
 global_recipient_email: ${PCF_NOTIFICATIONS_EMAIL}
 blob_store_base_url: blob.core.windows.net
 singleton_zone: ${SINGLETON_ZONE}
-zone: ${ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
 EOF
 
   NETWORK_PLAN="network_pas_services"
-  ;;  
+  ;;
   p-spring-services)
       if  [ ! -z ${LOAD_STEMCELL} ] ; then
         echo "calling stemmcell_loader for LOADING Stemcells"
