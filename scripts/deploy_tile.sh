@@ -138,16 +138,25 @@ echo $(date) end downloading ${PRODUCT_SLUG}
         --product-version ${PCF_VERSION} \
         --output-directory ${HOME_DIR}
 
-	unzip -o ${HOME}/*winfs-injector*.zip
+        unzip -o ${HOME}/*winfs-injector*.zip
 
-	chmod +x ${HOME}/winfs-injector-linux
+        chmod +x ${HOME}/winfs-injector-linux
 
-	TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
-	INJECTED_FILENAME=injectded
-	${HOME}/winfs-injector-linux --input-tile ${TARGET_FILENAME} \
-		--output-tile ${INJECTED_FILENAME}
-
+        TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
+        INJECTED_FILENAME=injectded
+        ${HOME}/winfs-injector-linux --input-tile ${TARGET_FILENAME} \
+          --output-tile ${INJECTED_FILENAME}
 	;;
+  spring)
+      if  [ ! -z ${LOAD_STEMCELL} ] ; then
+        echo "calling stemmcell_loader for LOADING Stemcells"
+        $SCRIPT_DIR/stemcell_loader.sh -s 97
+      fi
+      cat << EOF > ${TEMPLATE_DIR}/spring_vars.yaml
+product_name: ${PRODUCT_SLUG}
+pcf_pas_network: pcf-pas-subnet
+EOF
+  ;;
 	esac
 else
 echo ignoring download by user
@@ -218,7 +227,17 @@ assign-stemcell \
 --product ${PRODUCT_NAME} \
 --stemcell latest
 
-
+if [[ ${PAS_VERSION} > "2.4.99" ]]; then 
+  echo "Applying Availability Zones Based Network Config"
+  om --skip-ssl-validation \
+    configure-product \
+    -c ${TEMPLATE_DIR}/network_zones.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
+elif
+  echo "Allying Null Zones Network COnfig"
+  om --skip-ssl-validation \
+    configure-product \
+    -c ${TEMPLATE_DIR}/network.yaml  -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
+fi
 om --skip-ssl-validation \
   configure-product \
   -c ${TEMPLATE_DIR}/${TILE}.yaml -l ${TEMPLATE_DIR}/${TILE}_vars.yaml

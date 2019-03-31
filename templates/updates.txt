@@ -1,5 +1,6 @@
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/osba.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/srt/2.5.0/pas-srt.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas/2.5.0/pas-srt.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas/2.5.0/pas-cf.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas-cf.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/masb.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/mysql.yaml
@@ -11,3 +12,5 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas-
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/rabbit.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_zones.yaml

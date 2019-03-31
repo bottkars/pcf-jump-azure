@@ -60,7 +60,5 @@ product-properties:
     value: ((smtp_port))      
 resource-config:
   router:
-    instances: 1
-  router:
     elb_names:
     - ((pcf_web_lb))

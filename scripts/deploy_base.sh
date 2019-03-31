@@ -133,6 +133,8 @@ LOG_DIR=${LOG_DIR}
 ENV_DIR=${ENV_DIR}
 SCRIPT_DIR=${SCRIPT_DIR}
 TEMPLATE_DIR=${TEMPLATE_DIR}
+JUMP_RG=${JUMP_RG}
+JUMP_VNET=${JUMP_VNET}
 EOF
 )
 chmod 600 ${HOME_DIR}/.env.sh
@@ -151,13 +153,17 @@ sudo apt install software-properties-common
 sudo add-apt-repository ppa:tmate.io/archive --yes
 sudo apt update
 
-sudo apt-get install azure-cli unzip tmate --yes
+retryop "sudo apt -y install azure-cli unzip tmate" 10 30
 
-wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip && \
+
+retryop "sudo apt -y install ruby ruby-dev gcc build-essential g++" 10 30
+sudo gem install cf-uaac
+
+wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip && \
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-wget -O om https://github.com/pivotal-cf/om/releases/download/0.53.0/om-linux && \
+wget -O om https://github.com/pivotal-cf/om/releases/download/0.54.0/om-linux && \
   chmod +x om && \
   sudo mv om /usr/local/bin/
 
