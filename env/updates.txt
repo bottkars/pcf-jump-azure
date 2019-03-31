@@ -2,8 +2,8 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/healthwatc
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/apm/1.6.0/apm.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/masb/1.11.0/masb.env
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/mysql/2.5.3/mysql.env
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/rabbit/1.15.4/rabbit.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/pivotal-mysql/2.5.3/pivotal-mysql.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/p-rabbitmq/1.15.4/p-rabbitmq.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/pas/2.5.0/pas.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/pas-windows/2.4.3/pas-windows.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/p-spring-services/2.0.7/p-spring-services.env

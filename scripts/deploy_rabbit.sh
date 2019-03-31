@@ -41,7 +41,7 @@ export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 START_RABBIT_DEPLOY_TIME=$(date)
 
 
-source ${ENV_DIR}/rabbit.env
+source ${ENV_DIR}/p-rabbitmq.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -126,7 +126,7 @@ EOF
 
 om --skip-ssl-validation \
   configure-product \
-  -c ${TEMPLATE_DIR}/rabbit.yaml -l ${TEMPLATE_DIR}/rabbit_vars.yaml
+  -c ${TEMPLATE_DIR}/p-rabbitmq.yaml -l ${TEMPLATE_DIR}/rabbit_vars.yaml
 
 
 echo $(date) start apply ${PRODUCT_SLUG}

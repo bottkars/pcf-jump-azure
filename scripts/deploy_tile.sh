@@ -147,12 +147,48 @@ echo $(date) end downloading ${PRODUCT_SLUG}
         ${HOME}/winfs-injector-linux --input-tile ${TARGET_FILENAME} \
           --output-tile ${INJECTED_FILENAME}
 	;;
+  pivotal-mysql)
+    echo "creating storage account ${ENV_SHORT_NAME}mysqlbackup"
+
+    az login --service-principal \
+      --username ${AZURE_CLIENT_ID} \
+      --password ${AZURE_CLIENT_SECRET} \
+      --tenant ${AZURE_TENANT_ID}
+
+    az storage account create --name ${ENV_SHORT_NAME}mysqlbackup \
+    --resource-group ${ENV_NAME} \
+    --sku Standard_LRS \
+    --location $LOCATION
+
+    MYSQL_STORAGE_KEY=$(az storage account keys list \
+    --account-name ${ENV_SHORT_NAME}mysqlbackup \
+    --resource-group ${ENV_NAME} \
+    --query "[0].{value:value}" \
+    --output tsv
+    )
+
+    az storage container create --name backup \
+    --account-name ${ENV_SHORT_NAME}mysqlbackup \
+    --account-key ${MYSQL_STORAGE_KEY}
+
+    cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+product_name: ${PRODUCT_SLUG}
+pcf_pas_network: pcf-pas-subnet
+pcf_service_network: pcf-services-subnet
+azure_storage_access_key: ${MYSQL_STORAGE_KEY}
+azure_account: ${ENV_SHORT_NAME}mysqlbackup
+global_recipient_email: ${PCF_NOTIFICATIONS_EMAIL}
+blob_store_base_url: blob.core.windows.net
+EOF
+
+  NETWORK_PLAN="network_pas_services"
+  ;;  
   p-spring-services)
       if  [ ! -z ${LOAD_STEMCELL} ] ; then
         echo "calling stemmcell_loader for LOADING Stemcells"
         $SCRIPT_DIR/stemcell_loader.sh -s 97
       fi
-      NETWORK_PLAN="network"
+      NETWORK_PLAN="network_pas"
       cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
