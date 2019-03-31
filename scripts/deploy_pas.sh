@@ -234,12 +234,12 @@ if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
   echo "Applying Availability Zones Based Network Config"
   om --skip-ssl-validation \
     configure-product \
-    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}_zones.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
+    -c ${TEMPLATE_DIR}/network_zones.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
 else
   echo "Applying Null Zones Network Config"
   om --skip-ssl-validation \
     configure-product \
-    -c ${TEMPLATE_DIR}/${NETWORK_PLAN}.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
+    -c ${TEMPLATE_DIR}/network.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
 fi
 
 om --skip-ssl-validation \
