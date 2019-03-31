@@ -11,5 +11,7 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/apm.
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-rabbitmq.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_zones.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas_zones.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas_servicesyaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas_zones_services.yaml
