@@ -380,7 +380,7 @@
             "[concat(variables('baseUri'),  '/templates/p-rabbitmq.yaml')]",
             "[concat(variables('baseUri'),  '/templates/p-spring-services/',parameters('PCFSpringVersion'),'p-spring-services.yaml')]",
             "[concat(variables('baseUri'),  '/templates/apm.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/healthwatch.yaml')]",            
+            "[concat(variables('baseUri'),  '/templates/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.yaml')]",            
             "[concat(variables('baseUri'),  '/templates/masb.yaml')]",            
             "[concat(variables('baseUri'),  '/env/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.env')]",
             "[concat(variables('baseUri'),  '/env/pas/',parameters('PCFPasVersion'),'/pas.env')]",
@@ -388,7 +388,7 @@
             "[concat(variables('baseUri'),  '/env/p-rabbitmq/',parameters('PCFRabbitVersion'),'/p-rabbitmq.env')]",
             "[concat(variables('baseUri'),  '/env/p-spring-services/',parameters('PCFSpringVersion'),'/p-spring-services.env')]",
             "[concat(variables('baseUri'),  '/env/apm/',parameters('PCFApmVersion'),'/apm.env')]",
-            "[concat(variables('baseUri'),  '/env/healthwatch/',parameters('PCFHealthwatchVersion'),'/healthwatch.env')]",
+            "[concat(variables('baseUri'),  '/env/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.env')]",
             "[concat(variables('baseUri'),  '/env/pas-windows/',parameters('PASWindowsVersion'),'/pas-windows.env')]",
             "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"

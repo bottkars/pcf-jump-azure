@@ -4,14 +4,13 @@ network-properties:
     name: ((pcf_pas_network))
   service_network:
     name: ((pcf_service_network))
-  other_availability_zones:
-  - name: 'null'
   singleton_availability_zone:
-    name: 'null'
+    name: ((singleton_zone))
+  other_availability_zones: ((zones_map))
 product-properties:
   .properties.opsman.enable.url:
     value: ((opsman_enable_url))
   .properties.boshtasks:
     value: disable
   .healthwatch-forwarder.health_check_az:
-    value: 'null'  
+    value: ((singleton_zone))
