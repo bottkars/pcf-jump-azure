@@ -122,6 +122,21 @@ om --skip-ssl-validation \
 echo $(date) end downloading ${PRODUCT_SLUG}
 ### download specials
   case ${TILE} in
+      kubernetes-service-manager)
+        echo $(date) start downloading Bazaar CLI
+        om --skip-ssl-validation \
+        download-product \
+        --pivnet-api-token ${PIVNET_UAA_TOKEN} \
+        --pivnet-file-glob "bazaar*.inux" \
+        --pivnet-product-slug ${PRODUCT_SLUG} \
+        --product-version ${PCF_VERSION} \
+        --output-directory ${HOME_DIR}
+
+        echo $(date) end downloading Bazaar CLI
+        chmod +x ./bazaar-${PCF_VERSION}.linux
+        chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ./bazaar-${PCF_VERSION}.linux
+        sudo cp ./bazaar-${PCF_VERSION}.linux /usr/local/bin/bazaar
+        ;;
     pks)
         echo $(date) start downloading PKS CLI
         om --skip-ssl-validation \
