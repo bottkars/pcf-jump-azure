@@ -189,7 +189,20 @@ else
 echo ignoring download by user
 fi
 ### end downloader
-
+case ${PRODUCT_SLUG} in
+    p-compliance-scanner)
+    PRODUCT=scanner
+    ;;
+    kubernetes-service-manager)
+    PRODUCT=ksm
+    ;;
+    apm)
+    PRODUCT=apmPostgres
+    ;;
+    *)
+    PRODUCT=${PRODUCT_SLUG}
+    ;;
+esac
 #### tile configuration starts here
 case ${TILE} in
 apm)
@@ -198,7 +211,7 @@ apm)
     $SCRIPT_DIR/stemcell_loader.sh -s 170
   fi
   cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
-product_name: ${PRODUCT_SLUG}
+product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
 zones_map: ${ZONES_MAP}
@@ -276,7 +289,7 @@ EOF
 ;;
 kubernetes-service-manager)
 cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
-product_name: ${PRODUCT_SLUG}
+product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
 singleton_zone: ${SINGLETON_ZONE}
@@ -307,20 +320,7 @@ PRODUCTS=$(om --skip-ssl-validation \
   available-products \
     --format json)
 
-case ${PRODUCT_SLUG} in
-    p-compliance-scanner)
-    PRODUCT=scanner
-    ;;
-    kubernetes-service-manager)
-    PRODUCT=ksm
-    ;;
-    apm)
-    PRODUCT=apmPostgres
-    ;;
-    *)
-    PRODUCT=${PRODUCT_SLUG}
-    ;;
-esac
+
 
 VERSION=$(echo ${PRODUCTS} |\
   jq --arg product_name ${PRODUCT} -r 'map(select(.name==$product_name)) | first | .version')
