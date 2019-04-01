@@ -127,7 +127,7 @@ echo $(date) end downloading ${PRODUCT_SLUG}
         om --skip-ssl-validation \
         download-product \
         --pivnet-api-token ${PIVNET_UAA_TOKEN} \
-        --pivnet-file-glob "bazaar*.inux" \
+        --pivnet-file-glob "bazaar*.linux" \
         --pivnet-product-slug ${PRODUCT_SLUG} \
         --product-version ${PCF_VERSION} \
         --output-directory ${HOME_DIR}
