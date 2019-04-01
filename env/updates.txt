@@ -7,3 +7,4 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/p-rabbitmq
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/pas/2.5.0/pas.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/pas-windows/2.4.3/pas-windows.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/p-spring-services/2.0.7/p-spring-services.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/env/kubernetes-service-manager/0.4.34/kubernetes-service-manager.env

@@ -49,7 +49,8 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 TILES="p-spring-services \
 pivotal-mysql \
-p-rabbitmq
+p-rabbitmq \
+kubernetes-service-manager
 "
 
 if [[ " ${TILES} " =~ " p-spring-services " ]] 
@@ -245,7 +246,17 @@ zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
 ;;
-
+kubernetes-service-manager)
+cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+product_name: ${PRODUCT_SLUG}
+pcf_pas_network: pcf-pas-subnet
+pcf_service_network: pcf-services-subnet
+singleton_zone: ${SINGLETON_ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
+EOF
+;;
+;;
 esac
 
 if  [ ! -z ${INJECTED_FILENAME} ] ; then
@@ -294,7 +305,6 @@ if [[ -z "$PRODUCT_NAME" ]] ||  [[ "$PRODUCT_NAME" == "null" ]];then
   exit 1
 fi
 
-
 # 2.  Stage using om cli
 echo $(date) start staging ${PRODUCT_SLUG}
 om --skip-ssl-validation \
@@ -308,13 +318,10 @@ echo "calling stemmcell_loader for LOADING Stemcells"
 $SCRIPT_DIR/stemcell_loader.sh
 fi
 
-
 om --skip-ssl-validation \
 assign-stemcell \
 --product ${PRODUCT_NAME} \
 --stemcell latest
-
-
 
 om --skip-ssl-validation \
   configure-product \
