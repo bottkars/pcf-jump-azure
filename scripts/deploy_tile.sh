@@ -56,10 +56,10 @@ if [[ " ${TILES} " =~ " p-spring-services " ]]
  then
  echo "Starting deployment of ${TILE}"
 else
- echo " -t | --TILE <tile> was not use or not one of ${TILES}"
+ echo "mandatory '-t | --TILE <tile>'' was not use or <tile> not one of '${TILES}'"
  exit 1
 fi
- 
+
 mkdir -p ${LOG_DIR}
 exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H-%M-%S').log")
 exec 2>&1
