@@ -7,7 +7,7 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pivo
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/healthwatch.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-spring-services/2.0.7/p-spring-services.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/apm.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/apm/1.6.0/apm.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-rabbitmq/1.15.7/p-rabbitmq.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
