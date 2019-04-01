@@ -314,6 +314,9 @@ case ${PRODUCT_SLUG} in
     kubernetes-service-manager)
     PRODUCT=ksm
     ;;
+    apm)
+    PRODUCT=apmPostgres
+    ;;
     *)
     PRODUCT=${PRODUCT_SLUG}
     ;;
