@@ -56,7 +56,7 @@ if [[ " ${TILES} " =~ " p-spring-services " ]]
  then
  echo "Starting deployment of ${TILE}"
 else
- echo "mandatory '-t | --TILE <tile>'' was not use or <tile> not one of '${TILES}'"
+ echo "mandatory '-t | --TILE <tile>' was not used or <tile> not one of '${TILES}'"
  exit 1
 fi
 
@@ -226,7 +226,8 @@ p-spring-services)
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
-zone: ${ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
 EOF
   ;;
 p-rabbitmq)
