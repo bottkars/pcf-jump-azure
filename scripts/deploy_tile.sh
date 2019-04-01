@@ -92,8 +92,7 @@ curl \
   --request POST \
   ${EULA_ACCEPTANCE_URL}
 
-###
-# download product using om cli
+### start downloader
 if  [ -z ${NO_DOWNLOAD} ] ; then
 echo $(date) start downloading ${PRODUCT_SLUG}
 
@@ -106,10 +105,8 @@ om --skip-ssl-validation \
  --output-directory ${DOWNLOAD_DIR_FULL}
 
 echo $(date) end downloading ${PRODUCT_SLUG}
-
-## Mignt get to
-###  do we need special, eg pks
-    case ${TILE} in
+### download specials
+  case ${TILE} in
     pks)
         echo $(date) start downloading PKS CLI
         om --skip-ssl-validation \
@@ -157,6 +154,14 @@ echo $(date) end downloading ${PRODUCT_SLUG}
         ${HOME}/winfs-injector-linux --input-tile ${TARGET_FILENAME} \
           --output-tile ${INJECTED_FILENAME}
 	;;
+esac  
+else
+echo ignoring download by user
+fi
+### end downloader
+
+#### tile configuration starts here
+case ${TILE} in
   pivotal-mysql)
       if  [ ! -z ${LOAD_STEMCELL} ] ; then
         echo "calling stemmcell_loader for LOADING Stemcells"
@@ -198,12 +203,12 @@ zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
   ;;
-  p-spring-services)
-      if  [ ! -z ${LOAD_STEMCELL} ] ; then
-        echo "calling stemmcell_loader for LOADING Stemcells"
-        $SCRIPT_DIR/stemcell_loader.sh -s 97
-      fi
-      cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+p-spring-services)
+  if  [ ! -z ${LOAD_STEMCELL} ] ; then
+    echo "calling stemmcell_loader for LOADING Stemcells"
+    $SCRIPT_DIR/stemcell_loader.sh -s 97
+  fi
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
@@ -225,10 +230,9 @@ zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
 ;;
-	esac
-else
-echo ignoring download by user
-fi
+
+esac
+
 if  [ ! -z ${INJECTED_FILENAME} ] ; then
 om --skip-ssl-validation \
   --request-timeout 3600 \
