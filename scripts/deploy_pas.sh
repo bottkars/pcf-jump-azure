@@ -55,7 +55,17 @@ for FILE in "${FILES[@]}"; do
     fi
 done
 
-
+if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
+ then
+  echo "Applying Availability Zones Based Network Config"
+  ZONES_LIST="['zone-1', 'zone-2', 'zone-3']"
+  ZONES_MAP="[name: 'zone-1', name: 'zone-2', name: 'zone-3']"
+  SINGLETON_ZONE="zone-1"
+else
+  echo "Applying Null Zones Network Config"
+  ZONES="'null'"
+  SINGLETON_ZONE= "'null'"
+fi
 
 START_PAS_DEPLOY_TIME=$(date)
 
@@ -226,21 +236,10 @@ smtp_enable_starttls_auto: "${SMTP_STARTTLS}"
 cloud_controller.encrypt_key: "${PIVNET_UAA_TOKEN}"
 compute_instances: ${INSTANCES}
 product_name: cf
+singleton_zone: ${SINGLETON_ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
 EOF
-
-
-if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
- then 
-  echo "Applying Availability Zones Based Network Config"
-  om --skip-ssl-validation \
-    configure-product \
-    -c ${TEMPLATE_DIR}/network_pas_zones.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
-else
-  echo "Applying Null Zones Network Config"
-  om --skip-ssl-validation \
-    configure-product \
-    -c ${TEMPLATE_DIR}/network_pas.yaml  -l ${TEMPLATE_DIR}/pas_vars.yaml
-fi
 
 om --skip-ssl-validation \
   configure-product \

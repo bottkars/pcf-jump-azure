@@ -78,7 +78,6 @@ else
   SINGLETON_ZONE= "'null'"
 fi
 
-
 echo $(date) start deploy ${TILE}
 
 source ${ENV_DIR}/${TILE}.env
