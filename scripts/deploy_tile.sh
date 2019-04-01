@@ -269,7 +269,6 @@ zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
 ;;
-;;
 esac
 
 if  [ ! -z ${INJECTED_FILENAME} ] ; then
