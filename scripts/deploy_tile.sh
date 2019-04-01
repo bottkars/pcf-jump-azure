@@ -307,10 +307,12 @@ PRODUCTS=$(om --skip-ssl-validation \
   available-products \
     --format json)
 
-
 case ${PRODUCT_SLUG} in
     p-compliance-scanner)
     PRODUCT=scanner
+    ;;
+    kubernetes-service-manager)
+    PRODUCT=ksm
     ;;
     *)
     PRODUCT=${PRODUCT_SLUG}
