@@ -47,7 +47,8 @@ shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-TILES="p-spring-services \
+TILES="apm \
+p-spring-services \
 pivotal-mysql \
 p-rabbitmq \
 kubernetes-service-manager
@@ -176,6 +177,19 @@ fi
 
 #### tile configuration starts here
 case ${TILE} in
+apm)
+  if  [ ! -z ${LOAD_STEMCELL} ] ; then
+    echo "calling stemmcell_loader for LOADING Stemcells"
+    $SCRIPT_DIR/stemcell_loader.sh -s 170
+  fi
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+product_name: ${PRODUCT_SLUG}
+pcf_pas_network: pcf-pas-subnet
+singleton_zone: ${SINGLETON_ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
+EOF
+;;
   pivotal-mysql)
       if  [ ! -z ${LOAD_STEMCELL} ] ; then
         echo "calling stemmcell_loader for LOADING Stemcells"
@@ -229,7 +243,7 @@ singleton_zone: ${SINGLETON_ZONE}
 zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
-  ;;
+;;
 p-rabbitmq)
 if  [ ! -z ${LOAD_STEMCELL} ] ; then
   echo "calling stemmcell_loader for LOADING Stemcells"

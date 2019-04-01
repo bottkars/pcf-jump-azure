@@ -11,8 +11,4 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/apm.
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/p-rabbitmq/1.15.7/p-rabbitmq.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas_zones.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas_services.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/network_pas_services_zones.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/kubernetes-service-manager/0.4.34/kubernetes-service-manager.yaml
