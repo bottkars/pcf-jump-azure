@@ -272,6 +272,7 @@ pcf_service_network: pcf-services-subnet
 singleton_zone: ${SINGLETON_ZONE}
 zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
+opsman_enable_url: ${PCF_OPSMAN_FQDN}
 EOF
 ;;  
 p-spring-services)
