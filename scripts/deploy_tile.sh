@@ -84,12 +84,16 @@ echo $(date) start deploy ${TILE}
 
 source ${ENV_DIR}/${TILE}.env
 
+echo "retrieving pivnet access token from refresh token"
+
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
   --header "Content-Type: application/json" \
   --data "{\"refresh_token\": \"${PIVNET_UAA_TOKEN}\"}" \
   https://network.pivotal.io/api/v2/authentication/access_tokens |\
     jq -r '.access_token')
+
+echo "retrieving EULA Acceptance Link for ${PRODUCT_SLUG}"
 
 RELEASE_JSON=$(curl \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
@@ -99,14 +103,16 @@ RELEASE_JSON=$(curl \
 EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
 
-DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/${PRODUCT_SLUG}/${PCF_VERSION}
-mkdir  -p ${DOWNLOAD_DIR_FULL}
+echo "accepting EULA Acceptance for ${PRODUCT_SLUG}"
 
 curl \
   --fail \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   --request POST \
   ${EULA_ACCEPTANCE_URL}
+
+DOWNLOAD_DIR_FULL=${DOWNLOAD_DIR}/${PRODUCT_SLUG}/${PCF_VERSION}
+mkdir  -p ${DOWNLOAD_DIR_FULL}
 
 ### start downloader
 if  [ -z ${NO_DOWNLOAD} ] ; then
