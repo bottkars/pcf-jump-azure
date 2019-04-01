@@ -378,7 +378,7 @@ echo "APPLY_ALL"
 om --skip-ssl-validation \
   apply-changes
 else
-echo "APPLY Product"
+echo "APPLY Product ${PRODUCT_NAME}"
 om --skip-ssl-validation \
   apply-changes \
   --product-name ${PRODUCT_NAME}
