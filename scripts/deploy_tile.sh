@@ -52,7 +52,8 @@ p-spring-services \
 pivotal-mysql \
 p-rabbitmq \
 p-healthwatch \
-kubernetes-service-manager
+kubernetes-service-manager \
+pas-windows
 "
 
 if [[ " ${TILES} " =~ " p-spring-services " ]] 
