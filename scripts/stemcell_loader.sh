@@ -82,7 +82,7 @@ echo $STEMCELL_DIR
 om --skip-ssl-validation \
 download-product \
 --pivnet-api-token $PIVNET_UAA_TOKEN \
---pivnet-file-glob "bosh-stemcell-${PRODUCT_VERSION}-azure-hyperv-*-go_agent.tgz" \
+--pivnet-file-glob "*-stemcell-${PRODUCT_VERSION}-azure-hyperv-*-go_agent.tgz" \
 --pivnet-product-slug $SLUG_ID \
 --product-version ${PRODUCT_VERSION} \
 --output-directory $STEMCELL_DIR
