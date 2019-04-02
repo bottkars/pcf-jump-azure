@@ -23,6 +23,7 @@ DOMAIN="${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
  -d harbor.${DOMAIN} \
  -d *.sys.${DOMAIN} \
  -d *.apps.${DOMAIN} \
+ -d *.mesh.apps.${DOMAIN} \ 
  -d *.login.sys.${DOMAIN} \
  -d *.uaa.sys.${DOMAIN} \
  -d *.pks.${DOMAIN}
