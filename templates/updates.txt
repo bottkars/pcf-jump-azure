@@ -1,6 +1,6 @@
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas/2.5.0/pas-srt.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas/2.5.0/pas-cf.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas-windows/2.4.4/pas-windows.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas-windows/2.5.0/pas-windows.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/masb.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pivotal-mysql/2.5.3/pivotal-mysql.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/healthwatch.yaml
