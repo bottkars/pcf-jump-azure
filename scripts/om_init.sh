@@ -183,6 +183,8 @@ sudo sh -c \
         jq --raw-output '.root_ca_certificate_pem' \
           > /var/tempest/workspaces/default/root_ca_certificate"
 
+
+
 echo Started BASE deployment at ${START_BASE_DEPLOY_TIME}
 echo Fimnished BASE deployment at ${END_BASE_DEPLOY_TIME}
 echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}
