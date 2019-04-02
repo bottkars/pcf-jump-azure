@@ -381,11 +381,6 @@ om --skip-ssl-validation \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG}
 
-if  [ ! -z ${LOAD_STEMCELL} ] ; then
-echo "calling stemmcell_loader for LOADING Stemcells"
-$SCRIPT_DIR/stemcell_loader.sh
-fi
-
 om --skip-ssl-validation \
 assign-stemcell \
 --product ${PRODUCT_NAME} \
