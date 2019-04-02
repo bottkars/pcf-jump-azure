@@ -226,6 +226,19 @@ zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
 ;;
+pas-windows)
+  if  [ ! -z ${LOAD_STEMCELL} ] ; then
+    echo "calling stemmcell_loader for LOADING Stemcells"
+    $SCRIPT_DIR/stemcell_loader.sh -i 151 -s 1803.8
+  fi
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+product_name: ${PRODUCT}
+pcf_pas_network: pcf-pas-subnet
+singleton_zone: ${SINGLETON_ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
+EOF
+;;
   pivotal-mysql)
       if  [ ! -z ${LOAD_STEMCELL} ] ; then
         echo "calling stemmcell_loader for LOADING Stemcells"
