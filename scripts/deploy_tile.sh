@@ -16,17 +16,17 @@ case $key in
     -n|--NO_DOWNLOAD)
     NO_DOWNLOAD=TRUE
     echo "No download is ${NO_DOWNLOAD}"
-    shift # past value if  arg value
+    #shift # past value if  arg value
     ;;
     -d|--DO_NOT_APPLY_CHANGES)
     NO_APPLY=TRUE
     echo "No APPLY is ${NO_APPLY}"
-    shift # past value ia arg value
+    #shift # past value ia arg value
     ;;
     -a|--APPLY_ALL)
     APPLY_ALL=TRUE
     echo "APPLY ALL is ${APPLY_ALL}"
-    shift # past value ia arg value
+    #shift # past value ia arg value
     ;;
     -t|--TILE)
     TILE="$2"
@@ -36,11 +36,11 @@ case $key in
     -s|--LOAD_STEMCELL)
     LOAD_STEMCELL=TRUE
     echo "LOAD_STEMCELL IS ${LOAD_STEMCELL}"
-    shift # past value ia arg value
+    #shift # past value ia arg value
     ;;
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
-    shift # past argument
+    #shift # past argument
     ;;
 esac
 shift
