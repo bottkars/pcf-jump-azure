@@ -9,11 +9,16 @@ while [[ $# -gt 0 ]]
 do
 key="$1"
 case $key in
-    -s|--stemcell_version)
+    -s|--STEMCELL_VERSION)
     STEMCELL_VER=$2
     echo "Stemcell Version ${STEMCELL_VER}"
     shift # past value ia arg value
-    ;;    
+    ;; 
+    -i|--SLUG_ID)
+    SLUG_ID=$2
+    echo "Stemcell Version ${STEMCELL_VER}"
+    shift # past value ia arg value
+    ;;        
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
@@ -26,6 +31,23 @@ if  [ -z ${STEMCELL_VER} ] ; then
  STEMCELL_VER=170.45
  echo "Defaulting to Stemcell to ${STEMCELL_VER}"
 fi
+if  [ -z ${SLUG_ID} ] ; then
+ SLUG_ID=233
+ echo "Defaulting to Stemcell to ${STEMCELL_VER}"
+fi
+SLUG_IDS="233 \
+151 \
+82
+"
+
+if [[ " ${SLUG_IDS} " =~ " $SLUG_ID " ]] 
+ then
+ echo "Downloading ${SLUG_ID}"
+else
+ echo "mandatory '-i | --SLUG_ID <slugid>' was not used or <slugisd not one of '${SLUG_IDS}'"
+ exit 1
+fi
+
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"

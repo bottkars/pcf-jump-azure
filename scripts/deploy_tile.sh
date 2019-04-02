@@ -56,7 +56,7 @@ kubernetes-service-manager \
 pas-windows
 "
 
-if [[ " ${TILES} " =~ " p-spring-services " ]] 
+if [[ " ${TILES} " =~ " $TILE " ]] 
  then
  echo "Starting deployment of ${TILE}"
 else
