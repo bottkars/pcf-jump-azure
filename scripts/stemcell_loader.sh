@@ -37,7 +37,7 @@ if  [ -z ${SLUG_ID} ] ; then
 fi
 SLUG_IDS="233 \
 151 \
-82
+82 \
 "
 
 if [[ " ${SLUG_IDS} " =~ " $SLUG_ID " ]] 

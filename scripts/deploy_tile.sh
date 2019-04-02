@@ -53,14 +53,14 @@ pivotal-mysql \
 p-rabbitmq \
 p-healthwatch \
 kubernetes-service-manager \
-pas-windows
+pas-windows \
 "
 
 if [[ " ${TILES} " =~ " $TILE " ]] 
  then
  echo "Starting deployment of ${TILE}"
 else
- echo "mandatory '-t | --TILE <tile>' was not used or <tile> not one of '${TILES}'"
+ echo "mandatory '-t | --TILE <tile>' was not used or ${TILE} not one of '${TILES}'"
  exit 1
 fi
 
