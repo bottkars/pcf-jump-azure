@@ -102,6 +102,7 @@ EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
 
 # eula acceptance
+echo "Accepting EULA for 250 Stemmcell Family"
 curl \
   --fail \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
@@ -111,6 +112,7 @@ curl \
 
 
 ## accept 170er stemcells
+echo "Accepting EULA for 170 Stemmcell Family"
 RELEASE_JSON=$(curl \
   --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
   --fail \
@@ -136,6 +138,7 @@ RELEASE_JSON=$(curl \
 EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
 
+echo "Accepting EULA for 97 Stemmcell Family"
 # eula acceptance
 curl \
   --fail \
@@ -153,7 +156,7 @@ RELEASE_JSON=$(curl \
 # eula acceptance link
 EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
-
+echo "Accepting EULA for 1${PRODUCT_SLUG}"
 # eula acceptance
 curl \
   --fail \
