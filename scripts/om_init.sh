@@ -199,8 +199,8 @@ echo Started OPSMAN deployment at ${START_OPSMAN_DEPLOY_TIME}
 echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
 
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
-    ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES
-    ${SCRIPT_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES
-    ${SCRIPT_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES
-    ${SCRIPT_DIR}/deploy_spring.sh --APPLY_ALL
+    ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES -s
+    ${SCRIPT_DIR}/deploy_mysql.sh --DO_NOT_APPLY_CHANGES -s
+    ${SCRIPT_DIR}/deploy_rabbit.sh --DO_NOT_APPLY_CHANGES -s
+    ${SCRIPT_DIR}/deploy_spring.sh --APPLY_ALLmore 
 fi
