@@ -156,7 +156,7 @@ RELEASE_JSON=$(curl \
 # eula acceptance link
 EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
   jq -r '._links.eula_acceptance.href')
-echo "Accepting EULA for 1${PRODUCT_SLUG}"
+echo "Accepting EULA for ${PRODUCT_SLUG}"
 # eula acceptance
 curl \
   --fail \
