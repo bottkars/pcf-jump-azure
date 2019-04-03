@@ -394,7 +394,7 @@
             "[concat(variables('baseUri'),  '/templates/p-spring-services/',parameters('PCFSpringVersion'),'/p-spring-services.yaml')]",
             "[concat(variables('baseUri'),  '/templates/apm/',parameters('PCFApmVersion'),'/apm.yaml')]",
             "[concat(variables('baseUri'),  '/templates/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.yaml')]",            
-            "[concat(variables('baseUri'),  '/templates/masb.yaml')]",            
+            "[concat(variables('baseUri'),  '/templates/masb/',parameters('PCFMasbVersion'),'/masb.yaml')]",            
             "[concat(variables('baseUri'),  '/env/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.env')]",
             "[concat(variables('baseUri'),  '/env/pas/',parameters('PCFPasVersion'),'/pas.env')]",
             "[concat(variables('baseUri'),  '/env/masb/',parameters('PCFMasbVersion'),'/masb.env')]",            
