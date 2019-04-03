@@ -392,7 +392,7 @@
             "[concat(variables('baseUri'),  '/templates/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.yaml')]",
             "[concat(variables('baseUri'),  '/templates/p-rabbitmq/',parameters('PCFRabbitVersion'),'/p-rabbitmq.yaml')]",
             "[concat(variables('baseUri'),  '/templates/p-spring-services/',parameters('PCFSpringVersion'),'/p-spring-services.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/apm.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/apm/',parameters('PCFApmVersion'),'/apm.yaml')]",
             "[concat(variables('baseUri'),  '/templates/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.yaml')]",            
             "[concat(variables('baseUri'),  '/templates/masb.yaml')]",            
             "[concat(variables('baseUri'),  '/env/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.env')]",
