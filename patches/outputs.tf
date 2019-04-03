@@ -83,10 +83,10 @@ output "mysql_lb_name" {
 }
 
 output "istio_lb_name" {
-  value = "${module.pas.mysql_lb_name}"
+  value = "${module.pas.istio_lb_name}"
 }
 output "tcp_lb_name" {
-  value = "${module.pas.istio_lb_name}"
+  value = "${module.pas.tcp_lb_name}"
 }
 
 output "network_name" {
