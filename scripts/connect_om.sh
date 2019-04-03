@@ -2,7 +2,7 @@
 source .env.sh
 export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PCFPIVNET_UAA_TOKEN}"
+export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 export $( \
   om \
     --skip-ssl-validation \

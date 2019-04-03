@@ -65,7 +65,7 @@ product-properties:
   .properties.metric_registrar_enabled:
     value: true
   .properties.istio:
-    value": enable
+    value: enable
   .properties.istio_frontend_tls_keypairs:
     value:
     - name:
