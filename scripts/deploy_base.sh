@@ -63,8 +63,7 @@ USE_SELF_CERTS=$(get_setting USE_SELF_CERTS)
 JUMP_RG=$(get_setting JUMP_RG)
 JUMP_VNET=$(get_setting JUMP_VNET)
 PAS_EDITION=$(get_setting PAS_EDITION)
-
-
+AVAILABILITY_MODE=$(get_setting AVAILABILITY_MODE)
 
 
 HOME_DIR="/home/${ADMIN_USERNAME}"
@@ -99,6 +98,20 @@ ${SCRIPT_DIR}/vm-disk-utils-0.1.sh
 
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${DOWNLOAD_DIR}
 chmod -R 755 ${DOWNLOAD_DIR}
+
+if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "availability_zones" ]] 
+ then
+  echo "Applying  Availability Zones Based Config"
+  ZONES_LIST="['zone-1', 'zone-2', 'zone-3']"
+  ZONES_MAP="[name: 'zone-1', name: 'zone-2', name: 'zone-3']"
+  SINGLETON_ZONE="zone-1"
+  AVAILABILITY_MODE=availability_zones
+else
+  echo "Applying Availability Sets Based Config"
+  ZONES="'null'"
+  SINGLETON_ZONE="'null'"
+  AVAILABILITY_MODE=availability_sets
+fi
 
 $(cat <<-EOF > ${HOME_DIR}/.env.sh
 #!/usr/bin/env bash
@@ -135,6 +148,10 @@ SCRIPT_DIR=${SCRIPT_DIR}
 TEMPLATE_DIR=${TEMPLATE_DIR}
 JUMP_RG=${JUMP_RG}
 JUMP_VNET=${JUMP_VNET}
+ZONES_LIST=${ZONES_LIST}
+ZONES_MAP=${ZONES_MAP}
+SINGLETON_ZONE=${SINGLETON_ZONE}
+AVAILABILITY_MODE=${AVAILABILITY_MODE}
 EOF
 )
 chmod 600 ${HOME_DIR}/.env.sh
@@ -223,6 +240,12 @@ curl \
 sudo -S -u ${ADMIN_USERNAME} unzip ${FILENAME}
 cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
+
+PATCH_SERVER="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/patches/"
+wget -q ${PATCH_SERVER}modules/pas/dns.tf -O ../modules/pas/dns.tf
+wget -q ${PATCH_SERVER}modules/pas/istiolb.tf -O ../modules/pas/istiolb.tf
+wget -q ${PATCH_SERVER}modules/pas/outputs.tf -O ../modules/pas/outputs.tf
+wget -q ${PATCH_SERVER}outputs.tf -O outputs.tf
 
  # preparation work for terraform
 cat << EOF > terraform.tfvars

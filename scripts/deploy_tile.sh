@@ -69,18 +69,6 @@ exec &> >(tee -a "${LOG_DIR}/${TILE}.$(date '+%Y-%m-%d-%H-%M-%S').log")
 exec 2>&1
 
 
-if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
- then
-  echo "Applying Availability Zones Based Network Config"
-  ZONES_LIST="['zone-1', 'zone-2', 'zone-3']"
-  ZONES_MAP="[name: 'zone-1', name: 'zone-2', name: 'zone-3']"
-  SINGLETON_ZONE="zone-1"
-else
-  echo "Applying Null Zones Network Config"
-  ZONES="'null'"
-  SINGLETON_ZONE= "'null'"
-fi
-
 echo $(date) start deploy ${TILE}
 
 source ${ENV_DIR}/${TILE}.env

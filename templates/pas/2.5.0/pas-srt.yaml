@@ -64,9 +64,25 @@ product-properties:
       secret: ((cloud_controller.encrypt_key)) 
   .properties.metric_registrar_enabled:
     value: true
+  .properties.istio:
+    value": enable
+  .properties.istio_frontend_tls_keypairs:
+    value:
+    - name:
+        value: istio_cert
+      certificate:
+        type: rsa_cert_credentials
+        value:
+          private_key_pem: |
+          ((pcf_key_pem))
+          cert_pem: |
+          ((pcf_cert_pem))
 resource-config:
   router:
     elb_names:
     - ((pcf_web_lb))
+  istio_router:  
+    elb_names:
+    - ((pcf_istio_lb))
   compute:
     instances: ((compute_instances))

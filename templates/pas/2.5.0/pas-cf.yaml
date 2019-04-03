@@ -63,7 +63,20 @@ product-properties:
     value:
       secret: ((cloud_controller.encrypt_key)) 
   .properties.metric_registrar_enabled:
-    value: true          
+    value: true
+  .properties.istio:
+    value": enable
+  .properties.istio_frontend_tls_keypairs:
+    value:
+    - name:
+        value: istio_cert
+      certificate:
+        type: rsa_cert_credentials
+        value:
+          private_key_pem: |
+          ((pcf_key_pem))
+          cert_pem: |
+          ((pcf_cert_pem))
 resource-config:
   diego_cell:
     instances: ((compute_instances))

@@ -16,6 +16,7 @@ properties-configuration:
     default_security_group: ((default_security_group))
     ssh_public_key: ((ssh_public_key))
     ssh_private_key: ((ssh_private_key))
+    availability_mode: ((availability_mode))
 networks-configuration:
  icmp_checks_enabled: false
  networks:
@@ -45,4 +46,4 @@ network-assignment:
  network:
   name: pcf-infrastructure-subnet
  singleton_availability_zone:
-  name: "zone-1"  
+  name: ((singleton_availability_zone))  

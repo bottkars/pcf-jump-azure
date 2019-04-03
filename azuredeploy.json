@@ -326,6 +326,17 @@
                 "description": "Location for all resources."
             }
         },
+        "availabilityMode": {
+            "type": "string",
+            "defaultValue": "availability_sets",
+            "allowedValues": [
+                "availability_sets",
+                "availability_zones"
+            ],
+            "metadata": {
+                "description": "Availability Mode. Note that Zones are only available in Central US, East US, East US 2, France Central, North Europe, Southeast Asia, West Europe, West US 2"
+            }
+        },
         "opsmanImageRegion": {
             "type": "string",
             "minLength": 6,
@@ -583,7 +594,8 @@
                             "USE_SELF_CERTS": "[parameters('useSelfCerts')]",
                             "JUMP_VNET": "[variables('virtualNetworkName')]",
                             "JUMP_RG": "[resourceGroup().name]",
-                            "PAS_EDITION": "[parameters('pasEdition')]"
+                            "PAS_EDITION": "[parameters('pasEdition')]",
+                            "AVAILABILITY_MODE": "[parameters('availabilityMode')]"
 
                         }
                     }
