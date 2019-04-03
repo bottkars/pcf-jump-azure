@@ -66,17 +66,6 @@ product-properties:
     value: true
   .properties.istio:
     value: enable
-  .properties.istio_frontend_tls_keypairs:
-    value:
-    - name:
-        value: istio_cert
-      certificate:
-        type: rsa_cert_credentials
-        value:
-          private_key_pem: |
-          ((pcf_key_pem))
-          cert_pem: |
-          ((pcf_cert_pem))
 resource-config:
   router:
     elb_names:
