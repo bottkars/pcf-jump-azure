@@ -71,7 +71,7 @@ resource "azurerm_lb_rule" "istio-http-rule" {
   probe_id                = "${azurerm_lb_probe.istio-http-probe.id}"
 }
 
-resource "azurerm_lb_rule" "istio-health" {
+resource "azurerm_lb_rule" "istio-health-rule" {
   name                = "istio-health-rule"
   resource_group_name = "${var.resource_group_name}"
   loadbalancer_id     = "${azurerm_lb.istio.id}"
