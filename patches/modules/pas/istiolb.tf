@@ -25,13 +25,6 @@ resource "azurerm_lb_backend_address_pool" "istio-backend-pool" {
   loadbalancer_id     = "${azurerm_lb.istio.id}"
 }
 
-resource "azurerm_lb_probe" "istio-https-probe" {
-  name                = "istio-https-probe"
-  resource_group_name = "${var.resource_group_name}"
-  loadbalancer_id     = "${azurerm_lb.istio.id}"
-  protocol            = "TCP"
-  port                = 443
-}
 
 resource "azurerm_lb_rule" "istio-https-rule" {
   name                = "istio-https-rule"
@@ -52,8 +45,9 @@ resource "azurerm_lb_probe" "istio-http-probe" {
   name                = "istio-http-probe"
   resource_group_name = "${var.resource_group_name}"
   loadbalancer_id     = "${azurerm_lb.istio.id}"
-  protocol            = "TCP"
-  port                = 80
+  protocol            = "http"
+  port                = 8002
+  request_path            = "/healthcheck"
 }
 
 resource "azurerm_lb_rule" "istio-http-rule" {
