@@ -395,7 +395,8 @@ echo "No Product Apply"
 elif [ ! -z ${APPLY_ALL} ] ; then
 echo "APPLY_ALL"
 om --skip-ssl-validation \
-  apply-changes
+  apply-changes \
+  --skip-unchanged-products
 else
 echo "APPLY Product ${PRODUCT_NAME}"
 om --skip-ssl-validation \
