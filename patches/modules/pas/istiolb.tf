@@ -38,7 +38,7 @@ resource "azurerm_lb_rule" "istio-https-rule" {
   idle_timeout_in_minutes        = 30
 
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.istio-backend-pool.id}"
-  probe_id                = "${azurerm_lb_probe.istio-https-probe.id}"
+  probe_id                = "${azurerm_lb_probe.istio-http-probe.id}"
 }
 
 resource "azurerm_lb_probe" "istio-http-probe" {
@@ -76,4 +76,5 @@ resource "azurerm_lb_rule" "istio-health-rule" {
   backend_port                   = "8002"
 
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.istio-backend-pool.id}"
+  probe_id                = "${azurerm_lb_probe.istio-http-probe.id}"
 }
