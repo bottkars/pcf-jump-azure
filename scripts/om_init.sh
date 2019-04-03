@@ -200,7 +200,7 @@ echo Finished OPSMAN Deployment at ${END_OPSMAN_DEPLOY_TIME}
 
 if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES -s
-    ${SCRIPT_DIR}/deploy_tile.sh -t pivotal-mysql -d -s
-    ${SCRIPT_DIR}/deploy_tile.sh -t p-rabbitmq -d -s
-    ${SCRIPT_DIR}/ddeploy_tile.sh -t p-spring-services -d -s
+    ${SCRIPT_DIR}/deploy_tile.sh -t pivotal-mysql --DO_NOT_APPLY_CHANGES -s
+    ${SCRIPT_DIR}/deploy_tile.sh -t p-rabbitmq --DO_NOT_APPLY_CHANGES -s
+    ${SCRIPT_DIR}/deploy_tile.sh -t p-spring-services -s
 fi
