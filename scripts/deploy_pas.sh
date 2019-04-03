@@ -80,7 +80,7 @@ PCF_SYSTEM_DOMAIN="sys.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 PCF_WEB_LB="${ENV_NAME}-web-lb"
 PCF_DIEGO_SSH_LB="${ENV_NAME}-diego-ssh-lb"
 PCF_MYSQL_LB="${ENV_NAME}-mysql-lb"
-
+PCF_ISTIO_LB="${ENV_NAME}-istio-lb"
 
 #Authenticate pivnet 
 
@@ -227,6 +227,7 @@ pcf_credhub_key: "${PCF_CREDHUB_KEY}"
 pcf_diego_ssh_lb: ${PCF_DIEGO_SSH_LB}
 pcf_mysql_lb: ${PCF_MYSQL_LB}
 pcf_web_lb: ${PCF_WEB_LB}
+pcf_istio_lb: ${PCF_ISTIO_LB}
 smtp_address: "${SMTP_ADDRESS}"
 smtp_identity: "${SMTP_IDENTITY}"
 smtp_password: "${SMTP_PASSWORD}"

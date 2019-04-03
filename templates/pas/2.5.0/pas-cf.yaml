@@ -78,6 +78,9 @@ product-properties:
           cert_pem: |
           ((pcf_cert_pem))
 resource-config:
+  istio_router:  
+    elb_names:
+    - ((pcf_istio_lb))
   diego_cell:
     instances: ((compute_instances))
   diego_brain:
