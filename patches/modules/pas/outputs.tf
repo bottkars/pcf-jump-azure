@@ -14,8 +14,8 @@ output "apps_domain" {
   value = "apps.${azurerm_dns_a_record.apps.zone_name}"
 }
 
-output "apps_domain" {
-  value = "apps.${azurerm_dns_a_record.istio.zone_name}"
+output "mesh_domain" {
+  value = "mesh.apps.${azurerm_dns_a_record.istio.zone_name}"
 }
 
 output "web_lb_name" {
