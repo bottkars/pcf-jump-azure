@@ -4,6 +4,7 @@ om_init.1.sh
 scratch.sh
 .env.dev
 .env.testing
+.env.*
 azuredeploy.parameters.json
 .DS_Store
 

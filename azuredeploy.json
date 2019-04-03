@@ -173,9 +173,11 @@
         },
         "PASWindowsVersion": {
             "type": "string",
-            "defaultValue": "2.4.3",
+            "defaultValue": "2.4.4",
             "allowedValues": [
-                "2.4.3"
+                "2.4.4",
+                "2.4.3",
+                "2.5.0"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
