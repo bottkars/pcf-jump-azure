@@ -295,7 +295,7 @@
                 "TRUE"
             ],
             "metadata": {
-                "description": "for testing, use self signed certs, otherwise Let´s Encrypt"
+                "description": "for TESTIING, use self signed certs, otherwise Let´s Encrypt"
             }
         },
         "ubuntuOSVersion": {

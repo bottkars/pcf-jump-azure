@@ -34,13 +34,25 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 - :new: specify download location for ops manager
 
 ### Initial supported Pivotal Cloudfoundry Tiles and Versions
-- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotalapplicationservice@2x.png" height="16"> Pivotal Application Service 2.4.3
-- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotal_mysql@2x.png" height="16"> MySQL 2.5.3
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotalapplicationservice@2x.png" height="16"> Pivotal Application Service 2.5.x
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotal_mysql@2x.png" height="16"> MySQL 2.6.x
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_rabbitmq_cf@2x.png" height="16"> RabbitMQ 1.15.4
-- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_spring_cloud_services_cf@2x.png" height="16"> Spring Cloud Services 2.0.6
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_spring_cloud_services_cf@2x.png" height="16"> Spring Cloud Services 2.0.x, 3.x.x
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_microsoft_azure_open_service_broker@2x.png" height="16"> Microsoft Azure Service Broker 1.11.0 ( MASB )
+-  additional, post install tiles
 
 ![image](https://user-images.githubusercontent.com/8255007/53223791-cc1af080-3672-11e9-85ba-c8a78c550101.png) 
+
+
+## Changes
+
+###2019.04
+- reworked installatzion process, implemented "tile deployer" as a unified deployment service
+- added PAS 2.5 including support for Availability Zones
+- Istio Mesh Support
+
+2019.01
+
 
 ## usage
 
