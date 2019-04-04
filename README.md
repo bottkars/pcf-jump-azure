@@ -208,10 +208,11 @@ ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 ```
 
 ```bash
-az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
+az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}                                                                 
 az group deployment create --resource-group ${JUMPBOX_RG} \
-    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/${BRANCH}/azuredeploy.json" \
+    --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json" \
     --parameters \
+    availabilityMode=${AVAILABILITY_MODE}
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
     JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
@@ -229,8 +230,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     opsmanUsername=${PCF_OPSMAN_USERNAME} \
     notificationsEmail=${PCF_NOTIFICATIONS_EMAIL} \
     net16bitmask=${NET_16_BIT_MASK} \
-    pasAutopilot=${PAS_AUTOPILOT} \
-    pasVersion=${PCF_PAS_VERSION} \
+    pasAutopilot=FALSE \
+    PCFPasVersion=${PCF_PAS_VERSION} \
     smtpAddress=${SMTP_ADDRESS} \
     smtpIdentity=${SMTP_IDENTITY} \
     smtpPassword=${SMTP_PASSWORD} \
