@@ -212,7 +212,7 @@ az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment create --resource-group ${JUMPBOX_RG} \
     --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json" \
     --parameters \
-    availabilityMode=${AVAILABILITY_MODE}
+    availabilityMode=${AVAILABILITY_MODE} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
     JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
