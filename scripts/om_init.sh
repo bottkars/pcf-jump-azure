@@ -156,8 +156,8 @@ services_cidr: "${NET_16_BIT_MASK}.4.0/22"
 services_range: "${NET_16_BIT_MASK}.4.1-${NET_16_BIT_MASK}.4.4"
 services_gateway: "${NET_16_BIT_MASK}.4.1"
 fullchain: "$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')"
-availability_mode: availability_zones
-singleton_availability_zone: zone-1
+availability_mode: ${AVAILABILITY_MODE}
+singleton_availability_zone: ${SINGLETON_ZONE}
 EOF
 
 om --skip-ssl-validation \
