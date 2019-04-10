@@ -186,9 +186,10 @@
         "opsmanImage": {
             "type": "string",
             "allowedValues": [
-                "2.5.0-build.158"
+                "2.5.0-build.158",
+                "2.5.1-build.169"
             ],   
-            "defaultValue": "ops-manager-2.4-build.158.vhd",
+            "defaultValue": "2.5.1-build.169",
             "metadata": {
                 "description": "The Version of the Operations Manager Image"
             }
