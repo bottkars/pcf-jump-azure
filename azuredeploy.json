@@ -127,14 +127,15 @@
         },
         "PCFPasVersion": {
             "type": "string",
-            "defaultValue": "2.5.0",
+            "defaultValue": "2.5.1",
             "allowedValues": [
                 "2.4.4",
                 "2.4.3",
                 "2.4.2",
                 "2.4.1",
                 "2.4.0",
-                "2.5.0"
+                "2.5.0",
+                "2.5.1"
             ],
             "metadata": {
                 "description": "The Version of the Pivotal Application Service"
