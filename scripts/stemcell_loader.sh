@@ -79,7 +79,7 @@ echo "PRODUCT VERSION $PRODUCT_VERSION"
 STEMCELL_DIR=$DOWNLOAD_DIR/stemcells/${PRODUCT_VERSION}
 mkdir -p $STEMCELL_DIR
 echo $STEMCELL_DIR
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 download-product \
 --pivnet-api-token $PIVNET_UAA_TOKEN \
 --pivnet-file-glob "*-stemcell-${PRODUCT_VERSION}-azure-hyperv-*-go_agent.tgz" \
@@ -92,7 +92,7 @@ STEMCELL_FILENAME=$(cat $STEMCELL_DIR/download-file.json | jq -r '.product_path'
 echo "renaming $STEMCELL_FILENAME to $DOWNLOAD_DIR/$PRODUCT_FILENAME"
 cp -n $STEMCELL_FILENAME $DOWNLOAD_DIR/$PRODUCT_FILENAME
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 upload-stemcell \
 --floating=true \
 --stemcell $DOWNLOAD_DIR/$PRODUCT_FILENAME

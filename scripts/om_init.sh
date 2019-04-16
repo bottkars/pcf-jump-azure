@@ -62,6 +62,22 @@ export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 
+
+OM_ENV_FILE = "${HOME_DIR}/om_${ENV_NAME}.env"
+cat << EOF > ${OM_ENV_FILE}
+"
+---
+target: ${PCF_OPSMAN_FQDN}
+connect-timeout: 30          # default 5
+request-timeout: 3600        # default 1800
+skip-ssl-validation: true   # default false
+username: ${PCF_OPSMAN_USERNAME}
+password: ${PIVNET_UAA_TOKEN}
+decryption-passphrase: ${PIVNET_UAA_TOKEN}
+"
+EOF
+
+
 az login --service-principal \
   --username ${AZURE_CLIENT_ID} \
   --password ${AZURE_CLIENT_SECRET} \
@@ -95,12 +111,12 @@ az network vnet peering create --name JUMP-Peer \
 
 
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 configure-authentication \
 --decryption-passphrase ${PIVNET_UAA_TOKEN}
 
 echo checking deployed products
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 deployed-products
 
 declare -a FILES=("${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key" \
@@ -125,7 +141,7 @@ for FILE in "${FILES[@]}"; do
 done
 
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 update-ssl-certificate \
     --certificate-pem "$(cat ${HOME_DIR}/fullchain.cer)" \
     --private-key-pem "$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)"
@@ -160,14 +176,16 @@ availability_mode: ${AVAILABILITY_MODE}
 singleton_availability_zone: "${SINGLETON_ZONE}"
 EOF
 
-om --skip-ssl-validation \
+
+
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
  configure-director --config ${TEMPLATE_DIR}/director_config.yaml --vars-file ${TEMPLATE_DIR}/director_vars.yaml
 
 retryop "om --skip-ssl-validation apply-changes" 2 10
 
 
 echo checking deployed products
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
  deployed-products
 
 popd

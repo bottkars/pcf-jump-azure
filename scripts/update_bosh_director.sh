@@ -33,7 +33,7 @@ export OM_TARGET=${PCF_OPSMAN_FQDN}
 export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 EXPORT_FILE=${HOME_DIR}/$(uuidgen)
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
     export-installation --output-file ${EXPORT_FILE}
 
 export AZURE_STORAGE_CONNECTION_STRING=$(az storage account show-connection-string \
@@ -84,15 +84,15 @@ az vm create --name ${ENV_NAME}-ops-manager-vm  --resource-group ${ENV_NAME} \
  --storage-sku StandardSSD_LRS \
  --ssh-key-value ${HOME_DIR}/.ssh/authorized_keys
 
- om --skip-ssl-validation \
+ om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
     --decryption-passphrase $PIVNET_UAA_TOKEN \
     import-installation --installation $EXPORT_FILE
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 update-ssl-certificate \
     --certificate-pem "$(cat ${HOME_DIR}/fullchain.cer)" \
     --private-key-pem "$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)"
 
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 apply-changes --skip-unchanged-products    

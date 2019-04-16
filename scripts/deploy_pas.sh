@@ -172,7 +172,7 @@ mkdir -p ${DOWNLOAD_DIR_FULL}
 # download product using om cli
 if  [ -z ${NO_DOWNLOAD} ] ; then
 echo $(date) start downloading ${PRODUCT_SLUG}
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   download-product \
  --pivnet-api-token ${PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "${PAS_EDITION}*.pivotal" \
@@ -187,7 +187,7 @@ fi
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
 # Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   --request-timeout 3600 \
   upload-product \
   --product ${TARGET_FILENAME}
@@ -195,7 +195,7 @@ om --skip-ssl-validation \
 echo $(date) end uploading ${PRODUCT_SLUG}
 
     # 1. Find the version of the product that was imported.
-PRODUCTS=$(om --skip-ssl-validation \
+PRODUCTS=$(om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   available-products \
     --format json)
 
@@ -204,7 +204,7 @@ VERSION=$(echo ${PRODUCTS} |\
 
 # 2.  Stage using om cli
 echo $(date) start staging ${PRODUCT_SLUG} 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   stage-product \
   --product-name ${PRODUCT_NAME} \
   --product-version ${VERSION}
@@ -213,7 +213,7 @@ echo $(date) end staging ${PRODUCT_SLUG}
 
 $SCRIPT_DIR/stemcell_loader.sh -s 250
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 assign-stemcell \
 --product ${PRODUCT_NAME} \
 --stemcell latest
@@ -245,7 +245,7 @@ zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
   -c ${TEMPLATE_DIR}/pas-${PAS_EDITION}.yaml -l ${TEMPLATE_DIR}/pas_vars.yaml
 ###
@@ -258,11 +258,11 @@ if  [ ! -z ${NO_APPLY} ] ; then
 echo "No Product Apply"
 elif [ ! -z ${APPLY_ALL} ] ; then
 echo "APPLY_ALL"
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   apply-changes
 else 
 echo "APPLY Product"
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   apply-changes \
   --product-name ${PRODUCT_SLUG}
 fi

@@ -72,7 +72,7 @@ curl \
 if  [ -z ${NO_DOWNLOAD} ] ; then
 echo $(date) start downloading ${PRODUCT_SLUG}
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   download-product \
  --pivnet-api-token ${PIVNET_UAA_TOKEN} \
  --pivnet-file-glob "*.pivotal" \
@@ -87,7 +87,7 @@ fi
 TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
 # Import the tile to Ops Manager.
 echo $(date) start uploading ${PRODUCT_SLUG}
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   --request-timeout 3600 \
   upload-product \
   --product ${TARGET_FILENAME}
@@ -95,7 +95,7 @@ om --skip-ssl-validation \
 echo $(date) end uploading ${PRODUCT_SLUG}
 
     # 1. Find the version of the product that was imported.
-PRODUCTS=$(om --skip-ssl-validation \
+PRODUCTS=$(om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   available-products \
     --format json)
 
@@ -105,14 +105,14 @@ VERSION=$(echo ${PRODUCTS} |\
 
 # 2.  Stage using om cli
 echo $(date) start staging ${PRODUCT_SLUG} 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   stage-product \
   --product-name ${PRODUCT_SLUG} \
   --product-version ${VERSION}
 echo $(date) end staging ${PRODUCT_SLUG} 
 
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 assign-stemcell \
 --product ${PRODUCT_SLUG} \
 --stemcell latest
@@ -150,7 +150,7 @@ global_recipient_email: ${PCF_NOTIFICATIONS_EMAIL}
 blob_store_base_url: blob.core.windows.net
 EOF
 
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
   -c ${TEMPLATE_DIR}/mysql.yaml -l ${TEMPLATE_DIR}/mysql_vars.yaml
 
@@ -161,11 +161,11 @@ if  [ ! -z ${NO_APPLY} ] ; then
 echo "No Product Apply"
 elif [ ! -z ${APPLY_ALL} ] ; then
 echo "APPLY_ALL"
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   apply-changes
 else 
 echo "APPLY Product"
-om --skip-ssl-validation \
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   apply-changes \
   --product-name ${PRODUCT_SLUG}
 fi

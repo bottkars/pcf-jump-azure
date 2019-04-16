@@ -66,3 +66,10 @@ uaac member add uaa.admin ${ADD_USER}
 uaac member add scim.read ${ADD_USER}
 uaac member add scim.write ${ADD_USER}
 ```
+
+```
+uaac group map --name scim.read "admin" --origin labbuildrad
+uaac group map --name scim.write "admin" --origin labbuildrad
+uaac group map --name cloud_controller.admin "admin" --origin labbuildrad
+```
+
