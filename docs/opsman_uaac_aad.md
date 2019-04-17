@@ -10,7 +10,7 @@ Therer are several ways to create an AOPS Manager Automation Client:
 - Using the OPSMAN API
   when you first-time setup the Operations Manager by using the key *precreated_client_secret* :
   
-  ```
+```bash
 curl "https://example.com/api/v0/setup" \
     -X POST \
     -H "Content-Type: application/json" \
@@ -24,14 +24,14 @@ curl "https://example.com/api/v0/setup" \
     "admin_password_confirmation": "example-password",
     "precreated_client_secret": "example-secret"
   } }'
-  ```
+```
   this will create an initial client id 'precreated-client' with the configured secret to be used for all automation tasks
   
   
   - Using UAAC ( if OM already Configured )
   
   target you opsman uaa endpoint:
-  ```
-  uaac target pcf.pcfazure.labbuildr.com
-  uaac client add post-created-client --authorized_grant_types client_credentials --authorities opsman.admin, scim.read,scim.write,zone.uaa,uaa.admin --secret example-secret
+```
+uaac target pcf.pcfazure.labbuildr.com
+uaac client add post-created-client --authorized_grant_types client_credentials --authorities opsman.admin, scim.read,scim.write,zone.uaa,uaa.admin --secret example-secret
   ```
