@@ -52,12 +52,34 @@ Assign a meaningfull name for the Application ( Note: An (Identity Provider ) Ap
 From the Manage Tab, select *Single Sign On*
 ![image](https://user-images.githubusercontent.com/8255007/56280316-39df1800-610a-11e9-8395-d785be7ead61.png)
 
-From SSO, slewct the SAML Tile:
+From SSO, select the SAML Tile:
 <img width="1083" alt="saml" src="https://user-images.githubusercontent.com/8255007/56281159-35b3fa00-610c-11e9-80fd-8bb6e82195fa.png">
 
-Complete the basic SAML configuration.
+## Complete Step (1)the basic SAML configuration:
 
 The Reply Address is *https://<your-ops-manager>:443/uaa* . I *Highly Recommend* using the same for the Identifier (Entity ID) , as this helps you to stay unique with the Identifier
+  
+![image](https://user-images.githubusercontent.com/8255007/56282418-68abbd00-610f-11e9-93eb-9023469de92d.png)
+  
+Click SAVE.
+
+Now an important step:
+
+## Step  (2) User Attributes & Claims
+Click on the Edit Button
+<img width="850" alt="group_claims" src="https://user-images.githubusercontent.com/8255007/56282795-45cdd880-6110-11e9-9d8c-9f9ff16a7927.png">
+By default, no Group Claims are returned from , as shown above
+Click on the edit button in 'Groups returned in claim'
+This will allow you to customize nthe rerturned claim
+make sure you
+- select Security Groups
+- Source Attribute: Group IDS
+- Customize the name of the group claim: user.groups ( <-- Iportant Step here ! )
+<img width="582" alt="Claims" src="https://user-images.githubusercontent.com/8255007/56283227-64809f00-6111-11e9-929d-d854b27e06ab.png">
+
+
+
+
 
 
 
