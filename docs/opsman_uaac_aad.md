@@ -4,7 +4,7 @@
 ## Prerequisites
 ### Create OPS Manager Admin Client
 If you do not have yet created an Automation CLient for OPS Manager, do it *NOW*
-The Admin Client must be used for automation Tasks with e.g. om cli, as programaticaly login is NOT avialble when using saml
+The Admin Client must be used for automation Tasks with e.g. om cli, as programmatically login is NOT avialble when using saml
 Therer are several ways to create an AOPS Manager Automation Client:
 
 - Using the OPSMAN API
@@ -34,4 +34,13 @@ curl "https://example.com/api/v0/setup" \
 ```
 uaac target pcf.pcfazure.labbuildr.com
 uaac client add post-created-client --authorized_grant_types client_credentials --authorities opsman.admin, scim.read,scim.write,zone.uaa,uaa.admin --secret example-secret
-  ```
+```
+
+## Step 1 Create and AzureAD Application
+
+From Azure Piortal, go to ActiveDirectory --> Enterprise Applications
+
+<img width="491" alt="AAD_1" src="https://user-images.githubusercontent.com/8255007/56279931-62b2dd80-6109-11e9-8e00-4b502df9f99e.png">
+
+
+
