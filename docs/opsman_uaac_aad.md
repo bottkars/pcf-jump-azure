@@ -42,5 +42,28 @@ From Azure Piortal, go to ActiveDirectory --> Enterprise Applications
 
 <img width="491" alt="AAD_1" src="https://user-images.githubusercontent.com/8255007/56279931-62b2dd80-6109-11e9-8e00-4b502df9f99e.png">
 
+click on 'new application' and select the Tile non-gallery application
+![image](https://user-images.githubusercontent.com/8255007/56280181-f5537c80-6109-11e9-8a40-d833bb456edc.png)
+
+Assign a meaningfull name for the Application ( Note: An (Identity Provider ) Application can only can map to *ONE* Assertion Consumer.
+
+![image](https://user-images.githubusercontent.com/8255007/56280316-39df1800-610a-11e9-8395-d785be7ead61.png)
+
+From the Manage Tab, select *Single Sign On*
+![image](https://user-images.githubusercontent.com/8255007/56280316-39df1800-610a-11e9-8395-d785be7ead61.png)
+
+From SSO, slewct the SAML Tile:
+<img width="1083" alt="saml" src="https://user-images.githubusercontent.com/8255007/56281159-35b3fa00-610c-11e9-80fd-8bb6e82195fa.png">
+
+Complete the basic SAML configuration.
+
+The Reply Address is *https://<your-ops-manager>:443/uaa* . I *Highly Recommend* using the same for the Identifier (Entity ID) , as this helps you to stay unique with the Identifier
+
+
+
+
+
+
+
 
 
