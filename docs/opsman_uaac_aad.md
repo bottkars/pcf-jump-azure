@@ -33,10 +33,11 @@ curl "https://example.com/api/v0/setup" \
   target you opsman uaa endpoint:
 ```
 uaac target pcf.pcfazure.labbuildr.com
+uaac 
 uaac client add post-created-client --authorized_grant_types client_credentials --authorities opsman.admin, scim.read,scim.write,zone.uaa,uaa.admin --secret example-secret
 ```
-
-## Step 1 Create and AzureAD Application
+## Azure Config
+### Create and AzureAD Application
 
 From Azure Piortal, go to ActiveDirectory --> Enterprise Applications
 
@@ -55,7 +56,7 @@ From the Manage Tab, select *Single Sign On*
 From SSO, select the SAML Tile:
 <img width="1083" alt="saml" src="https://user-images.githubusercontent.com/8255007/56281159-35b3fa00-610c-11e9-80fd-8bb6e82195fa.png">
 
-## Complete Step (1)the basic SAML configuration:
+### Complete Step (1)the basic SAML configuration:
 
 The Reply Address is *https://<your-ops-manager>:443/uaa* . I *Highly Recommend* using the same for the Identifier (Entity ID) , as this helps you to stay unique with the Identifier
   
@@ -65,7 +66,7 @@ Click SAVE.
 
 Now an important step:
 
-## Step  (2) User Attributes & Claims
+### Step  (2) User Attributes & Claims
 Click on the Edit Button
 <img width="850" alt="group_claims" src="https://user-images.githubusercontent.com/8255007/56282795-45cdd880-6110-11e9-9d8c-9f9ff16a7927.png">
 By default, no Group Claims are returned from , as shown above
@@ -75,7 +76,10 @@ make sure you
 - select Security Groups
 - Source Attribute: Group IDS
 - Customize the name of the group claim: user.groups ( <-- Iportant Step here ! )
-<img width="582" alt="Claims" src="https://user-images.githubusercontent.com/8255007/56283227-64809f00-6111-11e9-929d-d854b27e06ab.png">
+
+<img width="585" alt="USER_CLAIM" src="https://user-images.githubusercontent.com/8255007/56284471-ce4e7800-6114-11e9-827b-f4e8e0878b86.png">
+
+## Opsman Config
 
 
 
