@@ -95,7 +95,7 @@ STEMCELL_FILENAME=$(cat $STEMCELL_DIR/download-file.json | jq -r '.product_path'
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 upload-stemcell \
 --floating=true \
---stemcell $DOWNLOAD_DIR/$PRODUCT_FILENAME
+--stemcell $STEMCELL_DIR/$PRODUCT_FILENAME
 
 }
 
