@@ -54,6 +54,7 @@ p-rabbitmq \
 p-healthwatch \
 kubernetes-service-manager \
 pas-windows \
+pivotal_single_sign-on_service \
 "
 
 if [[ " ${TILES} " =~ " $TILE " ]] 
@@ -297,6 +298,21 @@ zones_list: ${ZONES_LIST}
 EOF
 ;;
 p-rabbitmq)
+if  [ ! -z ${LOAD_STEMCELL} ] ; then
+  echo "calling stemmcell_loader for LOADING Stemcells"
+  $SCRIPT_DIR/stemcell_loader.sh -s 97
+fi
+cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+product_name: ${PRODUCT_SLUG}
+pcf_pas_network: pcf-pas-subnet
+pcf_service_network: pcf-services-subnet
+server_admin_password: ${PIVNET_UAA_TOKEN}
+singleton_zone: ${SINGLETON_ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
+EOF
+;;
+pivotal_single_sign-on_service)
 if  [ ! -z ${LOAD_STEMCELL} ] ; then
   echo "calling stemmcell_loader for LOADING Stemcells"
   $SCRIPT_DIR/stemcell_loader.sh -s 97

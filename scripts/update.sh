@@ -12,7 +12,9 @@ if ! which parallel > /dev/null; then
    sudo apt install parallel -y
 fi   
 
-
+wget -O om https://github.com/pivotal-cf/om/releases/download/0.56.0/om-linux && \
+    chmod +x om && \
+    sudo mv om /usr/local/bin/
 declare -a DIRECTORIES=("scripts" "env" "templates")
  
 # Read the array values with space
