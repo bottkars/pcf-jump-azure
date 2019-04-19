@@ -75,11 +75,6 @@ resource-config:
   diego_brain:
     elb_names:
     - ((pcf_diego_ssh_lb))
-  mysql_proxy:
-    instances: 3
-  mysql_proxy:
-    elb_names:
-    - ((pcf_mysql_lb))
   router:
     instances: 3
   router:

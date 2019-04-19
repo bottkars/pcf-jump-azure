@@ -21,7 +21,7 @@ product-properties:
   .properties.security_acknowledgement:
     value: X
   .properties.stack_migration_acknowledgement:
-    value: X     
+    value: X      
   .mysql_monitor.recipient_email:
     value: ((pcf_notifications_email))
   .uaa.service_provider_key_credentials:
@@ -58,7 +58,7 @@ product-properties:
   .properties.smtp_from:
     value: ((smtp_from))
   .properties.smtp_port:
-    value: ((smtp_port))
+    value: ((smtp_port))   
   .cloud_controller.encrypt_key:
     value:
       secret: ((cloud_controller.encrypt_key)) 
@@ -67,16 +67,11 @@ product-properties:
   .properties.istio:
     value: enable
 resource-config:
-  istio_router:  
-    elb_names:
-    - ((pcf_istio_lb))
-  diego_cell:
-    instances: ((compute_instances))
-  diego_brain:
-    elb_names:
-    - ((pcf_diego_ssh_lb))
-  router:
-    instances: 3
   router:
     elb_names:
     - ((pcf_web_lb))
+  istio_router:  
+    elb_names:
+    - ((pcf_istio_lb))
+  compute:
+    instances: ((compute_instances))

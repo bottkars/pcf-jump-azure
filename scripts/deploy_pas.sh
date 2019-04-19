@@ -42,9 +42,6 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 if  [ -z ${INSTANCES} ] ; then
 INSTANCES=3
 fi
-export OM_TARGET=${PCF_OPSMAN_FQDN}
-export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 
 declare -a FILES=("${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key" \
 "${HOME_DIR}/fullchain.cer")
