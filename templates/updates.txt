@@ -2,7 +2,7 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas/2
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas/2.5.2/pas-cf.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas-windows/2.5.1/pas-windows.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/masb.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pivotal-mysql/2.5.3/pivotal-mysql.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pivotal-mysql/2.5.4/pivotal-mysql.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/healthwatch.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-spring-services/2.0.7/p-spring-services.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.yaml
