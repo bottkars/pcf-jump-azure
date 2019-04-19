@@ -5,7 +5,7 @@ export OM_USERNAME=${PCF_OPSMAN_USERNAME}
 export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 export $( \
   om \
-    --env $HOME/om${ENV_NAME}.yaml \
+    --env ${HOME}/om_${ENV_NAME}.yaml \
     curl \
       --silent \
       --path /api/v0/deployed/director/credentials/bosh_commandline_credentials | \
@@ -16,7 +16,7 @@ sudo mkdir -p /var/tempest/workspaces/default
 
 sudo sh -c \
   "om \
-    --env $HOME/om${ENV_NAME}.yaml \
+    --env ${HOME}/om_${ENV_NAME}.yaml \
     --target ${PCF_OPSMAN_FQDN} \
     --username ${PCF_OPSMAN_USERNAME} \
     --password ${PIVNET_UAA_TOKEN} \
