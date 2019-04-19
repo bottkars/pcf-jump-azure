@@ -89,8 +89,8 @@ download-product \
 
 STEMCELL_FILENAME=$(cat $STEMCELL_DIR/download-file.json | jq -r '.product_path')
 
-echo "renaming $STEMCELL_FILENAME to $DOWNLOAD_DIR/$PRODUCT_FILENAME"
-cp -n $STEMCELL_FILENAME $DOWNLOAD_DIR/$PRODUCT_FILENAME
+#echo "renaming $STEMCELL_FILENAME to $DOWNLOAD_DIR/$PRODUCT_FILENAME"
+#cp -n $STEMCELL_FILENAME $DOWNLOAD_DIR/$PRODUCT_FILENAME
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 upload-stemcell \
