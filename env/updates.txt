@@ -1,7 +1,7 @@
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/apm/1.6.0/apm.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/masb/1.11.0/masb.env
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pivotal-mysql/2.5.3/pivotal-mysql.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pivotal-mysql/2.5.4/pivotal-mysql.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/p-rabbitmq/1.15.7/p-rabbitmq.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pas/2.5.2/pas.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pas-windows/2.5.1/pas-windows.env
