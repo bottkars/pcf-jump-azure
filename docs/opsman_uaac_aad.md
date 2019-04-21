@@ -63,9 +63,9 @@ From SSO, select the SAML Tile:
 
 ### Complete Step (1)the basic SAML configuration:
 
-The Reply Address is *https://<your-ops-manager>:443/uaa* . I *Highly Recommend* using the same for the Identifier (Entity ID) , as this helps you to stay unique with the Identifier
+The Reply Address is *https://<*your-ops-manager*>:443/uaa* . I *Highly Recommend* using the same for the Identifier (Entity ID) , as this helps you to stay unique with the Identifier
   
-![image](https://user-images.githubusercontent.com/8255007/56282418-68abbd00-610f-11e9-93eb-9023469de92d.png)
+<img width="600" alt="saml" src="https://user-images.githubusercontent.com/8255007/56282418-68abbd00-610f-11e9-93eb-9023469de92d.png">
   
 Click SAVE.
 
