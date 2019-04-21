@@ -58,10 +58,6 @@ until $(curl --output /dev/null --silent --head --fail -k -X GET "https://${PCF_
 done
 echo "done"
 
-export OM_TARGET=${PCF_OPSMAN_FQDN}
-export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
-
 
 OM_ENV_FILE = "${HOME_DIR}/om_${ENV_NAME}.env"
 cat << EOF > ${OM_ENV_FILE}
@@ -113,7 +109,9 @@ az network vnet peering create --name JUMP-Peer \
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 configure-authentication \
---decryption-passphrase ${PIVNET_UAA_TOKEN}
+--decryption-passphrase ${PIVNET_UAA_TOKEN}  \
+--username ${PCF_OPSMAN_USERNAME} \
+--password ${PIVNET_UAA_TOKEN}
 
 echo checking deployed products
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
