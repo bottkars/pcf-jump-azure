@@ -71,7 +71,7 @@ search for the group with OpsmanAdmin Users and click add Click Select
 
 <img width="400" alt="Select User" src="https://user-images.githubusercontent.com/8255007/56467763-63a68080-6423-11e9-9150-b17beaab7156.png">
 
-finish by clicking on the Assign Bitoon assign
+finish by clicking on the Assign Button
 
 <img width="300" alt="Group Link" src="https://user-images.githubusercontent.com/8255007/56467774-89338a00-6423-11e9-8a6e-cbaf63021736.png">
 
@@ -90,7 +90,7 @@ With all method´s, all pre-created Clients are removed from UAA and User Authen
 
 However, when using the API, we can create a pre-configured client for automation
 
-### Configure authentication using the API
+### Configure Authentication using the API
 
 When you first-time setup the Operations Manager ( from 2.5 ) by using the key *precreated_client_secret* :
   
@@ -124,7 +124,7 @@ From Opsman, dropdown opsman settings on the right top menu
 
 Click on SAML Integration to the left
 
-<img width="400" alt="USER_CLAIM" src="https://user-images.githubusercontent.com/8255007/56467829-3e664200-6424-11e9-855a-a77f90f31ec4.png">
+<img width="300" alt="USER_CLAIM" src="https://user-images.githubusercontent.com/8255007/56467829-3e664200-6424-11e9-855a-a77f90f31ec4.png">
 
 Now fill in the Values:  
 
@@ -132,7 +132,7 @@ Now fill in the Values:
 
 - SAML IDP Metadata: The *App Federation Metadata Url* gathered from the SSO Tab IN Azure Active Directory
 
-<img width="200" alt="Federation Metadata" src="https://user-images.githubusercontent.com/8255007/56485836-e6881380-64d5-11e9-9fde-1afd29e203c0.png">
+<img width="400" alt="Federation Metadata" src="https://user-images.githubusercontent.com/8255007/56485836-e6881380-64d5-11e9-9fde-1afd29e203c0.png">
 
 - SAML Admin Group: The Group ID from Azure AD Application Assignements Group
 
@@ -145,7 +145,7 @@ Now fill in the Values:
 apply changes will log you out of opsman ! 
 from here , only validated AAD users can Log-In, so doublecheck you entries above !
 
-<img width="200" alt="Group ID" src="https://user-images.githubusercontent.com/8255007/56486844-65cb1680-64d9-11e9-8846-f7ad4a36f4cd.png">
+<img width="400" alt="Group ID" src="https://user-images.githubusercontent.com/8255007/56486844-65cb1680-64d9-11e9-8846-f7ad4a36f4cd.png">
 
 the tempest webserver will now restart the authentication System. this wil take a few seconds :
 
@@ -155,25 +155,57 @@ you can now login with your AAD credentials
 
 *HINT* if you are currently logged in into aad as a user *without* opsman access, the login might fail without aking for credentials
 
-<img width="200" alt="relogin" src="https://user-images.githubusercontent.com/8255007/56486941-bfcbdc00-64d9-11e9-8eba-18105059fb16.png">
+<img width="200" alt="Changes" src="https://user-images.githubusercontent.com/8255007/56486941-bfcbdc00-64d9-11e9-8eba-18105059fb16.png">
 
-we now have to apply chanes to the OpsmanDirector:
+We now have to apply changes to the OpsmanDirector.
+go to the selective deployment from "review pending changes"
 
-in sel
+Make sure, only Bosh Director is selected for Changes:
+
+<img width="300" alt="relogin" src="https://user-images.githubusercontent.com/8255007/56582047-a5c3f380-65d6-11e9-92b2-2d37962a4d8d.png">
+
+you might also want to look at the changes in detail ( from opsman 2.4 )
+
+<img width="300" alt="relogin" src="https://user-images.githubusercontent.com/8255007/56487887-fe16ca80-64dc-11e9-8694-728940797b61.png">
 
 ## Post Tasks
 
-If you do
+If you used Opsman UI to configure SAML Authentication
 - Using UAAC ( if OM already Configured )
   
-target you opsman uaa endpoint, login with your Ops Manager User Account:
+target you opsman uaa endpoint, login with opsman client and sso:
 ```
-uaac target p uaac target https://pcfopsmangreen.pcfdemo.westus.stackpoc.com/uaa/
-uaac token owner get opsman "<youropsmanuaser>" -p "<youropsmanpassword>"
-uaac client add pre-created-client --authorized_grant_types client_credentials --authorities "opsman.admin scim.read scim.write zone.uaa uaa.admin" --secret example-secret
+uaac target https://pcfopsmangreen.pcfdemo.westus.stackpoc.com/uaa/
+uaac token sso get #t his will allow you to login using sso
+uaac client add myclient --authorized_grant_types client_credentials --authorities "opsman.admin scim.read scim.write zone.uaa uaa.admin" --secret mysecret
 ```
 
+### OM Using an env file the new created Client 
+
+create / modify an env.yml with similar content
+
+```yaml
+target: https://pcfopsmangreen.pcfdemo.westus.stackpoc.com
+connect-timeout: 30          # default 5
+request-timeout: 1800        # default 1800
+skip-ssl-validation: true   # default false
+client-id: myclient
+client-secret: mypassword
+# username: opsman
+# password: mypassword
+```
+
+test with
+
+```bash
+om --env env.yml deployed-products
+```
+
+<img width="300" alt="relogin" src="https://user-images.githubusercontent.com/8255007/56581888-44038980-65d6-11e9-8443-3f1093e2ca6d.png">
+
 ## Troubleshooting
+
+
 
 [How to create a uaa client used for concourse pipelines in Operations Manager when SAML Authentication is enabled](https://community.pivotal.io/s/article/How-to-create-a-uaa-client-used-for-concourse-pipelines-in-Operations-Manager-when-SAML-Authentication-is-enabled)
 
@@ -182,8 +214,3 @@ uaac client add pre-created-client --authorized_grant_types client_credentials -
 [OpsMan rescue Mode](https://community.pivotal.io/s/article/How-to-put-Ops-Manager-into-Rescue-Mode)
 
 
-
-
-
-
-https://pcf.pcfazure.labbuildr.com:443/uaa
