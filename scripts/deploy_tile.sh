@@ -176,10 +176,26 @@ echo $(date) end downloading ${PRODUCT_SLUG}
 
         chmod +x ${HOME}/winfs-injector-linux
 
+        echo $(date) start downloading tile replicator
+        om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
+        download-product \
+        --pivnet-api-token ${PIVNET_UAA_TOKEN} \
+        --pivnet-file-glob "replicator*" \
+        --pivnet-product-slug ${PRODUCT_SLUG} \
+        --product-version ${PCF_VERSION} \
+        --output-directory ${HOME_DIR}
+
+        unzip -o ${HOME}/replicator*.zip
+
+        chmod +x ${HOME}/replicator-linux
+
         TARGET_FILENAME=$(cat ${DOWNLOAD_DIR_FULL}/download-file.json | jq -r '.product_path')
         INJECTED_FILENAME=injectded
         ${HOME}/winfs-injector-linux --input-tile ${TARGET_FILENAME} \
           --output-tile ${INJECTED_FILENAME}
+
+
+         
 	;;
 esac  
 else
