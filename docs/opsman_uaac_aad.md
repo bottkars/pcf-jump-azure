@@ -4,42 +4,8 @@ this guide should asssi when integrating OPSMAN with Azure Active Directory
 
 ## Prerequisites
 
-### Create OPS Manager Admin Client
-
-If you do not have yet created an Automation Client for OPS Manager, do it *NOW*
-The Admin Client must be used for automation Tasks with e.g. om cli, as programmatically login is NOT avialble when using SAML
-There are several ways to create an OPS Manager Automation Client:
-
-- Using the OPSMAN API
-  when you first-time setup the Operations Manager ( from 2.5 ) by using the key *precreated_client_secret* :
-  
-```bash
-curl "https://example.com/api/v0/setup" \
-    -X POST \
-    -H "Content-Type: application/json" \
-    -d '{ "setup": {
-    "decryption_passphrase": "example-passphrase",
-    "decryption_passphrase_confirmation":"example-passphrase",
-    "eula_accepted": "true",
-    "identity_provider": "internal",
-    "admin_user_name": "user-ed942e358eb61868dc87",
-    "admin_password": "example-password",
-    "admin_password_confirmation": "example-password",
-    "precreated_client_secret": "example-secret"
-  } }'
-```
-
-  this will create an initial client id 'precreated-client' with the configured secret to be used for all automation tasks
-  
-- Using UAAC ( if OM already Configured )
-  
-target you opsman uaa endpoint:
-```
-uaac target pcf.pcfazure.labbuildr.com
-uaac 
-uaac client add post-created-client --authorized_grant_types client_credentials --authorities opsman.admin, scim.read,scim.write,zone.uaa,uaa.admin --secret example-secret
-```
-
+- AzureAD Admin Access
+- Running Operations Manager
 ## Azure Config
 
 ### Create and AzureAD Application
@@ -119,7 +85,36 @@ note id
 
 ## Opsman Config
 
-From the Operation Manager Homepage, dropdown opsman settings on the right top menu
+There are two ways to configure OpsMan wth SAML.
+One is during the Initial Authentication Config, that also allows to create an Admin Client:
+
+### Create OPS Manager Admin Client
+
+If you do not have yet created an Automation Client for OPS Manager, do it *NOW*
+The Admin Client must be used for automation Tasks with e.g. om cli, as programmatically login is NOT avialble when using SAML
+There are several ways to create an OPS Manager Automation Client:
+
+1. When you first-time setup the Operations Manager ( from 2.5 ) by using the key *precreated_client_secret* :
+  
+```bash
+curl "https://example.com/api/v0/setup" \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d '{ "setup": {
+    "decryption_passphrase": "example-passphrase",
+    "decryption_passphrase_confirmation":"example-passphrase",
+    "eula_accepted": "true",
+    "identity_provider": "internal",
+    "admin_user_name": "user-ed942e358eb61868dc87",
+    "admin_password": "example-password",
+    "admin_password_confirmation": "example-password",
+    "precreated_client_secret": "example-secret"
+  } }'
+```
+
+this will create an initial client id 'precreated-client' with the configured secret to be used for all automation tasks
+
+2. From the Operation Manager Homepage, dropdown opsman settings on the right top menu
 
 <img width="400" alt="USER_CLAIM" src="https://user-images.githubusercontent.com/8255007/56467811-0a8b1c80-6424-11e9-9ef2-f4f618b0cabb.png">
 
@@ -127,9 +122,7 @@ Click on SAML Integration to the left
 
 <img width="400" alt="USER_CLAIM" src="https://user-images.githubusercontent.com/8255007/56467829-3e664200-6424-11e9-855a-a77f90f31ec4.png">
 
-
-
-Now fill inm the Values: 
+Now fill in the Values:  
 
 - Current Decryption Passphrase *your current opsman decryption passphrase*
 
@@ -141,41 +134,52 @@ Now fill inm the Values:
 
 <img width="200" alt="Group ID" src="https://user-images.githubusercontent.com/8255007/56467794-ce57bc00-6423-11e9-8494-48cbd7758b04.png">
 
-- Groups Attribute: The Group claim we creted earlier in AzureAD, *user.groups* 
+- Groups Attribute: The Group claim we created earlier in AzureAD, *user.groups* 
 
 - check *Provision an Admin Client in the BOSH UAA*
 
-apply changes will log you put of opsman
-ponly aad from nopw
+apply changes will log you out of opsman ! 
+from here , only validated AAD users can Log-In, so doublecheck you entries above !
 
 <img width="200" alt="Group ID" src="https://user-images.githubusercontent.com/8255007/56486844-65cb1680-64d9-11e9-8846-f7ad4a36f4cd.png">
 
-tempest restart
+the tempest webserver will now restart the authentication System. this wil take a few seconds :
 
+<img width="200" alt="Tempest restart" src="https://user-images.githubusercontent.com/8255007/56486878-87c49900-64d9-11e9-9771-e5d08d612220.png">
 
-![image](https://user-images.githubusercontent.com/8255007/56486878-87c49900-64d9-11e9-9771-e5d08d612220.png)
+you can now login with your AAD credentials
 
+*HINT* if you are currently logged in into aad as a user *without* opsman access, the login might fail without aking for credentials
 
+<img width="200" alt="relogin" src="https://user-images.githubusercontent.com/8255007/56486941-bfcbdc00-64d9-11e9-8eba-18105059fb16.png">
 
-re-login with aad 
+we now have to apply chanes to the OpsmanDirector:
 
-![image](https://user-images.githubusercontent.com/8255007/56486941-bfcbdc00-64d9-11e9-8eba-18105059fb16.png)
+in sel
 
+## Post Tasks
 
+If you do
+- Using UAAC ( if OM already Configured )
+  
+target you opsman uaa endpoint, login with your Ops Manager User Account:
+```
+uaac target p uaac target https://pcfopsmangreen.pcfdemo.westus.stackpoc.com/uaa/
+uaac token owner get opsman "<youropsmanuaser>" -p "<youropsmanpassword>"
+uaac client add pre-created-client --authorized_grant_types client_credentials --authorities "opsman.admin scim.read scim.write zone.uaa uaa.admin" --secret example-secret
+```
 
 ## Troubleshooting
 
 [How to create a uaa client used for concourse pipelines in Operations Manager when SAML Authentication is enabled](https://community.pivotal.io/s/article/How-to-create-a-uaa-client-used-for-concourse-pipelines-in-Operations-Manager-when-SAML-Authentication-is-enabled)
 
-
 [Required UAA Scopes for Pipeline Automation](https://github.com/pivotal-cf/pcf-pipelines/blob/ae434bea5b4e3fa2b70051aa70c885dc2fa12218/upgrade-ops-manager/README.md#saml-for-authn-on-ops-manager)
 
+[OpsMan rescue Mode](https://community.pivotal.io/s/article/How-to-put-Ops-Manager-into-Rescue-Mode)
 
 
 
 
 
 
-
-
-
+https://pcf.pcfazure.labbuildr.com:443/uaa
