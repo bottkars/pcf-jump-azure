@@ -234,7 +234,7 @@ EOF
 pas-windows)
   if  [ ! -z ${LOAD_STEMCELL} ] ; then
     echo "calling stemmcell_loader for LOADING Stemcells"
-    $SCRIPT_DIR/stemcell_loader.sh -i 151 -s 1803.8
+    $SCRIPT_DIR/stemcell_loader.sh -i 151 -s 2019.2
   fi
   cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
 product_name: ${PRODUCT}
