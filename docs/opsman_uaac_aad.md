@@ -1,6 +1,6 @@
 ## Pivotal OPS Manager SAML integration with Azure Active Directory
 
-this guide should asssi when integrating OPSMAN with Azure Active Directory
+this guide should assist when integrating OPSMAN with Azure Active Directory
 
 ## Prerequisites
 

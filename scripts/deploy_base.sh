@@ -106,6 +106,12 @@ if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "availa
   ZONES_MAP="[name: 'zone-1', name: 'zone-2', name: 'zone-3']"
   SINGLETON_ZONE="zone-1"
   AVAILABILITY_MODE=availability_zones
+  
+elif [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "availability_sets" ]]
+  then
+  ZONES_LIST="Availability Sets"
+  SINGLETON_ZONE="Availability Sets"
+  AVAILABILITY_MODE=availability_sets
 else
   echo "Applying Availability Sets Based Config"
   ZONES="'null'"
