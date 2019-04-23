@@ -85,36 +85,40 @@ note id
 
 ## Opsman Config
 
-There are two ways to configure OpsMan wth SAML.
-One is during the Initial Authentication Config, that also allows to create an Admin Client:
+There are two ways to configure OpsMan with SAML.
+With all method´s, all pre-created Clients are removed from UAA and User Authentication is only vi OPSMAN UI or opsman Client using SSO
 
-### Create OPS Manager Admin Client
+However, when using the API, we can create a pre-configured client for automation
 
-If you do not have yet created an Automation Client for OPS Manager, do it *NOW*
-The Admin Client must be used for automation Tasks with e.g. om cli, as programmatically login is NOT avialble when using SAML
-There are several ways to create an OPS Manager Automation Client:
+### Configure authentication using the API
 
-1. When you first-time setup the Operations Manager ( from 2.5 ) by using the key *precreated_client_secret* :
+When you first-time setup the Operations Manager ( from 2.5 ) by using the key *precreated_client_secret* :
   
 ```bash
 curl "https://example.com/api/v0/setup" \
     -X POST \
     -H "Content-Type: application/json" \
     -d '{ "setup": {
+    "identity_provider": "saml",
     "decryption_passphrase": "example-passphrase",
     "decryption_passphrase_confirmation":"example-passphrase",
+    "idp_metadata": "https://saml.example.com:8080",
+    "bosh_idp_metadata": "https://bosh-saml.example.com:8080",
     "eula_accepted": "true",
-    "identity_provider": "internal",
-    "admin_user_name": "user-ed942e358eb61868dc87",
-    "admin_password": "example-password",
-    "admin_password_confirmation": "example-password",
-    "precreated_client_secret": "example-secret"
+    "http_proxy": "http://proxy.myenterprise.com",
+    "https_proxy": "https://proxy.myenterprise.com",
+    "no_proxy": "127.0.0.1",
+    "rbac_saml_admin_group": "opsman.full_control",
+    "rbac_saml_groups_attribute": "myenterprise",
+    "precreated_client_secret": "my-secret"
   } }'
 ```
 
-this will create an initial client id 'precreated-client' with the configured secret to be used for all automation tasks
+this will also create an initial client id 'precreated-client' with the configured secret to be used for all automation tasks
 
-2. From the Operation Manager Homepage, dropdown opsman settings on the right top menu
+### Configure Saml using Operation Manager Homepage
+
+From Opsman, dropdown opsman settings on the right top menu
 
 <img width="400" alt="USER_CLAIM" src="https://user-images.githubusercontent.com/8255007/56467811-0a8b1c80-6424-11e9-9ef2-f4f618b0cabb.png">
 
