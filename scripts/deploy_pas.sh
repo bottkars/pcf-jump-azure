@@ -52,16 +52,25 @@ for FILE in "${FILES[@]}"; do
     fi
 done
 
-if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]]
+if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "availability_zones" ]] 
  then
-  echo "Applying Availability Zones Based Network Config"
+  echo "Applying  Availability Zones Based Config"
   ZONES_LIST="['zone-1', 'zone-2', 'zone-3']"
   ZONES_MAP="[name: 'zone-1', name: 'zone-2', name: 'zone-3']"
   SINGLETON_ZONE="zone-1"
+  AVAILABILITY_MODE=availability_zones
+  
+elif [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "availability_sets" ]]
+  then
+  echo "Applying Availability Sets Based NULL Config"
+  ZONES_LIST="Availability Sets"
+  SINGLETON_ZONE="Availability Sets"
+  AVAILABILITY_MODE=availability_sets
 else
-  echo "Applying Null Zones Network Config"
-  ZONES="'null'"
-  SINGLETON_ZONE= "'null'"
+  echo "Applying Availability Sets Based NULL Config"
+  ZONES_LIST="'null'"
+  SINGLETON_ZONE="'null'"
+  AVAILABILITY_MODE=availability_sets
 fi
 
 START_PAS_DEPLOY_TIME=$(date)
