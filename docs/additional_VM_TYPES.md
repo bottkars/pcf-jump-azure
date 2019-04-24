@@ -53,5 +53,6 @@ om --env $HOME/om_pcf.env  curl --path /api/v0/vm_types --request GET
 replicate pas win:
 ```
 ./replicator-linux --name "PASWin2" --path injectded --output injected-1
+om --env om_pcf.env upload-product  --product ./injected-1
 ```
 
