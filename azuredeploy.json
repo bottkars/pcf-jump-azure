@@ -188,9 +188,10 @@
             "type": "string",
             "allowedValues": [
                 "2.5.0-build.158",
-                "2.5.1-build.169"
+                "2.5.1-build.169",
+                "2.5.2-build.172"
             ],   
-            "defaultValue": "2.5.1-build.169",
+            "defaultValue": "2.5.2-build.172",
             "metadata": {
                 "description": "The Version of the Operations Manager Image"
             }
