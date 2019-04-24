@@ -177,7 +177,8 @@ EOF
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
  configure-director --config ${TEMPLATE_DIR}/director_config.yaml --vars-file ${TEMPLATE_DIR}/director_vars.yaml
 
-retryop "om --skip-ssl-validation apply-changes" 2 10
+retryop "om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
+ apply-changes" 2 10
 
 
 echo checking deployed products
@@ -194,11 +195,7 @@ EOF
 
 sudo mkdir -p /var/tempest/workspaces/default
 sudo sh -c \
-  "om \
-    --skip-ssl-validation \
-    --target ${PCF_OPSMAN_FQDN} \
-    --username opsman \
-    --password ${PIVNET_UAA_TOKEN} \
+  "om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
     curl \
       --silent \
       --path "/api/v0/security/root_ca_certificate" |
