@@ -61,7 +61,6 @@ echo "done"
 
 OM_ENV_FILE="${HOME_DIR}/om_${ENV_NAME}.env"
 cat << EOF > ${OM_ENV_FILE}
-"
 ---
 target: ${PCF_OPSMAN_FQDN}
 connect-timeout: 30          # default 5
@@ -70,7 +69,6 @@ skip-ssl-validation: true   # default false
 username: ${PCF_OPSMAN_USERNAME}
 password: ${PIVNET_UAA_TOKEN}
 decryption-passphrase: ${PIVNET_UAA_TOKEN}
-"
 EOF
 
 
