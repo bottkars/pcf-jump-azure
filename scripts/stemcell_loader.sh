@@ -16,7 +16,7 @@ case $key in
     ;; 
     -i|--SLUG_ID)
     SLUG_ID=$2
-    echo "Stemcell Version ${STEMCELL_VER}"
+    echo "Slug ID ${SLUG_ID}"
     shift # past value ia arg value
     ;;        
     *)    # unknown option
@@ -48,9 +48,8 @@ else
  exit 1
 fi
 
-export OM_TARGET=${PCF_OPSMAN_FQDN}
-export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
+
+
 
 function getstemcell()
 {
@@ -61,11 +60,37 @@ PIVNET_UAA_TOKEN=$4
 echo "SLUG_ID $SLUG_ID"
 echo "FAMILY $FAMILY"
 
-PRODUCT_FILES=$(curl https://network.pivotal.io/api/v2/products/$SLUG_ID/releases \
-| jq -r --arg family "$FAMILY" '[.releases[]| (select(.version | contains($family)))._links.product_files.href][0]')
+PIVNET_ACCESS_TOKEN=$(curl \
+  --fail \
+  --header "Content-Type: application/json" \
+  --data "{\"refresh_token\": \"${PIVNET_UAA_TOKEN}\"}" \
+  https://network.pivotal.io/api/v2/authentication/access_tokens |\
+    jq -r '.access_token')
+
+
+RELEASES=$(curl \
+  --fail \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  https://network.pivotal.io/api/v2/products/$SLUG_ID/releases \
+| jq -r --arg family "$FAMILY" '[.releases[]| (select(.version | contains($family)))._links][0]')
+
+
+EULA_ACCEPTANCE_URL=$(echo $RELEASES | jq -r .eula_acceptance[])
+
+echo "Accepting EULA for 250 Stemmcell Family"
+curl \
+  --fail \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --request POST \
+  ${EULA_ACCEPTANCE_URL}
+
+
+PRODUCT_FILES=$(echo $RELEASES | jq -r .product_files[])
+
+
 
 echo "query product files"
-PRODUCT=$(curl $PRODUCT_FILES)
+PRODUCT=$(curl --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" $PRODUCT_FILES)
 PRODUCT_ID=$(echo $PRODUCT \
  | jq -r '.product_files[] | (select(.aws_object_key | contains("hyper"))).id')
 PRODUCT_VERSION=$(echo $PRODUCT \

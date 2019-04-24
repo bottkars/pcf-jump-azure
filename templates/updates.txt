@@ -13,3 +13,4 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/direc
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/kubernetes-service-manager/0.4.34/kubernetes-service-manager.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-healthwatch/1.5.2/p-healthwatch.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pivotal_single_sign-on_service/1.8.3/pivotal_single_sign-on_service.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-isolation-segment/2.5.2/p-isolation-segment.yaml

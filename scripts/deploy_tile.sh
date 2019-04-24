@@ -55,6 +55,7 @@ p-healthwatch \
 kubernetes-service-manager \
 pas-windows \
 pivotal_single_sign-on_service \
+p-isolation-segment \ 
 "
 
 if [[ " ${TILES} " =~ " $TILE " ]] 
