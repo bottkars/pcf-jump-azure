@@ -59,7 +59,7 @@ done
 echo "done"
 
 
-OM_ENV_FILE = "${HOME_DIR}/om_${ENV_NAME}.env"
+OM_ENV_FILE="${HOME_DIR}/om_${ENV_NAME}.env"
 cat << EOF > ${OM_ENV_FILE}
 "
 ---
