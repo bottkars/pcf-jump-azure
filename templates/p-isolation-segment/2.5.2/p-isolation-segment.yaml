@@ -24,3 +24,6 @@ product-properties:
           ((pcf_key_pem))
         cert_pem: |
           ((pcf_cert_pem))
+resource-config:
+  router:
+    instances: 0    
