@@ -13,7 +13,9 @@ product-properties:
   .properties.routing_tls_termination:
     value: router
   .isolated_router.request_timeout_in_seconds:
-    value: 240  
+    value: 240
+  .isolated_diego_cell.placement_tag:
+    value: Segment_1    
   .properties.networking_poe_ssl_certs:
     value:
     - name: default
