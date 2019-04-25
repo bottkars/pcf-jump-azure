@@ -250,10 +250,14 @@ p-isolation-segment)
     echo "calling stemmcell_loader for LOADING Stemcells"
     $SCRIPT_DIR/stemcell_loader.sh -s 250
   fi
+PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
+PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')  
   cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
 product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
+pcf_cert_pem: "${PCF_CERT_PEM}"
+pcf_key_pem: "${PCF_KEY_PEM}"
 zones_map: ${ZONES_MAP}
 zones_list: ${ZONES_LIST}
 EOF

@@ -5,3 +5,18 @@ network-properties:
   other_availability_zones: ((zones_map))
   singleton_availability_zone:
     name: ((singleton_zone))
+product-properties:
+  .ha_proxy.skip_cert_verify:
+    value: true
+  .properties.routing_tls_termination:
+    value: router
+  .router.frontend_idle_timeout:
+    value: 240  
+  .properties.networking_poe_ssl_certs:
+    value:
+    - name: default
+      certificate:
+        private_key_pem: |
+          ((pcf_key_pem))
+        cert_pem: |
+          ((pcf_cert_pem))
