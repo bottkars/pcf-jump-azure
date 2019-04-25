@@ -6,11 +6,11 @@ network-properties:
   singleton_availability_zone:
     name: ((singleton_zone))
 product-properties:
-  .ha_proxy.skip_cert_verify:
+  .properties.skip_cert_verify:
     value: true
   .properties.routing_tls_termination:
     value: router
-  .router.frontend_idle_timeout:
+  .isolated_router.request_timeout_in_seconds:
     value: 240  
   .properties.networking_poe_ssl_certs:
     value:
