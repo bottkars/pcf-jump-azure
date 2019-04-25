@@ -9,7 +9,7 @@ product-properties:
   .properties.skip_cert_verify:
     value: true
   .properties.haproxy_forward_tls:
-    value: false  
+    value: disable
   .properties.routing_tls_termination:
     value: router
   .isolated_router.request_timeout_in_seconds:
