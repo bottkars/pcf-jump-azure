@@ -15,13 +15,22 @@ password: Password123!
 # decryption-passphrase:
 ```
 
-create a list of vm types to be used using az vm list-sizes with query
+create a list of vm types to be used using az vm list-sizes with query (JMESpath does not allow a multi filter expression, so pultiple calls and piped filters ) 
 
 ```bash
 F_TYPES=$(az vm list-sizes --location westus2 --query "[?contains(name,'Standard_F')]" | jq .[])
 DSV2_TYPES=$(az vm list-sizes --location westus2 --query "[?contains(name,'Standard_DS')] | [?contains(name,'_v2')]" | jq .[])
 DSV3_TYPES=$(az vm list-sizes --location westus2 --query "[?contains(name,'Standard_D')] | [?contains(name,'s_v3')]" | jq .[])
 ```
+
+get current vm Types:
+
+```
+EXISTING_TYPES=$(om --env $HOME/om_pcf.env \
+curl --path /api/v0/vm_types  \
+--request GET | jq .vm_types[])
+```
+
 
 delete previous custom types
 
@@ -32,7 +41,7 @@ om \
    --request DELETE
 ```
 
-insert new custom vm types
+insert new custom vm types ( and eventuallay add EXISTING_TYPES if needed )
 
 ```bash
 om \
