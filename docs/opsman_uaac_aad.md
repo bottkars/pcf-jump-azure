@@ -29,10 +29,11 @@ From SSO, select the SAML Tile:
 
 ### Complete Step (1)the basic SAML configuration:
 
-The Reply Address is *https://<*your-ops-manager*>:443/uaa* . I *Highly Recommend* using the same for the Identifier (Entity ID) , as this helps you to stay unique with the Identifier  
-  
-<img width="300" alt="saml" src="https://user-images.githubusercontent.com/8255007/56282418-68abbd00-610f-11e9-93eb-9023469de92d.png">
-  
+The Reply Address is *https://<*your-ops-manager*>:443/uaa/saml/SSO/alias/<*your-ops-manager*>* . I *Highly Recommend* using the same for the Identifier (Entity ID) , as this helps you to stay unique with the Identifier  
+
+<img width="300" alt="saml" src="https://user-images.githubusercontent.com/8255007/56916725-ef6e7b80-6ab9-11e9-85b6-cecb6c973d7a.png">
+
+I also recommend switch to the *old* userinterface and upload the Metadata File from https://ops-man-fqdn/uaa/saml/metadata
 Click SAVE.
 
 Now an important step:
