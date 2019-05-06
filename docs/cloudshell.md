@@ -1,3 +1,4 @@
+```bash
 gcloud dns --project=pa-kbott record-sets transaction start --zone=labbuildr
 
 gcloud dns --project=pa-kbott record-sets transaction add \
@@ -44,3 +45,4 @@ ns3-10.azure-dns.org. \
  --name=pcfgitazure.labbuildr.com. --ttl=300 --type=NS --zone=labbuildr
 
 gcloud dns --project=pa-kbott record-sets transaction execute --zone=labbuildr
+```
