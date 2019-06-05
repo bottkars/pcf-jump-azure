@@ -93,11 +93,13 @@
 
         "PCFSpringVersion": {
             "type": "string",
-            "defaultValue": "2.0.7",
+            "defaultValue": "2.0.9",
             "allowedValues": [
                 "2.0.5",
                 "2.0.6",
-                "2.0.7"
+                "2.0.7",
+                "2.0.8",
+                "2.0.9"
             ],
             "metadata": {
                 "description": "The Version of the Spring Tile"
@@ -105,9 +107,10 @@
         },
         "PCFMysqlVersion": {
             "type": "string",
-            "defaultValue": "2.5.3",
+            "defaultValue": "2.5.4",
             "allowedValues": [
-                "2.5.3"
+                "2.5.3",
+                "2.5.4"
             ],
             "metadata": {
                 "description": "The Version of the pivotal-mysql Tile"
@@ -115,11 +118,12 @@
         },
         "PCFRabbitVersion": {
             "type": "string",
-            "defaultValue": "1.15.7",
+            "defaultValue": "1.16.3",
             "allowedValues": [
                 "1.15.4",
                 "1.15.3",
-                "1.15.7"
+                "1.15.7",
+                "1.16.3"
             ],
             "metadata": {
                 "description": "The Version of the Rabbit Tile"
@@ -127,7 +131,7 @@
         },
         "PCFPasVersion": {
             "type": "string",
-            "defaultValue": "2.5.1",
+            "defaultValue": "2.5.4",
             "allowedValues": [
                 "2.4.4",
                 "2.4.3",
@@ -135,7 +139,10 @@
                 "2.4.1",
                 "2.4.0",
                 "2.5.0",
-                "2.5.1"
+                "2.5.1",
+                "2.5.2",
+                "2.5.3",
+                "2.5.4"
             ],
             "metadata": {
                 "description": "The Version of the Pivotal Application Service"
@@ -174,11 +181,13 @@
         },
         "PASWindowsVersion": {
             "type": "string",
-            "defaultValue": "2.4.4",
+            "defaultValue": "2.5.2",
             "allowedValues": [
                 "2.4.4",
                 "2.4.3",
-                "2.5.0"
+                "2.5.0",
+                "2.5.1",
+                "2.5.2"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
@@ -189,9 +198,13 @@
             "allowedValues": [
                 "2.5.0-build.158",
                 "2.5.1-build.169",
-                "2.5.2-build.172"
+                "2.5.2-build.172",
+                "2.5.3-build.185",
+                "2.5.4-build.189",
+                "2.5.5-build.194",
+                "2.5.6-build.198"
             ],   
-            "defaultValue": "2.5.2-build.172",
+            "defaultValue": "2.5.6-build.198",
             "metadata": {
                 "description": "The Version of the Operations Manager Image"
             }

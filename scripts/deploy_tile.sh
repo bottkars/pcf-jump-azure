@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 source ~/.env.sh
-PIVNET_UAA_TOKEN=$PIVNET_UAA_TOKEN
 
-export OM_TARGET=${PCF_OPSMAN_FQDN}
-export OM_USERNAME=${PCF_OPSMAN_USERNAME}
-export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 cd ${HOME_DIR}
 MYSELF=$(basename $0)
 POSITIONAL=()
