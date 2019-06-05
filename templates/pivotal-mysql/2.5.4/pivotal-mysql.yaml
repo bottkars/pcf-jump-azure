@@ -26,7 +26,8 @@ product-properties:
     value: leader_follower
     selected_option: leader_follower  
   .properties.plan2_selector.leader_follower.az_multi_select:
-    value: ((zones_list))
+    value: 
+    - ((zones_list))
   .properties.plan3_selector:
     value: Inactive
     selected_option: inactive
