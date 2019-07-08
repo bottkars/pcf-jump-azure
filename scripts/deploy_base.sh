@@ -195,7 +195,7 @@ wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.5.0-linux-am
   sudo mv bosh /usr/local/bin/
 
 wget -O /tmp/bbr https://github.com/cloudfoundry-incubator/bosh-backup-and-restore/releases/download/v1.4.0/bbr-1.4.0-linux-amd64 && \
-    chmod +x bbr && \
+    chmod +x /tmp/bbr && \
   sudo mv /tmp/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
 
