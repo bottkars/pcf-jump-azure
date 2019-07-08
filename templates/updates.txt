@@ -1,5 +1,5 @@
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas/2.5.4/pas-srt.yaml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas/2.5.4/pas-cf.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas/2.5.5/pas-srt.yaml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas/2.5.5/pas-cf.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas-windows/2.5.2/pas-windows.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/masb.yaml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pivotal-mysql/2.5.4/pivotal-mysql.yaml
