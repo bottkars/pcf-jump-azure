@@ -14,9 +14,9 @@
 
 ```
 GROUP_ID=fd570d0b-ae8b-45f8-871e-7e40ef426dd8
-uaac group map --name scim.read ${GROUP_ID} --origin labbuildrAD
-uaac group map --name scim.write ${GROUP_ID} --origin labbuildrAD
-uaac group map --name cloud_controller.admin ${GROUP_ID} --origin labbuildrAD
+uaac group map --name scim.read ${GROUP_ID} --origin labbuildr
+uaac group map --name scim.write ${GROUP_ID} --origin labbuildr
+uaac group map --name cloud_controller.admin ${GROUP_ID} --origin labbuildr
 ```
 
 
