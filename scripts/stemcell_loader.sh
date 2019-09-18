@@ -59,6 +59,11 @@ DOWNLOAD_DIR=$3
 PIVNET_UAA_TOKEN=$4  
 echo "SLUG_ID $SLUG_ID"
 echo "FAMILY $FAMILY"
+## get pivnet token from vault
+TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
+PIVNET_UAA_TOKEN=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/PIVNETUAATOKEN?api-version=2016-10-01 -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+
+#Authenticate pivnet 
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
