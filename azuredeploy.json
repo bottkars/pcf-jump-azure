@@ -531,6 +531,9 @@
             "apiVersion": "2018-04-01",
             "type": "Microsoft.Compute/virtualMachines",
             "location": "[parameters('location')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },        
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/', variables('DiagnosticsStorageAccountName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
