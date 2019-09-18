@@ -1,6 +1,30 @@
 #!/usr/bin/env bash
-cd $1
-source ${1}/.env.sh
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -h|--HOME)
+    HOME_DIR="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if  [ -z ${HOME_DIR} ] ; then
+ echo "Please specify HOME DIR -h|--HOME"
+ exit 1
+fi 
+
+cd ${HOME_DIR}
+source ${HOME_DIR}/.env.sh
 MYSELF=$(basename $0)
 mkdir -p ${LOG_DIR}
 exec &> >(tee -a "${LOG_DIR}/${MYSELF}.$(date '+%Y-%m-%d-%H').log")
@@ -98,7 +122,16 @@ wget -q ${PATCH_SERVER}modules/pas/dns.tf -O ../modules/pas/dns.tf
 wget -q ${PATCH_SERVER}modules/pas/istiolb.tf -O ../modules/pas/istiolb.tf
 wget -q ${PATCH_SERVER}modules/pas/outputs.tf -O ../modules/pas/outputs.tf
 wget -q ${PATCH_SERVER}outputs.tf -O outputs.tf
-
+####### login with client and pave infra
+TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
+AZURE_SUBSCRIPTION_ID=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01" | jq -r .subscriptionId)
+AZURE_CLIENT_SECRET=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTSECRET?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+AZURE_CLIENT_ID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+AZURE_TENANT_ID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURETENANTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+az login --service-principal \
+  --username ${AZURE_CLIENT_ID} \
+  --password ${AZURE_CLIENT_SECRET} \
+  --tenant ${AZURE_TENANT_ID}
  # preparation work for terraform
 cat << EOF > terraform.tfvars
 client_id             = "${AZURE_CLIENT_ID}"
@@ -129,28 +162,6 @@ sudo -S -u ${ADMIN_USERNAME} terraform output ops_manager_ssh_private_key > ${HO
 # PCF_NETWORK=$(terraform output network_name)
 
 ## create network peerings
-
-####### login with client and pave infra
-TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
-AZURE_SUBSCRIPTION_ID=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01" | jq -r .subscriptionId)
-AZURE_CLIENT_SECRET=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTSECRET?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
-AZURE_CLIENT_ID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
-AZURE_TENANT_ID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURETENANTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
-az login --service-principal \
-  --username ${AZURE_CLIENT_ID} \
-  --password ${AZURE_CLIENT_SECRET} \
-  --tenant ${AZURE_TENANT_ID}
- 
-#####
-cd ./pivotal-cf-terraforming-azure-*/
-cd terraforming-pas
-
-# istio patches
-PATCH_SERVER="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/patches/"
-wget -q ${PATCH_SERVER}modules/pas/dns.tf -O ../modules/pas/dns.tf
-wget -q ${PATCH_SERVER}modules/pas/istiolb.tf -O ../modules/pas/istiolb.tf
-wget -q ${PATCH_SERVER}modules/pas/outputs.tf -O ../modules/pas/outputs.tf
-
 
 AZURE_NAMESERVERS=$(terraform output env_dns_zone_name_servers)
 SSH_PRIVATE_KEY="$(terraform output -json ops_manager_ssh_private_key | jq .value)"

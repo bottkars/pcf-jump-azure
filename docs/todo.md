@@ -50,3 +50,6 @@ _credentials
     }
   }
 }
+
+
+pivnet download-product-files --product-slug='stemcells-ubuntu-xenial' --release-version='250.95' --product-file-id=469503

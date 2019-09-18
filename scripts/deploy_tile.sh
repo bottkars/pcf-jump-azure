@@ -45,6 +45,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 TILES="apm \
 p-spring-cloud-services \
+p-spring-cloud-services-3 \
 pivotal-mysql \
 p-rabbitmq \
 p-healthwatch \
@@ -318,6 +319,19 @@ p-spring-cloud-services)
   if  [ ! -z ${LOAD_STEMCELL} ] ; then
     echo "calling stemmcell_loader for LOADING Stemcells"
     $SCRIPT_DIR/stemcell_loader.sh -s 97
+  fi
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
+product_name: ${PRODUCT_SLUG}
+pcf_pas_network: pcf-pas-subnet
+singleton_zone: ${SINGLETON_ZONE}
+zones_map: ${ZONES_MAP}
+zones_list: ${ZONES_LIST}
+EOF
+;;
+p-spring-cloud-services-3)
+  if  [ ! -z ${LOAD_STEMCELL} ] ; then
+    echo "calling stemmcell_loader for LOADING Stemcells"
+    $SCRIPT_DIR/stemcell_loader.sh -s 233
   fi
   cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT_SLUG}

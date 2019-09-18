@@ -203,4 +203,4 @@ $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 EOF
 )
 echo "Base install finished, now initializing opsman, see logfiles in ${LOG_DIR}"
-su ${ADMIN_USERNAME} -c "nohup ${SCRIPT_DIR}/om_init.sh ${HOME_DIR} >/dev/null 2>&1 &"
+su ${ADMIN_USERNAME} -c "nohup ${SCRIPT_DIR}/om_init.sh -h ${HOME_DIR} >/dev/null 2>&1 &"
