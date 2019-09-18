@@ -148,11 +148,11 @@ pcf_virtual_network_address_space = ["${NET_16_BIT_MASK}.0.0/16"]
 EOF
 chmod 755 terraform.tfvars
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
-sudo -S -u ${ADMIN_USERNAME} terraform init
-sudo -S -u ${ADMIN_USERNAME} terraform plan -out=plan
-retryop "sudo -S -u ${ADMIN_USERNAME} terraform apply -auto-approve" 3 10
+terraform init
+terraform plan -out=plan
+retryop "terraform apply -auto-approve" 3 10
 
-sudo -S -u ${ADMIN_USERNAME} terraform output ops_manager_ssh_private_key > ${HOME_DIR}/opsman
+terraform output ops_manager_ssh_private_key > ${HOME_DIR}/opsman
 # sudo -S -u ${ADMIN_USERNAME} chmod 600 ${HOME_DIR}/opsman
 
 # PCF_NETWORK=$(terraform output network_name)
