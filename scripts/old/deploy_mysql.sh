@@ -140,7 +140,7 @@ az storage container create --name backup \
 --account-name ${ENV_SHORT_NAME}mysqlbackup \
 --account-key ${MYSQL_STORAGE_KEY}
 
-cat << EOF > ${TEMPLATE_DIR}/mysql_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/mysql_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -152,7 +152,7 @@ EOF
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/mysql.yaml -l ${TEMPLATE_DIR}/mysql_vars.yaml
+  -c ${TEMPLATE_DIR}/mysql.yml -l ${TEMPLATE_DIR}/mysql_vars.yml
 
 
 echo $(date) start apply ${PRODUCT_SLUG}

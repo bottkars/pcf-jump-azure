@@ -172,7 +172,7 @@ MY_SQLDB_SERVER=$(az sql server show \
 fi
 
 
-cat << EOF > ${TEMPLATE_DIR}/masb_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/masb_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 azure_subscription_id: ${AZURE_SUBSCRIPTION_ID}
@@ -187,7 +187,7 @@ EOF
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/masb.yaml -l ${TEMPLATE_DIR}/masb_vars.yaml
+  -c ${TEMPLATE_DIR}/masb.yml -l ${TEMPLATE_DIR}/masb_vars.yml
 
 echo "$(date) start apply ${PRODUCT_SLUG}"
 

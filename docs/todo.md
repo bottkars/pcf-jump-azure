@@ -9,7 +9,13 @@
 
 
 
+```
 
+for file in $(find ./ -name '*.yaml')
+do
+  mv $file $(echo "$file" | sed 's|.yaml|.yml|g')
+done
+```
 
 dump
 

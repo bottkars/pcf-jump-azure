@@ -220,7 +220,7 @@ apm)
     echo "calling stemmcell_loader for LOADING Stemcells"
     $SCRIPT_DIR/stemcell_loader.sh -s 170
   fi
-  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
@@ -233,7 +233,7 @@ pas-windows)
     echo "calling stemmcell_loader for LOADING Stemcells"
     $SCRIPT_DIR/stemcell_loader.sh -i 151 -s 2019.2
   fi
-  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
@@ -248,7 +248,7 @@ p-isolation-segment)
   fi
 PCF_KEY_PEM=$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key | awk '{printf "%s\\r\\n", $0}')
 PCF_CERT_PEM=$(cat ${HOME_DIR}/fullchain.cer | awk '{printf "%s\\r\\n", $0}')  
-  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
@@ -286,7 +286,7 @@ EOF
     --account-name ${ENV_SHORT_NAME}mysqlbackup \
     --account-key ${MYSQL_STORAGE_KEY}
 
-    cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+    cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -304,7 +304,7 @@ if  [ ! -z ${LOAD_STEMCELL} ] ; then
   echo "calling stemmcell_loader for LOADING Stemcells"
   $SCRIPT_DIR/stemcell_loader.sh -s 170
 fi
-cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -319,7 +319,7 @@ p-spring-services)
     echo "calling stemmcell_loader for LOADING Stemcells"
     $SCRIPT_DIR/stemcell_loader.sh -s 97
   fi
-  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+  cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 singleton_zone: ${SINGLETON_ZONE}
@@ -332,7 +332,7 @@ if  [ ! -z ${LOAD_STEMCELL} ] ; then
   echo "calling stemmcell_loader for LOADING Stemcells"
   $SCRIPT_DIR/stemcell_loader.sh -s 97
 fi
-cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -348,7 +348,7 @@ if  [ ! -z ${LOAD_STEMCELL} ] ; then
   $SCRIPT_DIR/stemcell_loader.sh -s 97
 fi
 PRODUCT=Pivotal_Single_Sign-On_Service
-cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -359,7 +359,7 @@ zones_list: ${ZONES_LIST}
 EOF
 ;;
 kubernetes-service-manager)
-cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -423,14 +423,14 @@ assign-stemcell \
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/${TILE}.yaml -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
+  -c ${TEMPLATE_DIR}/${TILE}.yml -l ${TEMPLATE_DIR}/${TILE}_vars.yml
 
 case ${TILE} in
     pks)
     if  [ ! -z ${WAVEFRONT}  ]; then
     om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
       configure-product \
-      -c ${TEMPLATE_DIR}/wavefront.yaml -l ${TEMPLATE_DIR}/${TILE}_vars.yaml
+      -c ${TEMPLATE_DIR}/wavefront.yml -l ${TEMPLATE_DIR}/${TILE}_vars.yml
     fi
 esac
 

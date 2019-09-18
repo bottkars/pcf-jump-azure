@@ -118,14 +118,14 @@ assign-stemcell \
 --product ${PRODUCT_SLUG} \
 --stemcell latest
 
-cat << EOF > ${TEMPLATE_DIR}/spring_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/spring_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 EOF
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/p-spring-services.yaml -l ${TEMPLATE_DIR}/spring_vars.yaml
+  -c ${TEMPLATE_DIR}/p-spring-services.yml -l ${TEMPLATE_DIR}/spring_vars.yml
 
 
 echo $(date) start apply ${PRODUCT_SLUG}

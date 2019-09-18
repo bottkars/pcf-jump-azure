@@ -185,7 +185,7 @@ uaac client add myclient --authorized_grant_types client_credentials --authoriti
 
 create / modify an env.yml with similar content
 
-```yaml
+```yml
 target: https://pcfopsmangreen.pcfdemo.westus.stackpoc.com
 connect-timeout: 30          # default 5
 request-timeout: 1800        # default 1800

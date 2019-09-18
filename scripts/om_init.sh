@@ -31,10 +31,121 @@ START_OPSMAN_DEPLOY_TIME=$(date)
 echo ${START_OPSMAN_DEPLOY_TIME} start opsman deployment
 pushd ${HOME_DIR}
 
+
+###  setting secret env from vault 
+
+
+TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
+
+export TF_VAR_subscription_id=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01" | jq -r .subscriptionId)
+export TF_VAR_client_secret=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTSECRET?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+export TF_VAR_client_id=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+export TF_VAR_tenant_id=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURETENANTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+PIVNET_UAA_TOKEN=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/PIVNETUAATOKEN?api-version=2016-10-01 -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+
+###
+
+####ä##
+source ${ENV_DIR}/pas.env
+AUTHENTICATION_RESPONSE=$(curl \
+  --fail \
+  --data "{\"refresh_token\": \"${PIVNET_UAA_TOKEN}\"}" \
+  https://network.pivotal.io/api/v2/authentication/access_tokens)
+
+PIVNET_ACCESS_TOKEN=$(echo ${AUTHENTICATION_RESPONSE} | jq -r '.access_token')
+# Get the release JSON for the PAS version you want to install:
+
+RELEASE_JSON=$(curl \
+    --fail \
+    "https://network.pivotal.io/api/v2/products/${PRODUCT_SLUG}/releases/${RELEASE_ID}")
+
+# ACCEPTING EULA
+
+EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
+  jq -r '._links.eula_acceptance.href')
+
+curl \
+  --fail \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  --request POST \
+  ${EULA_ACCEPTANCE_URL}
+
+# GET TERRAFORM FOR PCF AZURE
+
+DOWNLOAD_ELEMENT=$(echo ${RELEASE_JSON} |\
+  jq -r '.product_files[] | select(.aws_object_key | contains("terraforming-azure"))')
+
+FILENAME=$(echo ${DOWNLOAD_ELEMENT} |\
+  jq -r '.aws_object_key | split("/") | last')
+
+URL=$(echo ${DOWNLOAD_ELEMENT} |\
+  jq -r '._links.download.href')
+
+# download terraform
+
+curl \
+  --fail \
+  --location \
+  --output ${FILENAME} \
+  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
+  ${URL}
+sudo -S -u ${ADMIN_USERNAME} unzip ${FILENAME}
 cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
 
+PATCH_SERVER="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/patches/"
+wget -q ${PATCH_SERVER}modules/pas/dns.tf -O ../modules/pas/dns.tf
+wget -q ${PATCH_SERVER}modules/pas/istiolb.tf -O ../modules/pas/istiolb.tf
+wget -q ${PATCH_SERVER}modules/pas/outputs.tf -O ../modules/pas/outputs.tf
+wget -q ${PATCH_SERVER}outputs.tf -O outputs.tf
 
+ # preparation work for terraform
+cat << EOF > terraform.tfvars
+client_id             = "${AZURE_CLIENT_ID}"
+client_secret         = "${AZURE_CLIENT_SECRET}"
+subscription_id       = "${AZURE_SUBSCRIPTION_ID}"
+tenant_id             = "${AZURE_TENANT_ID}"
+env_name              = "${ENV_NAME}"
+env_short_name        = "${ENV_SHORT_NAME}"
+ops_manager_image_uri = "${OPS_MANAGER_IMAGE_URI}"
+location              = "${LOCATION}"
+dns_suffix            = "${PCF_DOMAIN_NAME}"
+dns_subdomain         = "${PCF_SUBDOMAIN_NAME}"
+ops_manager_private_ip = "${NET_16_BIT_MASK}.8.4"
+pcf_infrastructure_subnet = "${NET_16_BIT_MASK}.8.0/26"
+pcf_pas_subnet = "${NET_16_BIT_MASK}.0.0/22"
+pcf_services_subnet = "${NET_16_BIT_MASK}.4.0/22"
+pcf_virtual_network_address_space = ["${NET_16_BIT_MASK}.0.0/16"]
+EOF
+chmod 755 terraform.tfvars
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
+sudo -S -u ${ADMIN_USERNAME} terraform init
+sudo -S -u ${ADMIN_USERNAME} terraform plan -out=plan
+retryop "sudo -S -u ${ADMIN_USERNAME} terraform apply -auto-approve" 3 10
+
+sudo -S -u ${ADMIN_USERNAME} terraform output ops_manager_ssh_private_key > ${HOME_DIR}/opsman
+# sudo -S -u ${ADMIN_USERNAME} chmod 600 ${HOME_DIR}/opsman
+
+# PCF_NETWORK=$(terraform output network_name)
+
+## create network peerings
+
+####### login with client and pave infra
+TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
+AZURE_SUBSCRIPTION_ID=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01" | jq -r .subscriptionId)
+AZURE_CLIENT_SECRET=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTSECRET?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+AZURE_CLIENT_ID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+AZURE_TENANT_ID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURETENANTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+az login --service-principal \
+  --username ${AZURE_CLIENT_ID} \
+  --password ${AZURE_CLIENT_SECRET} \
+  --tenant ${AZURE_TENANT_ID}
+ 
+#####
+cd ./pivotal-cf-terraforming-azure-*/
+cd terraforming-pas
+
+# istio patches
 PATCH_SERVER="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/patches/"
 wget -q ${PATCH_SERVER}modules/pas/dns.tf -O ../modules/pas/dns.tf
 wget -q ${PATCH_SERVER}modules/pas/istiolb.tf -O ../modules/pas/istiolb.tf
@@ -143,7 +254,7 @@ update-ssl-certificate \
     --private-key-pem "$(cat ${HOME_DIR}/${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)"
 
 cd ${HOME_DIR}
-cat << EOF > ${TEMPLATE_DIR}/director_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/director_vars.yml
 subscription_id: ${AZURE_SUBSCRIPTION_ID}
 tenant_id: ${AZURE_TENANT_ID}
 client_id: ${AZURE_CLIENT_ID}
@@ -175,7 +286,7 @@ EOF
 
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
- configure-director --config ${TEMPLATE_DIR}/director_config.yaml --vars-file ${TEMPLATE_DIR}/director_vars.yaml
+ configure-director --config ${TEMPLATE_DIR}/director_config.yml --vars-file ${TEMPLATE_DIR}/director_vars.yml
 
 retryop "om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
  apply-changes" 2 10

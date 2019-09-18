@@ -33,10 +33,10 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 - :new: automated bosh tasks / setup  
 - :new: specify download location for ops manager
 
-### Initial supported Pivotal Cloudfoundry Tiles and Versions
-- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotalapplicationservice@2x.png" height="16"> Pivotal Application Service 2.5.x
+### actual supported Pivotal Cloudfoundry Tiles and Versions
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotalapplicationservice@2x.png" height="16"> Pivotal Application Service 2.6.x
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotal_mysql@2x.png" height="16"> MySQL 2.6.x
-- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_rabbitmq_cf@2x.png" height="16"> RabbitMQ 1.15.4
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_rabbitmq_cf@2x.png" height="16"> RabbitMQ 1.16.x
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_spring_cloud_services_cf@2x.png" height="16"> Spring Cloud Services 2.0.x, 3.x.x
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_microsoft_azure_open_service_broker@2x.png" height="16"> Microsoft Azure Service Broker 1.11.0 ( MASB )
 -  additional, post install tiles
@@ -46,7 +46,11 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 ## Changes
 
-###2019.04
+2019.09
+- switched to PCF 2.6
+- added keyvault method
+- 
+2019.04
 - reworked installatzion process, implemented "tile deployer" as a unified deployment service
 - added PAS 2.5 including support for Availability Zones
 - Istio Mesh Support
@@ -54,17 +58,45 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 2019.01
 
 
+## requirements
+
+- a Azure Key Vault hosting all credentials / secrets required
+- service principal, needs to have owner rights on subscription in order to create custom roles and Managed Identities
+- a [pivotal network account ( pivnet )](network.pivotal.io) and a UAA access token
+
 ## usage
 
-there are are multiple ways to deploy the ARM template. we will describe Azure Portal Template based and az cli based Method  
+there are are multiple ways to deploy the ARM template. we will describe [Azure Portal Template based](#installation-using-template-deployment-preferred-for-first-time-users) and az cli based Method  
 
-## create a ssh keypair for the admin user ( if not already done )
+### create a ssh keypair for the admin user ( if not already done )
 
 both methods require an SSH Keypair
 
 ```bash
+JUMPBOX_NAME=<you jumpbox name, must be unique>
+ADMIN_USERNAME=ubuntu
 ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 ```
+
+### Create and Populate an  Azure Key Vault
+
+```bash
+## Set temporary Variables
+PIVNET_UAA_TOKEN=<your pivnet refresh token>
+SERVICE_PRINCIPAL=$(az ad sp create-for-rbac --name ServicePrincipalforPKS --output json)
+## SET the Following Secrets from the temporary Variables
+az keyvault secret set --vault-name ${AZURE_VAULT} \
+--name "AZURECLIENTID" --value $(echo $SERVICE_PRINCIPAL | jq -r .appId) --output none
+az keyvault secret set --vault-name ${AZURE_VAULT} \
+--name "AZURETENANTID" --value $(echo $SERVICE_PRINCIPAL | jq -r .tenant) --output none
+az keyvault secret set --vault-name ${AZURE_VAULT} \
+--name "AZURECLIENTSECRET" --value $(echo $SERVICE_PRINCIPAL | jq -r .password) --output none
+az keyvault secret set --vault-name ${AZURE_VAULT} \
+--name "PIVNETUAATOKEN" --value ${PIVNET_UAA_TOKEN} --output none
+## unset the temporary variables
+unset SERVICE_PRINCIPAL
+```
+
 
 ### installation using New Template Deployment
 
@@ -125,11 +157,8 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
-    clientSecret=${AZURE_CLIENT_SECRET} \
-    clientID=${AZURE_CLIENT_ID} \
-    tenantID=${AZURE_TENANT_ID} \
-    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PIVNET_UAA_TOKEN} \
+    keyVaultName=${AZURE_VAULT} \
+    keyVaultRG=${VAULT_RG} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     PCFDomainName=${PCF_DOMAIN_NAME} \
@@ -154,11 +183,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     adminUsername=${ADMIN_USERNAME} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
-    clientSecret=${AZURE_CLIENT_SECRET} \
-    clientID=${AZURE_CLIENT_ID} \
-    tenantID=${AZURE_TENANT_ID} \
-    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PIVNET_UAA_TOKEN} \
+    keyVaultName=${AZURE_VAULT} \
+    keyVaultRG=${VAULT_RG} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     PCFDomainName=${PCF_DOMAIN_NAME} \
@@ -182,11 +208,8 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
     JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
-    clientSecret=${AZURE_CLIENT_SECRET} \
-    clientID=${AZURE_CLIENT_ID} \
-    tenantID=${AZURE_TENANT_ID} \
-    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PIVNET_UAA_TOKEN} \
+    keyVaultName=${AZURE_VAULT} \
+    keyVaultRG=${VAULT_RG} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     opsmanImage=${OPS_MANAGER_IMAGE} \
@@ -198,6 +221,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     net16bitmask=${NET_16_BIT_MASK} \
     pasAutopilot=${PAS_AUTOPILOT} \
     pasVersion=${PCF_PAS_VERSION} \
+    pcfVersion=${PCF_VERSION} \
     smtpAddress=${SMTP_ADDRESS} \
     smtpIdentity=${SMTP_IDENTITY} \
     smtpPassword=${SMTP_PASSWORD} \
@@ -220,7 +244,7 @@ ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
 ```
 
 ```bash
-az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}                                                                 
+az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
 az group deployment create --resource-group ${JUMPBOX_RG} \
     --template-uri "https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH/azuredeploy.json" \
     --parameters \
@@ -228,11 +252,8 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     sshKeyData="$(cat ~/${JUMPBOX_NAME}.pub)" \
     adminUsername=${ADMIN_USERNAME} \
     JumphostDNSLabelPrefix=${JUMPBOX_NAME} \
-    clientSecret=${AZURE_CLIENT_SECRET} \
-    clientID=${AZURE_CLIENT_ID} \
-    tenantID=${AZURE_TENANT_ID} \
-    subscriptionID=${AZURE_SUBSCRIPTION_ID} \
-    pivnetToken=${PIVNET_UAA_TOKEN} \
+    keyVaultName=${AZURE_VAULT} \
+    keyVaultRG=${VAULT_RG} \
     envName=${ENV_NAME} \
     envShortName=${ENV_SHORT_NAME} \
     opsmanImage=${OPS_MANAGER_IMAGE} \

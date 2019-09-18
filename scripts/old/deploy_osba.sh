@@ -165,7 +165,7 @@ REDIS_KEY=$(az redis list-keys \
 --resource-group ${ENV_NAME}  \
 --query primaryKey --out tsv)
 
-cat << EOF > ${TEMPLATE_DIR}/osba_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/osba_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -183,7 +183,7 @@ EOF
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/osba.yaml -l ${TEMPLATE_DIR}/osba_vars.yaml
+  -c ${TEMPLATE_DIR}/osba.yml -l ${TEMPLATE_DIR}/osba_vars.yml
 
 
 

@@ -3,7 +3,7 @@
 ## Create a OM Env file :
 $HOME/om_pcf.env reflects your env file for opsman in format:
 
-```yaml
+```yml
 target: https://opsmanfqdn
 connect-timeout: 30          # default 5
 request-timeout: 1800        # default 1800

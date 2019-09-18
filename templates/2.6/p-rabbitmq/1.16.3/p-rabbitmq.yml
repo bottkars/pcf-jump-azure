@@ -1,0 +1,25 @@
+product-name: ((product_name))
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  service_network:
+    name: ((pcf_service_network))
+  other_availability_zones: ((zones_map))
+  singleton_availability_zone:
+    name: ((singleton_zone))
+product-properties:
+  .properties.syslog_selector:
+    value: disabled
+  .properties.on_demand_broker_plan_1_rabbitmq_az_placement:
+    value: 
+    - ((zones_list))
+  .properties.on_demand_broker_plan_1_disk_limit_acknowledgement:
+    value:
+    - acknowledge
+  .properties.multitenant_support:
+    value: enabled
+  .properties.multitenant_support.enabled.server_admin_credentials:
+    value:
+      identity: rabbitadmin
+      password: ((server_admin_password))
+

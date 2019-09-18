@@ -168,7 +168,7 @@ assign-stemcell \
 --stemcell latest
 
 echo $(date) start configure ${PRODUCT_NAME}
-cat << EOF > ${TEMPLATE_DIR}/pas_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/pas_vars.yml
 pcf_pas_network: pcf-pas-subnet
 pcf_system_domain: ${PCF_SYSTEM_DOMAIN}
 pcf_apps_domain: ${PCF_APPS_DOMAIN}
@@ -196,7 +196,7 @@ EOF
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/pas-${PAS_EDITION}.yaml -l ${TEMPLATE_DIR}/pas_vars.yaml
+  -c ${TEMPLATE_DIR}/pas-${PAS_EDITION}.yml -l ${TEMPLATE_DIR}/pas_vars.yml
 ###
 echo $(date) end configure ${PRODUCT_NAME}
 

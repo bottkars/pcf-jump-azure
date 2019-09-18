@@ -117,7 +117,7 @@ assign-stemcell \
 --stemcell latest
 
 
-cat << EOF > ${TEMPLATE_DIR}/rabbit_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/rabbit_vars.yml
 product_name: ${PRODUCT_SLUG}
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet
@@ -126,7 +126,7 @@ EOF
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/p-rabbitmq.yaml -l ${TEMPLATE_DIR}/rabbit_vars.yaml
+  -c ${TEMPLATE_DIR}/p-rabbitmq.yml -l ${TEMPLATE_DIR}/rabbit_vars.yml
 
 
 echo $(date) start apply ${PRODUCT_SLUG}

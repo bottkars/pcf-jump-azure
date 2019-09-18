@@ -33,14 +33,12 @@ function get_setting() {
   echo $value
 }
 
+METADATA=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01")
 custom_data_file="/var/lib/cloud/instance/user-data.txt"
 settings=$(cat ${custom_data_file})
+AZURE_VAULT=$(get_setting AZURE_VAULT)
 ADMIN_USERNAME=$(get_setting ADMIN_USERNAME)
-AZURE_CLIENT_ID=$(get_setting AZURE_CLIENT_ID)
-AZURE_CLIENT_SECRET=$(get_setting AZURE_CLIENT_SECRET)
-AZURE_SUBSCRIPTION_ID=$(get_setting AZURE_SUBSCRIPTION_ID)
-AZURE_TENANT_ID=$(get_setting AZURE_TENANT_ID)
-PIVNET_UAA_TOKEN=$(get_setting PIVNET_UAA_TOKEN)
+AZURE_SUBSCRIPTION_ID=$(echo $METADATA | jq -r .subscriptionId)
 ENV_NAME=$(get_setting ENV_NAME)
 ENV_SHORT_NAME=$(get_setting ENV_SHORT_NAME)
 OPS_MANAGER_IMAGE_URI=$(get_setting OPS_MANAGER_IMAGE_URI)
@@ -86,9 +84,9 @@ chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${SCRIPT_DIR}/*.sh
 chmod 755 ${SCRIPT_DIR}/*.sh
 chmod +X ${SCRIPT_DIR}/*.sh
 
-cp *.yaml ${TEMPLATE_DIR}
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${TEMPLATE_DIR}/*.yaml
-chmod 755 ${TEMPLATE_DIR}/*.yaml
+cp *.yml ${TEMPLATE_DIR}
+chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${TEMPLATE_DIR}/*.yml
+chmod 755 ${TEMPLATE_DIR}/*.yml
 
 cp *.env ${ENV_DIR}
 chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} ${ENV_DIR}/*.env
@@ -121,12 +119,8 @@ fi
 
 $(cat <<-EOF > ${HOME_DIR}/.env.sh
 #!/usr/bin/env bash
+AZURE_VAULT=${AZURE_VAULT}
 ADMIN_USERNAME="${ADMIN_USERNAME}"
-AZURE_CLIENT_SECRET="${AZURE_CLIENT_SECRET}"
-AZURE_CLIENT_ID="${AZURE_CLIENT_ID}"
-AZURE_TENANT_ID="${AZURE_TENANT_ID}"
-AZURE_SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID}"
-PIVNET_UAA_TOKEN="${PIVNET_UAA_TOKEN}"
 ENV_NAME="${ENV_NAME}"
 ENV_SHORT_NAME="${ENV_SHORT_NAME}"
 OPS_MANAGER_IMAGE_URI="${OPS_MANAGER_IMAGE_URI}"
@@ -174,119 +168,37 @@ sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
 
 sudo apt install software-properties-common 
 sudo add-apt-repository ppa:tmate.io/archive --yes
+# ...first add the Cloud Foundry Foundation public key and package repository to your system
+wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+sudo wget -q -O - https://raw.githubusercontent.com/starkandwayne/homebrew-cf/master/public.key | sudo  apt-key add -
+sudo echo "deb http://apt.starkandwayne.com stable main" | sudo  tee /etc/apt/sources.list.d/starkandwayne.list
+# ...then, update your local package index, then finally install the cf CLI
 sudo apt update
 
-retryop "sudo apt -y install azure-cli unzip tmate" 10 30
+retryop "sudo apt -y install azure-cli unzip tmate cf-cli om" 10 30
 
 
 retryop "sudo apt -y install ruby ruby-dev gcc build-essential g++" 10 30
 sudo gem install cf-uaac
 
-wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip && \
+wget -O terraform.zip https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linux_amd64.zip && \
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-wget -O om https://github.com/pivotal-cf/om/releases/download/1.1.0/om-linux && \
-  chmod +x om && \
-  sudo mv om /usr/local/bin/
 
-wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.5.0-linux-amd64 && \
+
+wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-6.0.0-linux-amd64 && \
   chmod +x bosh && \
   sudo mv bosh /usr/local/bin/
 
-wget -O /tmp/bbr https://github.com/cloudfoundry-incubator/bosh-backup-and-restore/releases/download/v1.4.0/bbr-1.4.0-linux-amd64 && \
+wget -O /tmp/bbr https://github.com/cloudfoundry-incubator/bosh-backup-and-restore/releases/download/v1.5.2/bbr-1.5.2-linux-amd64 && \
     chmod +x /tmp/bbr && \
   sudo mv /tmp/bbr /usr/local/bin/
 # get pivnet UAA TOKEN
 
 cd ${HOME_DIR}
-source ${ENV_DIR}/pas.env
-AUTHENTICATION_RESPONSE=$(curl \
-  --fail \
-  --data "{\"refresh_token\": \"${PIVNET_UAA_TOKEN}\"}" \
-  https://network.pivotal.io/api/v2/authentication/access_tokens)
 
-PIVNET_ACCESS_TOKEN=$(echo ${AUTHENTICATION_RESPONSE} | jq -r '.access_token')
-# Get the release JSON for the PAS version you want to install:
-
-RELEASE_JSON=$(curl \
-    --fail \
-    "https://network.pivotal.io/api/v2/products/${PRODUCT_SLUG}/releases/${RELEASE_ID}")
-
-# ACCEPTING EULA
-
-EULA_ACCEPTANCE_URL=$(echo ${RELEASE_JSON} |\
-  jq -r '._links.eula_acceptance.href')
-
-curl \
-  --fail \
-  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
-  --request POST \
-  ${EULA_ACCEPTANCE_URL}
-
-# GET TERRAFORM FOR PCF AZURE
-
-DOWNLOAD_ELEMENT=$(echo ${RELEASE_JSON} |\
-  jq -r '.product_files[] | select(.aws_object_key | contains("terraforming-azure"))')
-
-FILENAME=$(echo ${DOWNLOAD_ELEMENT} |\
-  jq -r '.aws_object_key | split("/") | last')
-
-URL=$(echo ${DOWNLOAD_ELEMENT} |\
-  jq -r '._links.download.href')
-
-# download terraform
-
-curl \
-  --fail \
-  --location \
-  --output ${FILENAME} \
-  --header "Authorization: Bearer ${PIVNET_ACCESS_TOKEN}" \
-  ${URL}
-sudo -S -u ${ADMIN_USERNAME} unzip ${FILENAME}
-cd ./pivotal-cf-terraforming-azure-*/
-cd terraforming-pas
-
-PATCH_SERVER="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/patches/"
-wget -q ${PATCH_SERVER}modules/pas/dns.tf -O ../modules/pas/dns.tf
-wget -q ${PATCH_SERVER}modules/pas/istiolb.tf -O ../modules/pas/istiolb.tf
-wget -q ${PATCH_SERVER}modules/pas/outputs.tf -O ../modules/pas/outputs.tf
-wget -q ${PATCH_SERVER}outputs.tf -O outputs.tf
-
- # preparation work for terraform
-cat << EOF > terraform.tfvars
-client_id             = "${AZURE_CLIENT_ID}"
-client_secret         = "${AZURE_CLIENT_SECRET}"
-subscription_id       = "${AZURE_SUBSCRIPTION_ID}"
-tenant_id             = "${AZURE_TENANT_ID}"
-env_name              = "${ENV_NAME}"
-env_short_name        = "${ENV_SHORT_NAME}"
-ops_manager_image_uri = "${OPS_MANAGER_IMAGE_URI}"
-location              = "${LOCATION}"
-dns_suffix            = "${PCF_DOMAIN_NAME}"
-dns_subdomain         = "${PCF_SUBDOMAIN_NAME}"
-ops_manager_private_ip = "${NET_16_BIT_MASK}.8.4"
-pcf_infrastructure_subnet = "${NET_16_BIT_MASK}.8.0/26"
-pcf_pas_subnet = "${NET_16_BIT_MASK}.0.0/22"
-pcf_services_subnet = "${NET_16_BIT_MASK}.4.0/22"
-pcf_virtual_network_address_space = ["${NET_16_BIT_MASK}.0.0/16"]
-EOF
-chmod 755 terraform.tfvars
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
-sudo -S -u ${ADMIN_USERNAME} terraform init
-sudo -S -u ${ADMIN_USERNAME} terraform plan -out=plan
-retryop "sudo -S -u ${ADMIN_USERNAME} terraform apply -auto-approve" 3 10
-
-sudo -S -u ${ADMIN_USERNAME} terraform output ops_manager_ssh_private_key > ${HOME_DIR}/opsman
-# sudo -S -u ${ADMIN_USERNAME} chmod 600 ${HOME_DIR}/opsman
-
-# PCF_NETWORK=$(terraform output network_name)
-
-## create network peerings
-
-
-END_BASE_DEPLOY_TIME=$(date)
-echo ${END_BASE_DEPLOY_TIME} end base deployment
 $(cat <<-EOF >> ${HOME_DIR}/.env.sh
 EOF
 )

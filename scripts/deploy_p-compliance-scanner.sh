@@ -39,7 +39,7 @@ shift
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-cat << EOF > ${TEMPLATE_DIR}/${PRODUCT_SLUG}_vars.yaml
+cat << EOF > ${TEMPLATE_DIR}/${PRODUCT_SLUG}_vars.yml
 product_name: scanner
 pcf_pas_network: pcf-pas-subnet
 pcf_service_network: pcf-services-subnet

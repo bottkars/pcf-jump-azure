@@ -16,45 +16,20 @@
                 "description": "ssh Public Key"
             }
         },
-        "clientID": {
-            "minLength": "36",
-            "maxLength": "36",
+        "keyVaultName": {
             "type": "string",
+            "minLength": 3,
             "metadata": {
-                "description": "AzureService Principal"
+                "description": "Name of Azure Vault for Secrets"
             }
         },
-        "tenantID": {
+        "keyVaultRG": {
             "type": "string",
-            "minLength": "36",
-            "maxLength": "36",
+            "minLength": 3,
             "metadata": {
-                "description": "AzureService Tenant ID"
+                "description": "Name of Resource Group hosting Azure KeyVault for Secrets within Tenant"
             }
-        },
-        "subscriptionID": {
-            "type": "string",
-            "minLength": "36",
-            "maxLength": "36",
-            "metadata": {
-                "description": "AzureService Tenant ID"
-            }
-        },
-        "clientSecret": {
-            "type": "string",
-            "minLength": "36",
-            "metadata": {
-                "description": "Azure Service Principal Secret"
-            }
-        },
-        "pivnetToken": {
-            "type": "string",
-            "minLength": "34",
-            "maxLength": "34",
-            "metadata": {
-                "description": "pivnet refresh token"
-            }
-        },
+        },        
         "envShortName": {
             "type": "string",
             "minLength": "3",
@@ -90,17 +65,27 @@
                 "description": "the Environment name for azure, will be a Prefix for PCF Resources"
             }
         },
-
-        "PCFSpringVersion": {
+        "pcfVersion": {
             "type": "string",
-            "defaultValue": "2.0.9",
+            "defaultValue": "2.6",
+            "allowedValues": [
+                "2.5",
+                "2.6"
+            ],
+            "metadata": {
+                "description": "The Version of the pivotal-mysql Tile"
+            }
+        },        "PCFSpringVersion": {
+            "type": "string",
+            "defaultValue": "2.0.11",
             "allowedValues": [
                 "2.0.5",
                 "2.0.6",
                 "2.0.7",
                 "2.0.8",
                 "2.0.9",
-                "2.0.10"
+                "2.0.10",
+                "2.0.11"
             ],
             "metadata": {
                 "description": "The Version of the Spring Tile"
@@ -108,10 +93,11 @@
         },
         "PCFMysqlVersion": {
             "type": "string",
-            "defaultValue": "2.5.4",
+            "defaultValue": "2.6.3",
             "allowedValues": [
                 "2.5.3",
-                "2.5.4"
+                "2.5.4",
+                "2.6.3"
             ],
             "metadata": {
                 "description": "The Version of the pivotal-mysql Tile"
@@ -124,7 +110,8 @@
                 "1.15.4",
                 "1.15.3",
                 "1.15.7",
-                "1.16.3"
+                "1.16.3",
+                "1.16.5"
             ],
             "metadata": {
                 "description": "The Version of the Rabbit Tile"
@@ -132,18 +119,14 @@
         },
         "PCFPasVersion": {
             "type": "string",
-            "defaultValue": "2.5.4",
+            "defaultValue": "2.6.5",
             "allowedValues": [
-                "2.4.4",
-                "2.4.3",
-                "2.4.2",
-                "2.4.1",
-                "2.4.0",
                 "2.5.0",
                 "2.5.1",
                 "2.5.2",
                 "2.5.3",
-                "2.5.4"
+                "2.5.4",
+                "2.6.5"
             ],
             "metadata": {
                 "description": "The Version of the Pivotal Application Service"
@@ -161,9 +144,9 @@
         },
         "PCFApmVersion": {
             "type": "string",
-            "defaultValue": "1.6.0",
+            "defaultValue": "1.6.1",
             "allowedValues": [
-                "1.6.0"
+                "1.6.1"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
@@ -171,10 +154,11 @@
         },
         "PCFHealthwatchVersion": {
             "type": "string",
-            "defaultValue": "1.5.2",
+            "defaultValue": "1.6.3",
             "allowedValues": [
                 "1.4.5",
-                "1.5.2"
+                "1.5.2",
+                "1.6.3"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
@@ -182,13 +166,9 @@
         },
         "PASWindowsVersion": {
             "type": "string",
-            "defaultValue": "2.5.2",
+            "defaultValue": "2.6.4",
             "allowedValues": [
-                "2.4.4",
-                "2.4.3",
-                "2.5.0",
-                "2.5.1",
-                "2.5.2"
+                "2.6.4"
             ],
             "metadata": {
                 "description": "The Version of the Azure Service Broker Tile"
@@ -203,9 +183,19 @@
                 "2.5.3-build.185",
                 "2.5.4-build.189",
                 "2.5.5-build.194",
-                "2.5.6-build.198"
+                "2.5.6-build.198",
+                "2.5.7-build.208",
+                "2.6.1-build.156",
+                "2.6.2-build.159",
+                "2.6.3-build.163",
+                "2.6.4-build.166",
+                "2.6.5-build.173",
+                "2.6.6-build.179",
+                "2.6.7-build.187",
+                "2.6.8-build.192",
+                "2.6.9-build.201"
             ],   
-            "defaultValue": "2.5.6-build.198",
+            "defaultValue": "2.6.9-build.201",
             "metadata": {
                 "description": "The Version of the Operations Manager Image"
             }
@@ -347,7 +337,7 @@
         },
         "availabilityMode": {
             "type": "string",
-            "defaultValue": "availability_sets",
+            "defaultValue": "availability_zones",
             "allowedValues": [
                 "availability_sets",
                 "availability_zones"
@@ -405,26 +395,67 @@
             "[concat(variables('baseUri'),  '/scripts/om_init.sh')]",
             "[concat(variables('baseUri'),  '/scripts/deploy_tile.sh')]",
             "[concat(variables('baseUri'),  '/scripts/stemcell_loader.sh')]",
-            "[concat(variables('baseUri'),  '/templates/pas/',parameters('PCFPasVersion'),'/pas-',parameters('pasEdition'),'.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/p-rabbitmq/',parameters('PCFRabbitVersion'),'/p-rabbitmq.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/p-spring-services/',parameters('PCFSpringVersion'),'/p-spring-services.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/apm/',parameters('PCFApmVersion'),'/apm.yaml')]",
-            "[concat(variables('baseUri'),  '/templates/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.yaml')]",            
-            "[concat(variables('baseUri'),  '/templates/masb/',parameters('PCFMasbVersion'),'/masb.yaml')]",            
-            "[concat(variables('baseUri'),  '/env/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.env')]",
-            "[concat(variables('baseUri'),  '/env/pas/',parameters('PCFPasVersion'),'/pas.env')]",
-            "[concat(variables('baseUri'),  '/env/masb/',parameters('PCFMasbVersion'),'/masb.env')]",            
-            "[concat(variables('baseUri'),  '/env/p-rabbitmq/',parameters('PCFRabbitVersion'),'/p-rabbitmq.env')]",
-            "[concat(variables('baseUri'),  '/env/p-spring-services/',parameters('PCFSpringVersion'),'/p-spring-services.env')]",
-            "[concat(variables('baseUri'),  '/env/apm/',parameters('PCFApmVersion'),'/apm.env')]",
-            "[concat(variables('baseUri'),  '/env/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.env')]",
-            "[concat(variables('baseUri'),  '/env/pas-windows/',parameters('PASWindowsVersion'),'/pas-windows.env')]",
-            "[concat(variables('baseUri'),  '/templates/director_config.yaml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pcfVersion'),'/pas/',parameters('PCFPasVersion'),'/pas-',parameters('pasEdition'),'.yml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pcfVersion'),'/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.yml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pcfVersion'),'/p-rabbitmq/',parameters('PCFRabbitVersion'),'/p-rabbitmq.yml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pcfVersion'),'/p-spring-services/',parameters('PCFSpringVersion'),'/p-spring-services.yml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pcfVersion'),'/apm/',parameters('PCFApmVersion'),'/apm.yml')]",
+            "[concat(variables('baseUri'),  '/templates/',parameters('pcfVersion'),'/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.yml')]",            
+            "[concat(variables('baseUri'),  '/templates/',parameters('pcfVersion'),'/masb/',parameters('PCFMasbVersion'),'/masb.yml')]",            
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/pivotal-mysql/',parameters('PCFMysqlVersion'),'/pivotal-mysql.env')]",
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/pas/',parameters('PCFPasVersion'),'/pas.env')]",
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/masb/',parameters('PCFMasbVersion'),'/masb.env')]",            
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/p-rabbitmq/',parameters('PCFRabbitVersion'),'/p-rabbitmq.env')]",
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/p-spring-services/',parameters('PCFSpringVersion'),'/p-spring-services.env')]",
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/apm/',parameters('PCFApmVersion'),'/apm.env')]",
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/p-healthwatch/',parameters('PCFHealthwatchVersion'),'/p-healthwatch.env')]",
+            "[concat(variables('baseUri'),  '/env/',parameters('pcfVersion'),'/pas-windows/',parameters('PASWindowsVersion'),'/pas-windows.env')]",
+            "[concat(variables('baseUri'),  '/templates/director_config.yml')]",
             "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
         ]
     },
     "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "nestedTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('keyVaultRG')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.KeyVault/vaults/accessPolicies",
+                            "name": "[concat(parameters('keyVaultName'), '/add')]",
+                            "apiVersion": "2018-02-14",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "accessPolicies": [
+                                    {
+                                        "tenantId": "[subscription().tenantId]",
+                                        "objectId": "[reference(concat(resourceId('Microsoft.Compute/virtualMachines', variables('vmName')), '/providers/Microsoft.ManagedIdentity/Identities/default'), '2015-08-31-PREVIEW').principalId]",
+                                        "permissions": {
+                                            "secrets": [
+                                                "get",
+                                                "list"
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "parameters": {}
+            }
+        },
         {
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('DiagnosticsStorageAccountName')]",
@@ -586,12 +617,8 @@
                 "parameters": {
                     "customData": {
                         "value": {
-                            "AZURE_CLIENT_ID": "[parameters('clientID')]",
-                            "AZURE_CLIENT_SECRET": "[parameters('clientSecret')]",
                             "ADMIN_USERNAME": "[parameters('adminUsername')]",
-                            "AZURE_SUBSCRIPTION_ID": "[parameters('subscriptionID')]",
-                            "AZURE_TENANT_ID": "[parameters('tenantID')]",
-                            "PIVNET_UAA_TOKEN": "[parameters('pivnetToken')]",
+                            "AZURE_VAULT": "[parameters('keyVaultName')]",
                             "ENV_NAME": "[parameters('envName')]",
                             "ENV_SHORT_NAME": "[parameters('envShortName')]",
                             "OPS_MANAGER_IMAGE_URI": "[concat('https://opsmanager',parameters('opsmanImageregion'),'.blob.core.windows.net/images/ops-manager-',parameters('opsmanImage'),'.vhd')]",
