@@ -117,11 +117,12 @@ sudo -S -u ${ADMIN_USERNAME} unzip ${FILENAME}
 cd ./pivotal-cf-terraforming-azure-*/
 cd terraforming-pas
 
-PATCH_SERVER="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/patches/"
+PATCH_SERVER="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/patches/"
 wget -q ${PATCH_SERVER}modules/pas/dns.tf -O ../modules/pas/dns.tf
 wget -q ${PATCH_SERVER}modules/pas/istiolb.tf -O ../modules/pas/istiolb.tf
 wget -q ${PATCH_SERVER}modules/pas/outputs.tf -O ../modules/pas/outputs.tf
 wget -q ${PATCH_SERVER}outputs.tf -O outputs.tf
+wget -q ${PATCH_SERVER}main.tf -O main.tf
 ####### login with client and pave infra
 TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
 AZURE_SUBSCRIPTION_ID=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01" | jq -r .subscriptionId)
@@ -147,7 +148,6 @@ pcf_services_subnet = "${NET_16_BIT_MASK}.4.0/22"
 pcf_virtual_network_address_space = ["${NET_16_BIT_MASK}.0.0/16"]
 EOF
 chmod 755 terraform.tfvars
-chown ${ADMIN_USERNAME}.${ADMIN_USERNAME} terraform.tfvars
 terraform init
 terraform plan -out=plan
 retryop "terraform apply -auto-approve" 3 10
