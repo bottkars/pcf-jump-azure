@@ -23,7 +23,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 - automated opsman deployment and configuration
 - pas infrastructure paving
-- :new: autopilot for starting pas, mysql, p-rabbitmq and p-spring-services deployment (will take several hours )
+- :new: autopilot for starting pas, mysql, p-rabbitmq and p-spring-cloud-services deployment (will take several hours )
 - certificate generation using selfsigned or let´s encrypt [certificates](#certificates)
 - :new: [sendgrid](/sendgrid.md) integration for notifications and user sign up
 - :new: dns configuration and check
@@ -355,7 +355,7 @@ requires pas deployed
 ./deploy_rabbit.sh
 ```
 
-### p-spring-services service
+### p-spring-cloud-services service
 
 requires pas, p-rabbitmq and mysql deployed
 

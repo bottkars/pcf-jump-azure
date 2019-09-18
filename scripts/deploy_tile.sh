@@ -44,7 +44,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 TILES="apm \
-p-spring-services \
+p-spring-cloud-services \
 pivotal-mysql \
 p-rabbitmq \
 p-healthwatch \
@@ -314,7 +314,7 @@ zones_list: ${ZONES_LIST}
 opsman_enable_url: https://${PCF_OPSMAN_FQDN}
 EOF
 ;;  
-p-spring-services)
+p-spring-cloud-services)
   if  [ ! -z ${LOAD_STEMCELL} ] ; then
     echo "calling stemmcell_loader for LOADING Stemcells"
     $SCRIPT_DIR/stemcell_loader.sh -s 97

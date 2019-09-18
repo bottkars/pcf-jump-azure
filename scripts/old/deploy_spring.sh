@@ -41,7 +41,7 @@ export OM_PASSWORD="${PIVNET_UAA_TOKEN}"
 START_SPRING_DEPLOY_TIME=$(date)
 
 
-source ${ENV_DIR}/p-spring-services.env
+source ${ENV_DIR}/p-spring-cloud-services.env
 
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
@@ -125,7 +125,7 @@ EOF
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
-  -c ${TEMPLATE_DIR}/p-spring-services.yml -l ${TEMPLATE_DIR}/spring_vars.yml
+  -c ${TEMPLATE_DIR}/p-spring-cloud-services.yml -l ${TEMPLATE_DIR}/spring_vars.yml
 
 
 echo $(date) start apply ${PRODUCT_SLUG}

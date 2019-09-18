@@ -5,7 +5,7 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pivotal-mys
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/p-rabbitmq/1.15.7/p-rabbitmq.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pas/2.5.5/pas.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pas-windows/2.5.1/pas-windows.env
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/p-spring-services/2.0.7/p-spring-services.env
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/p-spring-cloud-services/2.0.7/p-spring-cloud-services.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/kubernetes-service-manager/0.4.34/kubernetes-service-manager.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/p-healthwatch/1.5.2/p-healthwatch.env
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/env/pivotal_single_sign-on_service/1.8.3/pivotal_single_sign-on_service.env

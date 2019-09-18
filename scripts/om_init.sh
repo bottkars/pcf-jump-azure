@@ -324,5 +324,5 @@ if [ "${PAS_AUTOPILOT}" = "TRUE" ]; then
     ${SCRIPT_DIR}/deploy_pas.sh --DO_NOT_APPLY_CHANGES -s
     ${SCRIPT_DIR}/deploy_tile.sh -t pivotal-mysql --DO_NOT_APPLY_CHANGES -s
     ${SCRIPT_DIR}/deploy_tile.sh -t p-rabbitmq --DO_NOT_APPLY_CHANGES -s
-    ${SCRIPT_DIR}/deploy_tile.sh -t p-spring-services -s --APPLY_ALL
+    ${SCRIPT_DIR}/deploy_tile.sh -t p-spring-cloud-services -s --APPLY_ALL
 fi

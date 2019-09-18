@@ -4,7 +4,7 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pas-w
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/masb.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/pivotal-mysql/2.5.4/pivotal-mysql.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/healthwatch.yml
-https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-spring-services/2.0.9/p-spring-services.yml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-spring-cloud-services/2.0.9/p-spring-cloud-services.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/apm/1.6.0/apm.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/master/templates/director_config.yml
