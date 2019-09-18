@@ -19,9 +19,7 @@ product-properties:
   .router.frontend_idle_timeout:
     value: 240  
   .properties.security_acknowledgement:
-    value: X
-  .properties.stack_migration_acknowledgement:
-    value: X      
+    value: X   
   .mysql_monitor.recipient_email:
     value: ((pcf_notifications_email))
   .uaa.service_provider_key_credentials:
