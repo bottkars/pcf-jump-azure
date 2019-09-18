@@ -666,7 +666,7 @@
                     "timestamp": 2
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat('bash -l -c \"./deploy_base.sh', ' ', parameters('tenantID'), ' ', parameters('clientID'), ' ', parameters('clientSecret'), ' 2>&1 | tee /home/', parameters('adminUsername'), '/install.log\"')]"
+                    "commandToExecute": "[concat('bash -l -c \"./deploy_base.sh  2>&1 | tee /home/', parameters('adminUsername'), '/install.log\"')]"
                 }
             }
         }
