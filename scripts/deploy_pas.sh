@@ -166,7 +166,7 @@ om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 echo $(date) end staging ${PRODUCT_SLUG} 
 
 
-$SCRIPT_DIR/stemcell_loader.sh -s 250
+$SCRIPT_DIR/stemcell_loader.sh -s 315
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 assign-stemcell \
