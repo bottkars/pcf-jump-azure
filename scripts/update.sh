@@ -12,7 +12,7 @@ if ! which parallel > /dev/null; then
    sudo apt install parallel -y
 fi   
 
-
+sudo apt install om -y
 
 echo "Preparing Updates"
 declare -a DIRECTORIES=("scripts" "env" "templates")
