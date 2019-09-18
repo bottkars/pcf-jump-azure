@@ -5,7 +5,7 @@ provider "azurerm" {
   tenant_id       = "${var.tenant_id}"
   environment     = "${var.cloud_name}"
 
-  version = "= 1.31"
+  version = "< 1.31"
 }
 
 terraform {
