@@ -95,6 +95,7 @@ PIVNET_UAA_TOKEN=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/PIVNETUAA
 
 #Authenticate pivnet 
 
+
 PIVNET_ACCESS_TOKEN=$(curl \
   --fail \
   --header "Content-Type: application/json" \
