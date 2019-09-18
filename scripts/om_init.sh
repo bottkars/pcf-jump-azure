@@ -134,10 +134,6 @@ az login --service-principal \
   --tenant ${AZURE_TENANT_ID}
  # preparation work for terraform
 cat << EOF > terraform.tfvars
-client_id             = "${AZURE_CLIENT_ID}"
-client_secret         = "${AZURE_CLIENT_SECRET}"
-subscription_id       = "${AZURE_SUBSCRIPTION_ID}"
-tenant_id             = "${AZURE_TENANT_ID}"
 env_name              = "${ENV_NAME}"
 env_short_name        = "${ENV_SHORT_NAME}"
 ops_manager_image_uri = "${OPS_MANAGER_IMAGE_URI}"
