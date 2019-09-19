@@ -41,8 +41,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_microsoft_azure_open_service_broker@2x.png" height="16"> Microsoft Azure Service Broker 1.11.0 ( MASB )
 -  additional, post install tiles
 
-![image](https://user-images.githubusercontent.com/8255007/53223791-cc1af080-3672-11e9-85ba-c8a78c550101.png) 
-
+![image](https://user-images.githubusercontent.com/8255007/65224786-29213c80-dac4-11e9-89a3-17f895928d00.png)
 
 ## Changes
 
@@ -51,7 +50,7 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 - added keyvault method
 - added Certs Updater
 - full Availability Zones Support
-- renamig to be consistent with migration to platform automation  (stay tuned)
+- renaming to be consistent with migration to platform automation  (stay tuned)
 2019.04
 - reworked installatzion process, implemented "tile deployer" as a unified deployment service
 - added PAS 2.5 including support for Availability Zones
