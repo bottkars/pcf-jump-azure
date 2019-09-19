@@ -12,3 +12,4 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/scripts/update
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/scripts/connect_om.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/scripts/update_bosh_director.sh
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/scripts/update_certs.sh
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/scripts/teardown.sh

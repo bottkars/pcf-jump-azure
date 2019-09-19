@@ -109,6 +109,8 @@ elif [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "avai
   then
   ZONES_LIST="Availability Sets"
   SINGLETON_ZONE="Availability Sets"
+#  ZONES_MAP="[name: 'Availability Sets']"
+
   AVAILABILITY_MODE=availability_sets
 else
   echo "Applying Availability Sets Based Config"
