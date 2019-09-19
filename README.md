@@ -13,7 +13,7 @@
 
 ## Overview
 
-pcf-jump-azure creates an ubuntu based jumpbox to deploy Pivotal PAS (2.4 and above) on azure  
+pcf-jump-azure creates an ubuntu based jumpbox to deploy Pivotal PAS (2.6 and above) on azure  
 It will pave the infrastructure using Pivotal [terraforming-azure](https://github.com/pivotal-cf/terraforming-azure).  
 PCF Operations Manager will be installed and configured using Pivotal [om cli](https://github.com/pivotal-cf/om).  
 Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om).  
@@ -35,9 +35,9 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 
 ### actual supported Pivotal Cloudfoundry Tiles and Versions
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotalapplicationservice@2x.png" height="16"> Pivotal Application Service 2.6.x
-- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotal_mysql@2x.png" height="16"> MySQL 2.6.x
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_pivotal_mysql@2x.png" height="16"> MySQL 2.7.x
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_rabbitmq_cf@2x.png" height="16"> RabbitMQ 1.16.x
-- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_spring_cloud_services_cf@2x.png" height="16"> Spring Cloud Services 2.0.x, 3.x.x
+- <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_spring_cloud_services_cf@2x.png" height="16"> Spring Cloud Services 2.0.11+, 3.x.x
 - <img src="https://dtb5pzswcit1e.cloudfront.net/assets/images/product_logos/icon_microsoft_azure_open_service_broker@2x.png" height="16"> Microsoft Azure Service Broker 1.11.0 ( MASB )
 -  additional, post install tiles
 
@@ -49,7 +49,9 @@ Optionally, PAS will be deployed using [om cli](https://github.com/pivotal-cf/om
 2019.09
 - switched to PCF 2.6
 - added keyvault method
-- 
+- added Certs Updater
+- full Availability Zones Support
+- renamig to be consistent with migration to platform automation  (stay tuned)
 2019.04
 - reworked installatzion process, implemented "tile deployer" as a unified deployment service
 - added PAS 2.5 including support for Availability Zones
