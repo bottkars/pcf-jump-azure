@@ -31,3 +31,6 @@ om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
   configure-product \
   -c ${TEMPLATE_DIR}/pas_certs.yml \
   -l ${TEMPLATE_DIR}/pas_certs_vars.yml
+
+om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
+  apply-changes  
