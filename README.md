@@ -128,11 +128,6 @@ source the env file
 source .env
 ```
 
-2. check availability of storage account  
-
-```bash
-az storage account check-name --name ${ENV_SHORT_NAME}director
-```
 
 you are now good to go to deploy  
 [with minimum parameters](#deployment-with-minimum-param-set)  
@@ -142,11 +137,18 @@ also, note that AUTOPILOT is disabled by default now.
 you can set the Environment for PAS_AUTOPILOT or use -pasAutopilot=TRUE during deployment.  
 if not using autopilot, see [Post Deployment Steps](#post-deploy) for more Details
 
-3. deployment with default parameter set
+2. deployment with default parameter set
 
 the default parameter set uses defaults where possible, it is the most convenient way to get started
 
 ### validate default
+:zap: **do not forget to create ssh key for every environment !**
+
+```bash
+source ~/.env
+ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
+```
+
 
 ```bash
 source ~/.env
@@ -166,7 +168,7 @@ az group deployment validate --resource-group ${JUMPBOX_RG} \
     _artifactsLocation="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH"
 ```
 
-4. deploy default
+3. deploy default
 
 :zap: **do not forget to create ssh key for every environment !**
 
@@ -192,13 +194,18 @@ az group deployment create --resource-group ${JUMPBOX_RG} \
     _artifactsLocation="https://raw.githubusercontent.com/bottkars/pcf-jump-azure/$BRANCH"
 ```
 
-5. deployment with full param set
+4. deployment with full param set
 
 the full parameter set´s optional Values like smtp config
 example parameter file for testing branch is [here](/.env.testing.example)
 example parameter file for master branch is [here](/.env.example).
-6. validate full
+5. validate full
+:zap: **do not forget to create ssh key for every environment !**
 
+```bash
+source ~/.env
+ssh-keygen -t rsa -f ~/${JUMPBOX_NAME} -C ${ADMIN_USERNAME}
+```
 ```bash
 source ~/.env
 az group create --name ${JUMPBOX_RG} --location ${AZURE_REGION}
@@ -323,12 +330,11 @@ finde some 'shortcuts' in [advanced](/docs/advanced.md)
 
 if you do not autodeploy ( default behaviour ), you can kickstart the deployment of all components from the jumphost:
 
-### pas
+### manual pas install
 
 using selfsigned [certificates](#certificates)
 
 ```bash
-./create_self_certs.sh
 ./deploy_pas.sh
 ```
 
@@ -337,6 +343,16 @@ or using Let´s encrypt
 ```bash
 ./create_certs.sh
 ./deploy_pas.sh
+```
+### update / use LE certificates
+
+this will post update Opsman, PAS and vm certificates using Let´s encrypt
+Note: Isolation Segments will need to be updated seperately
+
+```
+wget -O - https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/scripts/update.sh | bash
+conductor/scripts/create_certs.sh
+conductor/scripts/update_certs.sh
 ```
 
 ### mysql
@@ -388,12 +404,8 @@ variable                    | azure rm parameter | default value     | mandatory
 **JUMPBOX_RG**              |                    |                   | yes               | the name of the ressource group for the JumpBox
 **JUMPBOX_NAME**            | JumphostDNSLabelPrefix     | -                 | yes               | the JumpBox hostname , must be unique for the region !
 **ADMIN_USERNAME**          | adminUsername      | ubuntu            | no                | the jumpbox os username
-**AZURE_CLIENT_ID**         | clientID           |                   | yes               | *Azure Service Principal*
-**AZURE_CLIENT_SECRET**     | clientSecret       |                   | yes               | *Service Principal client secret*
-**AZURE_REGION**            |                    |                   | yes               | used from az resource group command, no default
-**AZURE_SUBSCRIPTION_ID**   | subscriptionID     |                   | yes               | Your Azure Subscription ID,
-**AZURE_TENANT_ID**         | tenantID           |                   | yes               | Your AZURE tenant
-**PIVNET_UAA_TOKEN**    | pivnetToken        |                   | yes               | Your Token from Pivotal Network
+**AZURE_VAULT**             | keyVaultName           |                   | yes               | *your azure vault name*
+**VAULT_RG**                | keyVaultRG           |                   | yes               | *your azure vault resource group*
 **PCF_DOMAIN_NAME**         | PCFDomainName      |                   | yes               | the domain your PCF subdomain will be hosted in
 **PCF_SUBDOMAIN_NAME**      | PCFSubdomainName   |                   | yes               | the subdomain name that will be created in your resource group
 **ENV_SHORT_NAME**          | envShortName       |                   | yes               | *yourshortname* will be used as prefix for storage accounts and other azure resources. make sure you check storage account availability, see further down below
@@ -413,16 +425,17 @@ variable                    | azure rm parameter | default value     | mandatory
 **USE_SELF_CERTS**          | useSelfcerts       | true              | no                | true or false
 **PAS_EDITION**             | pasEdition|cf|no|cf or srt deployment
 **OPS_MANAGER_IMAGE_REGION**|opsmanImageRegion|westeurope|yes|the region where to download opsman from. Values are westeurope, westus, eastus, southeastasia
- -|PCFspringVersion|2.0.6 |no|2.0.5,2.0.6
- -|PCFpasVersion|2.4.3|no|2.4.1,2.4.2,2.4.3
- -|PCFmysqlVersion|2.5.3|no|2.5.3
- -|PCFrabbitVersion|1.15.4|no|1.15.3,1.15.4
+ -|PCFspringVersion|2.0.11 |no|2.0.11
+ -|PCFpasVersion|2.6.5|no|2.6.5+
+ -|PCFmysqlVersion|2.7.0|no|2.6.3,2.7.0
+ -|PCFrabbitVersion|1.16.3+|no|1.16.3+
  -|PCFmasbVersion|1.11.0|no|1.11.0
 
 ### required nameserver delegation
 
 make sure that your domain has a ns resource record to your pcf domain.  
 the following list ALL nameserver entries for Azure, 4 will be picked from the Creation of the DNS Zone
+
 
 
 ```bash
