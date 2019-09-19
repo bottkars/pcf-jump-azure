@@ -1,6 +1,0 @@
-product-name: ((product_name))
-product-properties:
-  .deploy-service-broker.disable_cert_check:
-    value: "false"
-  .deploy-service-broker.instances_app_push_timeout:
-    value: 60   
