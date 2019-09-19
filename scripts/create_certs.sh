@@ -8,10 +8,13 @@ exec 2>&1
 
 git clone https://github.com/Neilpang/acme.sh.git ./acme.sh
 
-export AZUREDNS_SUBSCRIPTIONID=${AZURE_SUBSCRIPTION_ID}
-export AZUREDNS_TENANTID=${AZURE_TENANT_ID}
-export AZUREDNS_APPID=${AZURE_CLIENT_ID}
-export AZUREDNS_CLIENTSECRET=${AZURE_CLIENT_SECRET}
+METADATA=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01")
+export AZUREDNS_SUBSCRIPTIONID=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance/compute?api-version=2017-08-01" | jq -r .subscriptionId)
+export AZUREDNS_TENANTID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURETENANTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+export AZUREDNS_APPID=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+export AZUREDNS_CLIENTSECRET=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTSECRET?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
+
+
 DOMAIN="${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
 ./acme.sh/acme.sh --issue \
  --dns dns_azure \
