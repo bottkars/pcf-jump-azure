@@ -51,5 +51,7 @@ export TF_VAR_client_id=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZ
 export TF_VAR_tenant_id=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURETENANTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
 
  # preparation work for terraform
-terraform destroy
+terraform destroy --auto-approve
+cd $HOME_DIR
+rm -rf ./pivotal-cf-terraforming-azure-*/
 
