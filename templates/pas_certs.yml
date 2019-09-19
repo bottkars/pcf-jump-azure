@@ -1,0 +1,17 @@
+---
+product-name: cf
+product-properties:
+  .uaa.service_provider_key_credentials:
+    value:
+      private_key_pem: |
+        ((pcf_key_pem))
+      cert_pem: |
+        ((pcf_cert_pem))
+  .properties.networking_poe_ssl_certs:
+    value:
+    - name: default
+      certificate:
+        private_key_pem: |
+          ((pcf_key_pem))
+        cert_pem: |
+          ((pcf_cert_pem))

@@ -1,0 +1,5 @@
+---
+properties-configuration:
+  security_configuration:
+    trusted_certificates: ((fullchain))
+    opsmanager_root_ca_trusted_certs: true

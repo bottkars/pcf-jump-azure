@@ -9,6 +9,8 @@ https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/2.6/
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/2.6/p-compliance-scanner/1.0.0-beta.7/p-compliance-scanner.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/2.6/apm/1.6.3/apm.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_config.yml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/pas_certs.yml
+https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/director_certs.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/2.6/p-rabbitmq/1.16.3/p-rabbitmq.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/2.6/kubernetes-service-manager/0.4.34/kubernetes-service-manager.yml
 https://raw.githubusercontent.com/bottkars/pcf-jump-azure/testing/templates/2.6/p-healthwatch/1.6.3/p-healthwatch.yml
