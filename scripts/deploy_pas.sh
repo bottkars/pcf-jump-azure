@@ -74,6 +74,7 @@ else
 fi
 
 START_PAS_DEPLOY_TIME=$(date)
+STEMCELL_VERSION=315.
 
 source ${ENV_DIR}/pas.env
 PCF_OPSMAN_ADMIN_PASSWD=${PIVNET_UAA_TOKEN}
@@ -87,7 +88,6 @@ PCF_WEB_LB="${ENV_NAME}-web-lb"
 PCF_DIEGO_SSH_LB="${ENV_NAME}-diego-ssh-lb"
 PCF_MYSQL_LB="${ENV_NAME}-mysql-lb"
 PCF_ISTIO_LB="${ENV_NAME}-istio-lb"
-STEMCELL_VERSION=315.
 
 ## get pivnet token from vault
 TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
