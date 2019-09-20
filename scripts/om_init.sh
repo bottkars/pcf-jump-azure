@@ -66,7 +66,9 @@ export TF_VAR_client_secret=$(curl https://${AZURE_VAULT}.vault.azure.net/secret
 export TF_VAR_client_id=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURECLIENTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
 export TF_VAR_tenant_id=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/AZURETENANTID?api-version=2016-10-01 -s -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
 PIVNET_UAA_TOKEN=$(curl https://${AZURE_VAULT}.vault.azure.net/secrets/PIVNETUAATOKEN?api-version=2016-10-01 -H "Authorization: Bearer ${TOKEN}" | jq -r .value)
-
+if [ ! -z $PIVNET_BETA_TOKEN ]; then
+  PIVNET_UAA_TOKEN=${PIVNET_BETA_TOKEN}
+fi  
 ###
 
 ####ä##

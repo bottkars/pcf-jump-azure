@@ -42,7 +42,7 @@ ns3-05.azure-dns.org. \
 ns3-06.azure-dns.org. \
 ns3-08.azure-dns.org. \
 ns3-10.azure-dns.org. \
- --name=pcf26azure.labbuildr.com. --ttl=300 --type=NS --zone=labbuildr
+ --name=pcf27azure.labbuildr.com. --ttl=300 --type=NS --zone=labbuildr
 
 gcloud dns --project=pa-kbott record-sets transaction execute --zone=labbuildr
 ```
