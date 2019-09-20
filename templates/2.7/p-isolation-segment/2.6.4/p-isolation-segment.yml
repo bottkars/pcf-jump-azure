@@ -1,0 +1,29 @@
+product-name: ((product_name))
+network-properties:
+  network:
+    name: ((pcf_pas_network))
+  other_availability_zones: ((zones_map))
+  singleton_availability_zone:
+    name: ((singleton_zone))
+product-properties:
+  .properties.skip_cert_verify:
+    value: true
+  .properties.haproxy_forward_tls:
+    value: disable
+  .properties.routing_tls_termination:
+    value: router
+  .isolated_router.request_timeout_in_seconds:
+    value: 240
+  .isolated_diego_cell.placement_tag:
+    value: Segment_1    
+  .properties.networking_poe_ssl_certs:
+    value:
+    - name: default
+      certificate:
+        private_key_pem: |
+          ((pcf_key_pem))
+        cert_pem: |
+          ((pcf_cert_pem))
+resource-config:
+  router:
+    instances: 0    
