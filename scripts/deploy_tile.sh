@@ -328,7 +328,7 @@ EOF
 p-spring-cloud-services)
   if  [ ! -z ${LOAD_STEMCELL} ] ; then
     echo "calling stemmcell_loader for LOADING Stemcells"
-    $SCRIPT_DIR/stemcell_loader.sh -s 97
+    $SCRIPT_DIR/stemcell_loader.sh -s 97.
   fi
   cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT_SLUG}
@@ -354,7 +354,7 @@ EOF
 p-rabbitmq)
 if  [ ! -z ${LOAD_STEMCELL} ] ; then
   echo "calling stemmcell_loader for LOADING Stemcells"
-  $SCRIPT_DIR/stemcell_loader.sh -s 97
+  $SCRIPT_DIR/stemcell_loader.sh -s 97.
 fi
 cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
 product_name: ${PRODUCT_SLUG}
@@ -369,7 +369,7 @@ EOF
 pivotal_single_sign-on_service)
 if  [ ! -z ${LOAD_STEMCELL} ] ; then
   echo "calling stemmcell_loader for LOADING Stemcells"
-  $SCRIPT_DIR/stemcell_loader.sh -s 97
+  $SCRIPT_DIR/stemcell_loader.sh -s 97.
 fi
 PRODUCT=Pivotal_Single_Sign-On_Service
 cat << EOF > ${TEMPLATE_DIR}/${TILE}_vars.yml
