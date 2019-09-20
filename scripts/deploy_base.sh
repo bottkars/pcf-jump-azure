@@ -107,7 +107,7 @@ if [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "availa
   
 elif [[ "${PCF_PAS_VERSION}" > "2.4.99" ]] && [[ "${AVAILABILITY_MODE}" == "availability_sets" ]]
   then
-  ZONES_LIST="Availability Sets"
+  ZONES_LIST="['Availability Sets']"
   SINGLETON_ZONE="Availability Sets"
 #  ZONES_MAP="[name: 'Availability Sets']"
 
