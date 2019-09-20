@@ -87,7 +87,7 @@ PCF_WEB_LB="${ENV_NAME}-web-lb"
 PCF_DIEGO_SSH_LB="${ENV_NAME}-diego-ssh-lb"
 PCF_MYSQL_LB="${ENV_NAME}-mysql-lb"
 PCF_ISTIO_LB="${ENV_NAME}-istio-lb"
-
+STEMCELL_VERSION=315.
 
 ## get pivnet token from vault
 TOKEN=$(curl 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net' -s -H Metadata:true | jq -r .access_token)
@@ -168,7 +168,7 @@ om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 echo $(date) end staging ${PRODUCT_SLUG} 
 
 
-$SCRIPT_DIR/stemcell_loader.sh -s 315
+$SCRIPT_DIR/stemcell_loader.sh -s ${STEMCELL_VERSION}
 
 om --env "${HOME_DIR}/om_${ENV_NAME}.env"  \
 assign-stemcell \
