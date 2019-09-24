@@ -36,12 +36,11 @@ product-properties:
           ((pcf_key_pem))
         cert_pem: |
           ((pcf_cert_pem))
-  .properties.credhub_key_encryption_passwords:
+  .properties.credhub_internal_provider_keys:
     value:
     - name: default
-      provider: internal
       key:
-        secret: ((pcf_credhub_key))
+         secret: ((pcf_credhub_key))
       primary: true
   .properties.smtp_address:
     value: ((smtp_address))
